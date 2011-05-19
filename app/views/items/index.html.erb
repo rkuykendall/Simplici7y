@@ -6,8 +6,8 @@
 		<% if version != nil %>
 			<div class="map">
 				<div class="sidenote"><%= link_to 'download &raquo;', item_download_path(item) %></div>
-				<h3><%= link_to item.name, item_path(item) %> <%= version.name %></h3>
-				<h4><%= link_to item.user.login, user_path(item.user) %> <%= item.version_created_at.to_s(:readable_long) %></h4>
+				<h3><%= link_to clean(item.name), item_path(item) %> <%= clean(version.name) %></h3>
+				<h4><%= link_to clean(item.user.login), user_path(item.user) %> <%= item.version_created_at.to_s(:readable_long) %></h4>
 				<div class="indent">
 					<%= image_tag url_for_file_column(screenshot, "file", "thumb") if screenshot %>
 					<%= format(item.body) %>
@@ -26,7 +26,7 @@
 						</h4>
 				
 					<div class="subnote">
-						<%= link_to "Write a review", new_item_review_url(item) %> <span class="pipe">&#124;</span> Tags: <%= item.tag_list %>
+						<%= link_to "Write a review", new_item_review_url(item) %> <span class="pipe">&#124;</span> Tags: <%= clean(item.tag_list) %>
 					</div>
 				</div>
 			</div>

@@ -6,7 +6,7 @@
 	<% for screenshot in @screenshots %>
 		<p><%= link_to((image_tag url_for_file_column(screenshot, "file", "thumb")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />	
 		<% if screenshot.title != '' %>
-			<%= screenshot.title %>
+			<%= clean(screenshot.title) %>
 		<% else %>
 			Untitled
 		<% end %>

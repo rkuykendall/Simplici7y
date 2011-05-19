@@ -17,4 +17,11 @@ module ApplicationHelper
       BlueCloth::new(text).to_html
     end
   end
+  
+  def clean(text)
+    if text != nil
+      text = Sanitize.clean(text)
+    end
+  end
+  
 end

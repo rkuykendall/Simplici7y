@@ -538,7 +538,7 @@ div.indent {
 }
 
 .star-rating li.current-rating{
-	background: url('.../images/star_rating.gif') left bottom;
+	background: url('../images/star_rating.gif') left bottom;
 	height: 25px;
 	display: block;
 	text-indent: -9000px;

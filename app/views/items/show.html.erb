@@ -1,15 +1,15 @@
 			<div class="map">
 				<div class="sidenote"><%= link_to 'download &raquo;', item_download_path(@item) %></div>
-				<h3><%= link_to @item.name, item_path(@item) %>  <%= @version.name %></h3>
-				<h4><%= link_to @item.user.login, user_path(@item.user) %> on <%= @item.version_created_at.to_s(:readable_long) %></h4>
+				<h3><%= link_to clean(@item.name), item_path(@item) %>  <%= clean(@version.name) %></h3>
+				<h4><%= link_to clean(@item.user.login), user_path(@item.user) %> on <%= @item.version_created_at.to_s(:readable_long) %></h4>
 				<div class="indent">
-					<%= format(@item) %>
+					<%= format(@item.body) %>
 
 					<% if @version.body != "" %>
 						<hr class="invisible">
 						<h3 class='black'>Version notes:</h3>
 
-						<%= format(@version) %>
+						<%= format(@version.body) %>
 					<% end %>
 					
 					<h4><%= pluralize(@item.downloads.size, 'download') %><br />
@@ -29,7 +29,7 @@
 				<% for screenshot in @screenshots %>
 					<div class="screenshot_column_<%= cycle("1","2","3") %>">
 						<%= link_to((image_tag url_for_file_column(screenshot, "file", "thumb")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />
-						<span><%= screenshot.title %></span>
+						<span><%= clean(screenshot.title) %></span>
 					</div>
 				<% end %>
 			</div>

@@ -22,7 +22,7 @@
 			</span>
 			
 			<% if logged_in? %>	
-				<span class="userinfo"><%= link_to current_user.login, user_path(current_user) %> [ <%= link_to "account", edit_user_url(current_user) %> | <%= link_to "log out", logout_url %> | <%= link_to "new", new_item_url %> |  <%= link_to "manage", users_path %> ]</span>
+				<span class="userinfo"><%= link_to clean(current_user.login), user_path(current_user) %> [ <%= link_to "account", edit_user_url(current_user) %> | <%= link_to "log out", logout_url %> | <%= link_to "new", new_item_url %> |  <%= link_to "manage", users_path %> ]</span>
 			<% else %>
 				<span class="userinfo"><%= link_to "sign up", signup_url %> / <%= link_to "log in", login_url %></span>
 			<% end %>
@@ -38,7 +38,7 @@
 					<div class="notice"><%= flash[:notice] %></div>
 				<% elsif !logged_in? %>	
 					<div class="notice">
-						<%= link_to "sign up", signup_url %>	or  
+						<%= link_to "Sign up", signup_url %> or 
 						<%= link_to "log in", login_url %>
 						to start adding and reviewing files.
 					</div>

@@ -1,13 +1,13 @@
 <% #-------------------------[ Filter ]------------------------- %>
 
 	<% if controller.controller_name == 'tags' && params[:id] %>
-		Search <%= params[:id] %>
+		Search <%= clean(params[:id]) %>
 		<ul><li><% form_tag(tag_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% elsif controller.controller_name == 'users' && params[:id] %>
-		Search <%= @user.login %>
+		Search <%= clean(@user.login) %>
 		<ul><li><% form_tag(user_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% elsif controller.controller_name == 'items' && params[:id] && @item.tc_id == 0 %>
-		Search <%= @item.name %>
+		Search <%= clean(@item.name) %>
 		<ul><li><% form_tag(item_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% else %>
 		Search

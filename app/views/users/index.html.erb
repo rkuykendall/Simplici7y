@@ -13,9 +13,9 @@
 						<tr class="<%= "newest" if version == item.find_version %>">
 							<td width="100px">
 								<% if version == item.find_version %>
-									<%= link_to version.name, item_download_url(item) %><br /><small><%= link_to 'edit', edit_item_version_path(item, version) %></small>
+									<%= link_to clean(version.name), item_download_url(item) %><br /><small><%= link_to 'edit', edit_item_version_path(item, version) %></small>
 								<% else %>
-									<%= version.name %>
+									<%= clean(version.name) %>
 								<% end %>
 							</td>
 							<td><%= version.downloads.size %></td>
@@ -24,7 +24,7 @@
 					<% end %>
 				</table>
 
-				<h3><%= link_to item.name, item_path(item) %></h3>
+				<h3><%= link_to clean(item.name), item_path(item) %></h3>
 				<%= link_to "Manage Screenshots", item_screenshots_url(item), :class => 'controls' %><br />
 				<%= link_to "Edit", edit_item_url(item), :class => 'controls' %>, 
 				<%= link_to "update", new_item_version_url(item), :class => 'controls' %>, 
@@ -34,7 +34,7 @@
 			<hr class="invisible">
 		<% else %>
 			<div class="notice">
-				<%= item.name %> is missing its first revision, <%= link_to 'add one', new_item_version_url(item) %> or <%= link_to "Destroy it", item_url(item), :class => 'controls', :confirm => "Are you sure?", :method => :delete %>.
+				<%= clean(item.name) %> is missing its first revision, <%= link_to 'add one', new_item_version_url(item) %> or <%= link_to "Destroy it", item_url(item), :class => 'controls', :confirm => "Are you sure?", :method => :delete %>.
 			</div>
 		<% end %>
 	<% end %>

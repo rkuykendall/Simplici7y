@@ -1,0 +1,10 @@
+<%= error_messages_for :child %>
+
+<% form_for(:child, :url => item_screenshots_url(@item), :html => { :multipart => true, :class => "cmxform" }) do |f| %>
+
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>

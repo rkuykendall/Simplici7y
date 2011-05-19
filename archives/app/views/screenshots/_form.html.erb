@@ -1,0 +1,13 @@
+	<fieldset>
+		<legend>Screenshot for <%= @item.name %></legend>
+		<ol>
+			<li>
+				<label for="screenshot_title">Screenshot title</label>
+				<%= f.text_field :title %>
+			</li>
+			<li>
+				<label for="screenshot_file">Screenshot</label>
+				<%= f.hidden_field :file_temp %><%= f.file_field :file, :class => 'file' %>
+			</li>
+		</ol>
+	</fieldset>

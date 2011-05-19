@@ -1,0 +1,21 @@
+<%= error_messages_for :session %>
+
+<% form_tag sessions_path do -%>
+	<p><label for="login">Login</label><br/>
+	<%= text_field_tag 'login' %></p>
+
+	<p><label for="password">Password</label><br/>
+	<%= password_field_tag 'password' %></p>
+
+	<p><label for="remember_me">Remember me:</label>
+	<%= check_box_tag 'remember_me' %></p>
+
+	<p><%= submit_tag 'Log in' %></p>
+<% end -%>
+
+
+<div id="big_red">
+	<h1>Old Password Not Working?</h1>
+	<p><span>If you registered before July 28th</span> you can find your new password at our old address. Visit the link below, log in, and read the big red box.<p>
+	<p id="password"><a href="http://67.96.53.196:3001/">67.96.53.196:3001</a></p>
+</div>

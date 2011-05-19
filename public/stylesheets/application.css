@@ -1,0 +1,647 @@
+/* -------------------------[ Big Red Mod ]------------------------- */
+
+div#big_red {
+	background-color: #BE1B19;
+	border: solid 7px #EE2220;
+	outline: solid 1px #9A1614;
+	color: #fff;
+	padding: 10px;
+	margin: 100px 15px;
+}
+div#big_red h1 {
+	font-size: 2em;
+	font-weight: normal;
+	margin: 0;
+	text-align: center;
+	padding: 10px;
+}
+div#big_red a:link,
+div#big_red a:visited,
+div#big_red a:hover,
+div#big_red a:active {
+	color: #fff;
+}
+div#big_red p {
+	padding: 5px 20px 0 20px;
+	line-height: 1.5em;
+	letter-spacing: 0.1em;
+}
+div#big_red p#password {
+	background-color: #7B1918;
+	margin: 0 100px;
+	height: 2em;
+	text-align: center;
+}
+div#big_red p span {
+	background-color: #4E1313;
+	padding: 0 5px;
+}
+
+/* -------------------------[ Normal CSS ]------------------------- */
+
+#sidebar ul li a div.tooltip {
+	display: none;
+}
+
+#sidebar ul li a:hover div.tooltip {
+	display: block;
+	position: absolute;
+	text-align: left;
+}
+
+#sidebar ul li a div.tooltip span {
+	display: block;
+	color: #999;
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+#sidebar ul li a div.tooltip {
+	font-weight: normal;
+	background-color: #333;
+	color: #fff;
+	border: 1px solid #000;
+	filter:alpha(opacity=90);
+	-moz-opacity:.90;
+	opacity:.90;
+	margin-left: 5.5em;
+	margin-top: -1em;
+	padding: 0px 3px;
+}
+
+/* -------------------------[ CMX Form Stuff ]------------------------- */
+
+form.cmxform {
+	width: 500px;
+}
+
+form.cmxform em {
+	font-style: normal;
+	color: #f00;
+}
+
+form.cmxform legend {
+	padding: 0 2px 0 0;
+	color: #000;
+	_margin: 0 -7px; /* IE Win */
+}
+
+/*\*//*/ form.cmxform legend { display: inline-block; } /* IE Mac legend fix */
+
+form.cmxform fieldset {
+	margin-bottom: 10px;
+	}
+	form.cmxform fieldset, form.cmxform fieldset fieldset {
+		border: none;
+	}
+	form.cmxform fieldset ol {
+		margin: 0;
+		padding: 0;
+		}
+		form.cmxform fieldset li {
+			padding: 5px 10px 7px;
+			list-style: none;
+			margin: 0;
+}
+
+form.cmxform div.form_sidenote ol li {
+	list-style: decimal inside;
+	margin: 0;
+	padding: 0;
+}
+form.cmxform div.form_sidenote ol {
+	padding: 0;
+	margin: 5px 0 10px 10px;
+}
+	
+
+form.cmxform label {
+	display: -moz-inline-box; /* Fixes Firefox */
+	display: inline-block;
+	line-height: 1.8;
+	vertical-align: top;
+	width: 120px; /* Width of labels */
+}
+	
+form.cmxform fieldset fieldset {
+	border: none;
+	margin: 3px 0 0;
+	}
+	form.cmxform fieldset fieldset legend {
+		padding: 0 0 5px;
+		font-weight: normal;
+	}
+	form.cmxform fieldset fieldset label {
+		display: block;
+		width: auto;
+		margin-left: 123px; /* Width plus 3 (html space) */
+}
+
+form.cmxform input, form.cmxform select, form.cmxform textarea {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: normal;
+	line-height: 18px;
+	border: solid 1px #ddd;
+	font-size: 1.3em;
+	padding: 2px;
+	color: #666;
+	width: 210px;
+	background-color: #fff;
+	}
+	form.cmxform textarea.summary {
+		height: 200px;
+}
+form.cmxform input.file {
+	width: 202px;
+	font-size: 0.8em;
+	padding: 6px;
+	border: solid 1px #ddd;
+}
+
+form.cmxform div.form_sidenote {
+	clear: right;
+	font-size: 0.8em;
+	float: right;
+	padding: 5px;
+	width: 120px;
+	background-color: #eee;
+	margin-right: -30px;
+	margin-top: 13px;
+	border: solid 1px #ddd;
+}
+
+form.cmxform div.fieldWithErrors {
+	display: inline;
+}
+
+form.cmxform div.fieldWithErrors input, form.cmxform div.fieldWithErrors select, form.cmxform div.fieldWithErrors textarea {
+	border: solid 2px #c00;
+	background-color: #f0f0f0;
+	width: 208px;
+	}
+
+/* -------------------------[ More Form Stuff ]------------------------- */
+
+div.comment-block { /* Commenting drop down box */
+	padding-left: 20px;
+	border-left: 5px solid #00a3e0;
+}
+
+div.screenshot_upload, div.version_upload { 
+	margin-bottom: 40px; /* screenshot and version forms */
+}
+
+
+/* -------------------------[ Core Structure ]------------------------- */
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+#container {
+	text-align: left;
+	margin: 0 auto;
+	width: 770px;
+	border-top: 5px solid #242426;
+}
+	
+#header {
+	margin: 0 20px;
+	padding: 0 20px 20px 20px;
+}
+
+span.userinfo {
+	float: right;
+	color: #aaa;
+	}
+	span.userinfo a:link, span.userinfo a:visited {
+		color: #242426;
+}
+
+span.navigation {
+	}
+	span.navigation a:link, span.navigation a:visited, span.navigation span {
+		padding: 3px 17px;
+		margin: -2px 5px;
+	}
+	span.navigation a.rss {
+		padding: 0;
+		margin: 0 -13px 0 4px;
+	}
+	span.navigation a:link, span.navigation a:visited {
+		color: #333;
+	}
+	span.navigation a:hover, span.navigation a:active {
+		color: #000;
+	}
+	span.navigation span {
+		background-color: #242426;
+		color: #fff;
+	}
+
+
+#content { /*  510px in the end */
+	margin-left: 240px;
+	margin-right: 20px;
+}
+
+
+#footer {
+	margin: 20px 20px 0 20px;
+	padding: 20px;
+	clear: left;
+}
+
+
+#sidebar {
+	width: 200px;
+	margin-left: 20px;
+	float: left;
+	display: inline; /* floats are handled as block elements, this is to fix 
+						a margin collapsing bug in IE */
+}
+
+/* -------------------------[ The Indent ]------------------------- */
+
+#sidebar ul, form.cmxform fieldset ol {
+	margin: 0;
+	padding: 0;
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+#sidebar ul li, form.cmxform fieldset ol li, div.review {
+	list-style: none;
+	padding: 2px;
+	padding-left: 20px;
+}
+
+#sidebar, h3.title, h3.title_alt, form.cmxform legend {
+	margin-bottom: 10px;
+	font-size: 1.2em;
+	color: #333;
+}
+
+#sidebar ul li a, form.cmxform, div.review h3.title {
+	color: #666;
+}
+
+
+
+/* -------------------------[ Global Text Formatting ]------------------------- */
+
+
+html, body, h3, h4, h5  {
+	color: #666;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 13px;
+	line-height: 18px;
+}
+
+h3.black {
+	color: #000;
+}
+
+a:link, a:visited, a img {
+	color: #000;
+	border: 0;
+	}
+	a:hover, a:active, #sidebar ul li, #navbar {
+		color: #00a3e0; /* The Blue */
+}
+
+#sidebar input {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: normal;
+	line-height: 18px;
+	border: solid 1px #ddd;
+	font-size: 1em;
+	padding: 2px;
+	width: 120px;
+	color: #666;
+	margin: 0;
+	margin-left: -4px;
+}
+
+acronym { /* for sidebar acronyms ( KTMWTB, EMFH... ) */
+	border: 0;
+}
+
+#map_screenshots {
+		margin-bottom: 110px;
+	}
+	#map_screenshots div {
+		border: solid 1px #000;
+		width: 160px;
+		height: 90px;
+		text-align: center;
+		background-color: #000;
+		margin: 4px;
+		padding: 0;
+		margin-bottom: -60px;
+	}
+	#map_screenshots img.removescreenshot {
+		float: right;
+		position: relative;
+		bottom: 20px;
+		right: 4px;
+	}
+	#map_screenshots div#map_screenshots_list {
+		border: none;
+		background-color: #fff;
+		margin: 0;
+	}
+	div.screenshot_column_2 {
+			position: relative;
+			right: -170px;
+			top: -35px;
+		}
+		div.screenshot_column_3 {
+			position: relative;
+			right: -340px;
+			top: -70px;
+	}
+	div#map_screenshots span {
+		background-color: #000;
+		color: #fff;
+		display: block;
+		padding: 2px 1px;
+		margin: 0 -1px;
+		font-size: 0.8em;
+}
+
+hr.invisible {
+	border: 0;
+	width: 510px;
+	clear: right;
+	margin-bottom: 30px;
+}
+
+div.manage_map {
+	}
+	div.manage_map a.controls {
+		color: #aaa;
+		margin-top: 10px;
+		}
+		div.manage_map a.controls:hover {
+			color: #00a3e0;
+	}
+	table.manage {
+		float: right;
+		text-align: center;
+		font-size: 1.1em;
+		clear: right;
+		color: #ccc;
+		border-collapse: collapse;
+		}
+		table.manage td, table.manage th {
+			padding: 0 10px 10px;
+			background-color: #f3f3f3;
+			border-left: solid 1px #666;
+		}
+		table.manage th {
+			color: #000;
+			font-weight: normal;
+		}
+		table tr.newest {
+			color: #666;
+}
+
+h3.title { /* grey non-link part of the title */
+	color: #999;
+}
+
+div.message {
+	background-color: #dfe2e9;
+	padding: 10px 10px;
+	border-bottom: 5px solid gray;
+	}
+	div.message h3 a:link, div.message a:visited {
+		text-decoration: underline;
+}
+
+p.notice_comment {
+	padding: 20px;
+	color: #00a3e0;
+}
+
+div.quote, div.screenshot_upload, div.version_upload {
+	color: #000;
+	padding-left: 20px;
+	border-left: 5px solid #333;
+	text-align: justify;
+}
+div.quote img {
+	float: right;
+	border: 1px solid black;
+	margin-left: 10px;
+}
+
+div.notice {
+	background-color: #f1f1f1;
+	padding: 5px 20px;
+	margin: 0 -20px 15px;
+	border: 0px solid #ccc;
+	border-width: 1px 0;
+}
+
+#errorExplanation {
+	width: 400px;
+	border: 2px solid red;
+	padding: 7px;
+	padding-bottom: 12px;
+	margin-bottom: 20px;
+	background-color: #f0f0f0;
+	}
+	#errorExplanation h2 {
+		text-align: left;
+		font-weight: bold;
+		padding: 5px 5px 5px 15px;
+		font-size: 12px;
+		margin: -7px;
+		background-color: #c00;
+		color: #fff;
+	}
+	#errorExplanation p {
+		color: #333;
+		margin-bottom: 0;
+		padding: 5px;
+	}
+	#errorExplanation ul li {
+		font-size: 12px;
+		list-style: square;
+}
+
+/* -------------------------[ New Skinny.css ]------------------------- */
+
+
+h1 {
+	padding: 25px;
+	}
+	h3 {
+		margin: 0;
+		font-size: 1.3em;
+	}
+	h4, h4 a:link, h4 a:visited {
+		margin: 0;
+		color: #aaa;
+}
+
+div.map {
+	margin-bottom: 40px;
+}
+
+div.sidenote {
+		float: right;
+		margin-top: 7px;
+	}
+	div.sidenote a:link, div.sidenote a:visited {
+		padding: 7px 27px;
+		color: #666;
+		border: 1px solid #ddd;
+	}
+	div.sidenote a:hover, div.sidenote a:active {
+		color: #00a3e0;
+		border: 1px solid #00a3e0;
+}
+
+div.subnote {
+	clear: right;
+	background-color: #f1f1f1;
+	margin-left: -10px;
+	padding: 5px 10px;
+	border-top: 1px solid #cecece;
+	color: #555;
+	}
+	div.subnote span.pipe {
+		color: #f1f1f1;
+		border-right: 1px solid #cacaca;
+		padding: 5px 0;
+		margin-left: -6px;
+}
+
+
+div.indent {
+	padding-left: 10px;
+	border-left: 3px solid #000;
+	text-align: justify;
+	}
+	div.indent img {
+		float: right;
+		padding: 5px;
+		margin: 0 0 15px 15px;
+		border: 1px solid #ccc;
+}
+
+/* -------------------------[ Star Rating ]------------------------- */
+
+.star-rating{
+	float: right;
+	margin-right: 0.167px;
+	list-style:none;
+	margin: 0px;
+	padding:0px;
+	width: 125px;
+	height: 25px;
+	position: relative;
+	background: url(../images/star_rating.gif) top left repeat-x;		   
+}
+
+.star-rating li{
+	padding:0px;
+	margin:0px;
+	/*\*/
+	float: left;
+	/* */
+	}
+	.star-rating li a{
+		display:block;
+		width:25px;
+		height: 25px;
+		text-decoration: none;
+		text-indent: -9000px;
+		z-index: 20;
+		position: absolute;
+		padding: 0px;
+		}
+		.star-rating li a:hover{
+			background: url(../images/star_rating.gif) left center;
+			z-index: 2;
+			left: 0px;
+			border:none;
+}
+
+.star-rating li.current-rating{
+	background: url(/images/star_rating.gif) left bottom;
+	height: 25px;
+	display: block;
+	text-indent: -9000px;
+	z-index: 1;
+}
+
+.stat-rating a {
+	}
+	.star-rating a.one-star{
+		left: 0px;
+		}
+		.star-rating a.one-star:hover{
+			width:25px;
+	}
+	.star-rating a.two-stars{
+		left:25px;
+		}
+		.star-rating a.two-stars:hover{
+			width: 50px;
+	}
+	.star-rating a.three-stars{
+		left: 50px;
+		}
+		.star-rating a.three-stars:hover{
+			width: 75px;
+	}
+	.star-rating a.four-stars{
+		left: 75px;
+		}	 
+		.star-rating a.four-stars:hover{
+			width: 100px;
+	}
+	.star-rating a.five-stars{
+		left: 100px;
+		}
+		.star-rating a.five-stars:hover{
+			width: 125px;
+}
+
+/* -------------------------[ Pagination ]------------------------- */
+
+.pagination {
+	padding: 3px;
+	margin: 3px;
+	text-align: center;
+	}
+	.pagination a {
+		padding: 2px 5px 2px 5px;
+		margin: 2px;
+		border: 1px solid;
+		text-decoration: none;
+		}
+		.pagination a:hover, .pagination a:active {
+				border: 1px solid #00a3e0;
+	}
+	.pagination span.current {
+		padding: 2px 5px 2px 5px;
+		margin: 2px;
+		border: 1px solid #00a3e0;
+		color: #00a3e0;
+	}
+	.pagination span.disabled {
+		padding: 2px 5px 2px 5px;
+		margin: 2px;
+		border: 1px solid #eee;
+		color: #ddd;
+}

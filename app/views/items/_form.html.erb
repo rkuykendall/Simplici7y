@@ -1,0 +1,33 @@
+		<fieldset>
+			<legend>Basic Information</legend>
+			<div class="form_sidenote">
+				Basic info shouldn't normally change with each new updated version, leave bug fixes and tweaks for the Version release notes.
+			</div>
+			<div class="form_sidenote">
+				<a href="http://daringfireball.net/projects/markdown/basics">Formatting Help</a> <br />Using Markdown.
+			</div>
+			<div class="form_sidenote">
+				<u>Suggested tags</u><br />(separate with spaces)</small><br />
+				<b>File Types:</b> map script utility film<br />
+				<b>Gameplay:</b> emfh koth ktmwtb emfhs solocoop</a><br />
+			</div>
+
+			<ol>
+				<li>
+					<label for="item_name">Name <em>*</em></label>
+					<%= f.text_field :name %>
+				</li>
+				<li>
+					<label for="item_tc">Scenario</label>
+					<%= f.collection_select(:tc_id, Tag.find_by_name('scenario').items, :id, :name, { :include_blank => true }) if Tag.find_by_name('scenario') %>
+				</li>
+				<li>
+					<label for="tags">Tags</label>
+					<%= text_field_tag 'tags', @item.tag_list %>
+				</li>
+				<li>
+					<label for="item_body">Body <em>*</em></label>
+					<%= f.text_area :body, :class => 'summary' %>
+				</li>
+			</ol>
+		</fieldset>

@@ -1,0 +1,21 @@
+	<fieldset>
+		<legend>Version information</legend>
+		<div class="form_sidenote">
+			The version number will be displayed after the map name.<br><br>
+			File's should be uploaded as <i>.zip</i>s (<a href="http://www.apple.com/pro/tips/zip.html">Apple</a>, <a href="http://en.wikipedia.org/wiki/ZIP_(file_format)">Wikipedia</a>). Aleph One's <i>.SceA</i> format is twenty times smaller when zipped.
+		</div>
+		<ol>
+			<li>
+				<label for="version_name">Version Number</label>
+				<%= f.text_field :name %>
+			</li>
+			<li>
+				<label for="version_body">Release Notes</label>
+				<%= f.text_area :body, :class => 'summary' %>
+			</li>
+			<li>
+				<label for="version_file">File Upload <em>*</em></label>
+				<%= f.hidden_field :file_temp %><%= f.file_field :file, :class => 'file' %>
+			</li>
+		</ol>
+	</fieldset>

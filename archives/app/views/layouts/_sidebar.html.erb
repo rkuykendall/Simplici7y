@@ -1,0 +1,50 @@
+<% #-------------------------[ Filter ]------------------------- %>
+
+	<% if controller.controller_name == 'tags' && params[:id] %>
+		Search <%= params[:id] %>
+		<ul><li><% form_tag(tag_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
+	<% elsif controller.controller_name == 'users' && params[:id] %>
+		Search <%= @user.login %>
+		<ul><li><% form_tag(user_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
+	<% elsif controller.controller_name == 'items' && params[:id] && @item.tc_id == 0 %>
+		Search <%= @item.name %>
+		<ul><li><% form_tag(item_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
+	<% else %>
+		Search
+		<ul><li><% form_tag(items_url, :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
+	<% end %>
+	
+
+	Gameplay
+	<ul>
+		<li><%= link_to 'EMFH', tag_path('emfh') %></li>
+		<li><%= link_to 'KOTH', tag_path('koth') %></li>
+		<li><%= link_to 'KTMWTB', tag_path('ktmwtb') %></li>
+		<li><%= link_to 'CTF', tag_path('ctf') %></li>		
+		<li><%= link_to 'Solo/Coop', tag_path('solocoop') %></li>		
+	</ul>
+
+	File type
+	<ul>
+		<li><%= link_to 'Utility', tag_path('utility') %></li>		
+		<li><%= link_to 'Script', tag_path('script') %></li>		
+		<li><%= link_to 'Map', tag_path('map') %></li>		
+	</ul>
+
+	Scenarios
+	<ul>
+		<li><%= link_to 'Marathon', item_path('marathon') %></li>		
+		<li><%= link_to 'Durandal', item_path('marathon-2-durandal') %></li>		
+		<li><%= link_to 'Infinity', item_path('marathon-infinity') %></li>		
+	</ul>
+	
+	Community
+	<ul>
+		<li><a href="http://www.pfhorums.com/">Pfhorums<div class="tooltip">The Pfhorums<span>Marathon /  Aleph One Forum</span></div></a>
+		<li><a href="http://source.bungie.org/" target="_blank">SBO<div class="tooltip">Aleph One Project<span>source.bungie.org</span></div></a>
+		<li><a href="http://forums.bungie.org/story/" target="_blank">MSF<div class="tooltip">Marathon Story Forum<span>forums.bungie.org</span></div></a>
+		<li><a href="http://traxus.jjaro.net/traxus/Main_Page" target="_blank">Traxus<div class="tooltip">Traxus Wiki<span>Marathon universe and community wiki</span></div></a>
+		<li><a href="http://wrkisirons.blogspot.com/" target="_blank">JFO<div class="tooltip">Just Found Out<span>Wrk is Irons</span></div></a>
+		<li><a href="http://blog.treellama.org/" target="_blank">BTO<div class="tooltip">Treellama's Blog<span>blog.treellama.org</span></div></a>
+		<li><a href="http://pfhorchan.org/m/" target="_blank">/m/<div class="tooltip">Pfhorchan<span>Marathon Image Board</span></div></a>
+	</ul>

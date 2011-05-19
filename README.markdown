@@ -20,6 +20,7 @@ Pushing Live
 ------------
 
 When you push the project live, be sure to protect these files:
+
 + /tmp/
 + /config/
 + /public/version/

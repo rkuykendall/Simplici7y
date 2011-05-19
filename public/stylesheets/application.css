@@ -1,42 +1,3 @@
-/* -------------------------[ Big Red Mod ]------------------------- */
-
-div#big_red {
-	background-color: #BE1B19;
-	border: solid 7px #EE2220;
-	outline: solid 1px #9A1614;
-	color: #fff;
-	padding: 10px;
-	margin: 100px 15px;
-}
-div#big_red h1 {
-	font-size: 2em;
-	font-weight: normal;
-	margin: 0;
-	text-align: center;
-	padding: 10px;
-}
-div#big_red a:link,
-div#big_red a:visited,
-div#big_red a:hover,
-div#big_red a:active {
-	color: #fff;
-}
-div#big_red p {
-	padding: 5px 20px 0 20px;
-	line-height: 1.5em;
-	letter-spacing: 0.1em;
-}
-div#big_red p#password {
-	background-color: #7B1918;
-	margin: 0 100px;
-	height: 2em;
-	text-align: center;
-}
-div#big_red p span {
-	background-color: #4E1313;
-	padding: 0 5px;
-}
-
 /* -------------------------[ Normal CSS ]------------------------- */
 
 #sidebar ul li a div.tooltip {
@@ -549,7 +510,7 @@ div.indent {
 	width: 125px;
 	height: 25px;
 	position: relative;
-	background: url(../images/star_rating.gif) top left repeat-x;		   
+	background: url('../images/star_rating.gif') top left repeat-x;		   
 }
 
 .star-rating li{
@@ -570,14 +531,14 @@ div.indent {
 		padding: 0px;
 		}
 		.star-rating li a:hover{
-			background: url(../images/star_rating.gif) left center;
+			background: url('../images/star_rating.gif') left center;
 			z-index: 2;
 			left: 0px;
 			border:none;
 }
 
 .star-rating li.current-rating{
-	background: url(/images/star_rating.gif) left bottom;
+	background: url('.../images/star_rating.gif') left bottom;
 	height: 25px;
 	display: block;
 	text-indent: -9000px;

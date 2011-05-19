@@ -10,13 +10,13 @@
 				<h4><%= link_to item.user.login, user_path(item.user) %> <%= item.version_created_at.to_s(:readable_long) %></h4>
 				<div class="indent">
 					<%= image_tag url_for_file_column(screenshot, "file", "thumb") if screenshot %>
-					<%= item.mark_body %>
+					<%= format(item.body) %>
 				
 					<% if version.body != "" %>
 						<hr class="invisible">
 						<h3 class='black'>Version notes:</h3>
 
-						<%= version.mark_body %>
+						<%= format(version.body) %>
 					<% end %>
 
 					<h4 style="clear: right; margin: 0 0 2px 0"><%= pluralize(item.downloads.size, 'download') %>, 

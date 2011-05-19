@@ -13,7 +13,7 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
 					xml.title			"#{review.title} ( #{review.item.name} #{review.item.find_version.name} )"
 					xml.author			review.user.login
 					xml.link			"#{item_url review.item}"
-					xml.description		review.mark_body
+					xml.description		format(review.body)
 					xml.pubDate			CGI.rfc1123_date review.created_at
 				end
 			end

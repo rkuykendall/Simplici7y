@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  include TextMethods
   helper :all # include all helpers, all the time
   
   # Be sure to include AuthenticationSystem in Application Controller instead

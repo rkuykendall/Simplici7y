@@ -12,7 +12,7 @@
 		<h3><%= link_to show.title, item_path(show.item) %> <%= '( ' + show.item.name + ' )' if controller.action_name != 'show' %></h3>
 		<h4><%= link_to show.user.login, user_path(show.user) %> on <%= show.created_at.to_s(:readable_short) %>, Version <%= show.version.name %></h4>
 		<div class="indent">
-			<%= show.mark_body %>
+			<%= format(show.body) %>
 		</div>
 	</div>
 	<hr class="invisible">

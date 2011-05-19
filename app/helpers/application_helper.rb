@@ -10,4 +10,11 @@ module ApplicationHelper
       content_tag(:span, rss)
     end
   end
+  
+  def format(text)
+    if text != nil
+      text = Sanitize.clean(text)
+      BlueCloth::new(text).to_html
+    end
+  end
 end

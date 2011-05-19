@@ -43,12 +43,7 @@ class Item < ActiveRecord::Base
       paginate :page => page, :order => 'version_created_at DESC', :conditions => [ 'user_id = ?', user ]
     end
   end
-  
-  def mark_body
-    if self.body != nil
-      BlueCloth::new(self.body).to_html
-    end
-  end
+
     
   def find_version
     versions.reverse[0]

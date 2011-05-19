@@ -1,2 +1,4 @@
 *.log
 database.yml
+public/screenshot/
+public/version/

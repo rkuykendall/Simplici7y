@@ -3,13 +3,13 @@
 				<h3><%= link_to @item.name, item_path(@item) %>  <%= @version.name %></h3>
 				<h4><%= link_to @item.user.login, user_path(@item.user) %> on <%= @item.version_created_at.to_s(:readable_long) %></h4>
 				<div class="indent">
-					<%= @item.mark_body %>
+					<%= format(@item) %>
 
 					<% if @version.body != "" %>
 						<hr class="invisible">
 						<h3 class='black'>Version notes:</h3>
 
-						<%= @version.mark_body %>
+						<%= format(@version) %>
 					<% end %>
 					
 					<h4><%= pluralize(@item.downloads.size, 'download') %><br />

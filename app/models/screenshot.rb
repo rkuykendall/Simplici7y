@@ -5,4 +5,5 @@ class Screenshot < ActiveRecord::Base
   # file_column :file
   validates_file_format_of :file, :in => ["gif", "png", "jpg"]
   validates_presence_of :file, :message => "Missing screenshot file"
+  validates_format_of :title, :with => /\A[^<>]+\Z/i, :message => "Brackets are not allowed in the title."
 end

@@ -2,6 +2,9 @@ class ItemsController < ApplicationController
   before_filter :before_items, :only => [ :show, :edit, :update, :destroy ]
   before_filter :login_required, :only => [ :new, :create ]
   before_filter :authenticate, :only => [ :edit, :update, :destroy ]
+  
+  # THIS IS FOR DEV, AND SHOULD BE REMOVED
+  before_filter :update_rating_relevancy, :only  => [ :show ]
   # :index, :show, :new, :create, :edit, :update, :destroy
   
   # GET /items

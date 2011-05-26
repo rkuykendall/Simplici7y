@@ -54,15 +54,19 @@ class ApplicationController < ActionController::Base
     version = @item.find_version
 
     reviews.each_with_index do |review, index|
-      unless review.relevancy_changed?
+        # Start at zero
         review.relevancy = 0
+        
+        # If it's an old version, bump it to 1
         review.relevancy = 1 if review.version_id != version.id
-        review.relevancy = 2 if review.user_id == @item.user_id
-        (index+1...reviews.size).each do |r|
-          reviews[r].relevancy = 2 if reviews[r].user_id == review.user_id
+        
+        # If there's a newer review, bump it to 3
+        (0...index).each do |r|
+          reviews[index].relevancy = 2 if reviews[r].user_id == review.user_id
         end
-      end
 
+        # If it's by the owner, bump it to 2
+        review.relevancy = 2 if review.user_id == @item.user_id
     end
     reviews.each(&:save!)
   end

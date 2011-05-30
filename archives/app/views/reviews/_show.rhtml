@@ -6,14 +6,12 @@
 		
 	<% end %>
 	<div class="map">
-		<ul class='star-rating'>
-		    <li class='current-rating' style='width:<%= (show.rating * 25).to_i -%>px;'>Currently <%= show.rating %>/5 Stars.</li>
-		</ul>
+		<%= stars(show.rating) %>
 		<h3><%= link_to show.title, item_path(show.item) %> <%= '( ' + show.item.name + ' )' if controller.action_name != 'show' %></h3>
 		<h4><%= link_to show.user.login, user_path(show.user) %> on <%= show.created_at.to_s(:readable_short) %>, Version <%= show.version.name %></h4>
 		<div class="indent">
 			<%= show.mark_body %>
 		</div>
 	</div>
-	<hr class="invisible">
+	<hr class="clear">
 <% end %>

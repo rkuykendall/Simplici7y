@@ -6,7 +6,7 @@
 					<%= format(@item.body) %>
 
 					<% if @version.body != "" %>
-						<hr class="invisible">
+						<hr class="clear">
 						<h3 class='black'>Version notes:</h3>
 
 						<%= format(@version.body) %>
@@ -22,7 +22,7 @@
 					</div>
 				</div>
 			</div>
-			<hr class="invisible">
+			<hr class="clear">
 			
 			<div id="map_screenshots">
 				<%= "<h3 class=\"title_alt\">Screenshots</h3>" if @screenshots.length.to_i > 0 %>

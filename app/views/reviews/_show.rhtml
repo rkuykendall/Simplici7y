@@ -5,15 +5,13 @@
 		<%= show.relevancy.to_s + ' relevancy' if admin? %>
 		
 	<% end %>
-	<div class="map">
-		<ul class='star-rating'>
-		    <li class='current-rating' style='width:<%= (show.rating * 25).to_i -%>px;'>Currently <%= show.rating %>/5 Stars.</li>
-		</ul>
+	<div class="review relevancy-<%= show.relevancy.to_s %>">
+		<%= stars(show.rating) %>
 		<h3><%= link_to clean(show.title), item_path(show.item) %> <%= '( ' + clean(show.item.name) + ' )' if controller.action_name != 'show' %></h3>
 		<h4><%= link_to clean(show.user.login), user_path(show.user) %> on <%= show.created_at.to_s(:readable_short) %>, Version <%= clean(show.version.name) %></h4>
 		<div class="indent">
 			<%= format(show.body) %>
 		</div>
 	</div>
-	<hr class="invisible">
+	<hr class="clear">
 <% end %>

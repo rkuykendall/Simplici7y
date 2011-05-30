@@ -1,21 +1,21 @@
 <% #-------------------------[ Filter ]------------------------- %>
 
 	<% if controller.controller_name == 'tags' && params[:id] %>
-		Search <%= clean(params[:id]) %>
+		<h2>Search <%= clean(params[:id]) %></h2></h2>
 		<ul><li><% form_tag(tag_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% elsif controller.controller_name == 'users' && params[:id] %>
-		Search <%= clean(@user.login) %>
+		<h2>Search <%= clean(@user.login) %></h2>
 		<ul><li><% form_tag(user_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% elsif controller.controller_name == 'items' && params[:id] && @item.tc_id == 0 %>
-		Search <%= clean(@item.name) %>
+		<h2>Search <%= clean(@item.name) %></h2>
 		<ul><li><% form_tag(item_url(params[:id]), :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% else %>
-		Search
+		<h2>Search</h2>
 		<ul><li><% form_tag(items_url, :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% end %>
 	
 
-	Gameplay
+	<h2>Gameplay</h2>
 	<ul>
 		<li><%= link_to 'EMFH', tag_path('emfh') %></li>
 		<li><%= link_to 'KOTH', tag_path('koth') %></li>
@@ -24,21 +24,21 @@
 		<li><%= link_to 'Solo/Coop', tag_path('solocoop') %></li>		
 	</ul>
 
-	File type
+	<h2>File type</h2>
 	<ul>
 		<li><%= link_to 'Utility', tag_path('utility') %></li>		
 		<li><%= link_to 'Script', tag_path('script') %></li>		
 		<li><%= link_to 'Map', tag_path('map') %></li>		
 	</ul>
 
-	Scenarios
+	<h2>Scenarios</h2>
 	<ul>
 		<li><%= link_to 'Marathon', item_path('marathon') %></li>		
 		<li><%= link_to 'Durandal', item_path('marathon-2-durandal') %></li>		
 		<li><%= link_to 'Infinity', item_path('marathon-infinity') %></li>		
 	</ul>
 	
-	Community
+	<h2>Community</h2>
 	<ul>
 		<li><a href="http://www.pfhorums.com/">Pfhorums<div class="tooltip">The Pfhorums<span>Marathon /  Aleph One Forum</span></div></a>
 		<li><a href="http://source.bungie.org/" target="_blank">SBO<div class="tooltip">Aleph One Project<span>source.bungie.org</span></div></a>

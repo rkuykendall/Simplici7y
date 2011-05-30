@@ -4,6 +4,6 @@ class Version < ActiveRecord::Base
   has_many :reviews
 
   file_column :file
-  validates_file_format_of :file, :in => ["zip"]
-  validates_presence_of :file, :message => "Missing zip file"
+  validates_file_format_of :file, :in => ["zip", "tgz", "tar", "gz"]
+  validates_presence_of :file, :message => "Missing zip file."
 end

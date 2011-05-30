@@ -31,7 +31,7 @@
 				<%= link_to "destroy", item_url(item), :class => 'controls', :confirm => "Are you sure? This will destroy this item, along with all the versions, screenshots, and reviews associated with it.", :method => :delete %><br />
 				<%= pluralize(item.reviews.size, 'review') %>, <%= pluralize(item.downloads.size, 'downloads') %>
 			</div>
-			<hr class="invisible">
+			<hr class="clear">
 		<% else %>
 			<div class="notice">
 				<%= item.name %> is missing its first revision, <%= link_to 'add one', new_item_version_url(item) %> or <%= link_to "Destroy it", item_url(item), :class => 'controls', :confirm => "Are you sure?", :method => :delete %>.

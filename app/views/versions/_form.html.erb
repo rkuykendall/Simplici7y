@@ -2,11 +2,11 @@
 		<legend>Version information</legend>
 		<div class="form_sidenote">
 			The version number will be displayed after the map name.<br><br>
-			<% if action_name == 'new' %>File's should be uploaded as <i>.zip</i>s (<a href="http://www.apple.com/pro/tips/zip.html">Apple</a>, <a href="http://en.wikipedia.org/wiki/ZIP_(file_format)">Wikipedia</a>). Aleph One's <i>.SceA</i> format is twenty times smaller when zipped.<% end %>
+			<% if action_name == 'new' %>File's should be compressed, and uploaded as a <i>.zip</i> or <i>.tgz</i> file. Aleph One's <i>.SceA</i> format is twenty times smaller when zipped.<% end %>
 		</div>
 		<ol>
 			<li>
-				<label for="version_name">Version Number</label>
+				<label for="version_name">Version #</label>
 				<%= f.text_field :name %>
 			</li>
 			<li>

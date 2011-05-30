@@ -2,14 +2,12 @@
 		<legend>Screenshot for <%= @item.name %></legend>
 		<ol>
 			<li>
-				<label for="screenshot_title">Screenshot title</label>
+				<label for="screenshot_title">Caption</label>
 				<%= f.text_field :title %>
 			</li>
-			<% if action_name == 'new' %>
 			<li>
-				<label for="screenshot_file">Screenshot</label>
+				<label for="screenshot_file">Image</label>
 				<%= f.hidden_field :file_temp %><%= f.file_field :file, :class => 'file' %>
 			</li>
-			<% end %>
 		</ol>
 	</fieldset>

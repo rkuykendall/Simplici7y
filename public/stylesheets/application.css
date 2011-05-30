@@ -86,12 +86,17 @@ html, body {
 	clear: left;
 }
 
+hr.clear {
+	border: 0;
+	width: 510px;
+	clear: right;
+	padding-bottom: 15px;
+}
 
 
-/* ===============[ Global Text Formatting ]=============== */
+/* ===============[ Global Text ]=============== */
 
-
-html, body, h3, h4, h5, input  {
+html, body, h1, h2, h3, h4, h5, input  {
 	color: #666;
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-size: 13px;
@@ -100,6 +105,9 @@ html, body, h3, h4, h5, input  {
 
 h1 {
 	padding: 40px 25px;
+	}
+	h2 {
+		margin-bottom: 10px;
 	}
 	h3 {
 		margin: 0;
@@ -134,13 +142,18 @@ a:link, a:visited, a img {
 	color: #000;
 	border: 0;
 	}
-	a:hover, a:active, #sidebar ul li, #navbar {
+	a:hover, a:active {
 		color: #00a3e0; /* The Blue */
+}
+
+li {
+	padding: 2px;
+	padding-left: 20px;
 }
 
 
 
-/* ===============[ Header Styling ]=============== */
+/* ===============[ Header ]=============== */
 
 #header {
 	padding-top: 0px;
@@ -178,9 +191,79 @@ span.navigation {
 
 
 
-/* ===============[ Something else ]=============== */
+/* ===============[ Notices ]=============== */
 
-#sidebar input {
+div.message {
+	background-color: #dfe2e9;
+	padding: 10px 10px;
+	border-bottom: 5px solid gray;
+	}
+	div.message h3 a:link, div.message a:visited {
+		text-decoration: underline;
+}
+
+p.notice_comment {
+	padding: 20px;
+	color: #00a3e0;
+}
+
+div.notice {
+	background-color: #f1f1f1;
+	padding: 5px 20px;
+	margin: 0 -20px 15px;
+	border: 0px solid #ccc;
+	border-width: 1px 0;
+}
+
+#errorExplanation {
+	width: 400px;
+	border: 2px solid red;
+	padding: 7px;
+	padding-bottom: 12px;
+	margin-bottom: 20px;
+	background-color: #f0f0f0;
+	}
+	#errorExplanation h2 {
+		text-align: left;
+		font-weight: bold;
+		padding: 5px 5px 5px 15px;
+		font-size: 12px;
+		margin: -7px;
+		background-color: #c00;
+		color: #fff;
+	}
+	#errorExplanation p {
+		color: #333;
+		margin-bottom: 0;
+		padding: 5px;
+	}
+	#errorExplanation ul li {
+		font-size: 12px;
+		list-style: square;
+}
+
+
+
+/* ===============[ Sidebar ]=============== */
+
+#sidebar,
+#sidebar h2 {
+	margin-bottom: 10px;
+	font-size: 1.2em;
+	color: #333;
+}
+
+#sidebar ul {
+	margin-bottom: 20px;
+	}
+	#sidebar ul li {
+		list-style: none;
+	}
+	#sidebar ul li a {
+		color: #666;
+}
+
+#search {
 	width: 120px;
 	padding: 2px;
 	margin: 0;
@@ -189,12 +272,275 @@ span.navigation {
 	border: solid 1px #ddd;
 }
 
-hr.invisible {
-	border: 0;
-	width: 510px;
-	clear: right;
-	margin-bottom: 30px;
+
+
+/* ===============[ Sidebar Sites ]=============== */
+
+#sidebar ul li a div.tooltip {
+	display: none;
 }
+
+#sidebar ul li a:hover div.tooltip {
+	display: block;
+	position: absolute;
+	text-align: left;
+}
+
+#sidebar ul li a div.tooltip span {
+	display: block;
+	color: #999;
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+#sidebar ul li a div.tooltip {
+	font-weight: normal;
+	background-color: #333;
+	color: #fff;
+	border: 1px solid #000;
+	filter:alpha(opacity=90);
+	-moz-opacity:.90;
+	opacity:.90;
+	margin-left: 5.5em;
+	margin-top: -1em;
+	padding: 0px 3px;
+}
+
+
+
+/* ===============[ Manage Tables ]=============== */
+
+div.manage_map {
+	}
+	div.manage_map a.controls {
+		color: #aaa;
+		margin-top: 10px;
+		}
+		div.manage_map a.controls:hover {
+			color: #00a3e0;
+	}
+	table.manage {
+		float: right;
+		text-align: center;
+		font-size: 1.1em;
+		clear: right;
+		color: #ccc;
+		border-collapse: collapse;
+		}
+		table.manage td, table.manage th {
+			padding: 0 10px 10px;
+			background-color: #f3f3f3;
+			border-left: solid 1px #666;
+		}
+		table.manage th {
+			color: #000;
+			font-weight: normal;
+		}
+		table tr.newest {
+			color: #666;
+}
+
+div.quote img {
+	float: right;
+	border: 1px solid black;
+	margin-left: 10px;
+}
+
+
+
+/* ===============[ CMX Form ]=============== */
+
+form.cmxform {
+	width: 500px;
+	font-size: 1.2em;
+	color: #666;
+}
+
+form.cmxform em {
+	font-style: normal;
+	color: #f00;
+}
+
+form.cmxform legend {
+}
+
+form.cmxform legend {
+	padding: 0 2px 10px 0;
+	color: #000;
+	_margin: 0 -7px; /* IE Win */
+}
+
+/*\*//*/ form.cmxform legend { display: inline-block; } /* IE Mac legend fix */
+
+form.cmxform fieldset {
+	margin-bottom: 10px;
+	}
+	form.cmxform fieldset, form.cmxform fieldset fieldset {
+		border: none;
+	}
+	form.cmxform fieldset ol {
+		margin: 0;
+		margin-bottom: 20px;
+		padding: 0;
+		}
+		form.cmxform fieldset li {
+			padding: 5px 10px 7px;
+			list-style: none;
+			margin: 0;
+}
+
+form.cmxform div.form_sidenote ol li {
+	list-style: decimal inside;
+	margin: 0;
+	padding: 0;
+}
+form.cmxform div.form_sidenote ol {
+	padding: 0;
+	margin: 5px 0 10px 10px;
+}
+	
+
+form.cmxform label {
+	display: -moz-inline-box; /* Fixes Firefox */
+	display: inline-block;
+	line-height: 1.8;
+	vertical-align: top;
+	width: 120px; /* Width of labels */
+}
+	
+form.cmxform fieldset fieldset {
+	border: none;
+	margin: 3px 0 0;
+	}
+	form.cmxform fieldset fieldset legend {
+		padding: 0 0 5px;
+		font-weight: normal;
+	}
+	form.cmxform fieldset fieldset label {
+		display: block;
+		width: auto;
+		margin-left: 123px; /* Width plus 3 (html space) */
+}
+
+form.cmxform input,
+form.cmxform select,
+form.cmxform textarea {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: normal;
+	line-height: 18px;
+	border: solid 1px #ddd;
+	font-size: 1.3em;
+	padding: 2px;
+	color: #666;
+	width: 210px;
+	background-color: #fff;
+	}
+	form.cmxform div.fieldWithErrors input,
+	form.cmxform div.fieldWithErrors select,
+	form.cmxform div.fieldWithErrors textarea {
+		border: solid 2px #c00;
+		background-color: #f0f0f0;
+		width: 208px;
+	}
+	form.cmxform textarea.summary {
+		height: 200px;
+}
+
+form.cmxform input.file {
+	width: 202px;
+	font-size: 0.8em;
+	padding: 6px;
+	border: solid 1px #ddd;
+}
+
+form.cmxform div.form_sidenote {
+	clear: right;
+	font-size: 0.8em;
+	float: right;
+	padding: 5px;
+	width: 120px;
+	background-color: #eee;
+	margin-right: -30px;
+	margin-top: 13px;
+	border: solid 1px #ddd;
+}
+
+form.cmxform div.fieldWithErrors {
+	display: inline;
+}
+
+
+
+/* ===============[ Additional Form ]=============== */
+
+div.comment-block { /* Commenting drop down box */
+	padding-left: 20px;
+	border-left: 5px solid #00a3e0;
+}
+
+div.screenshot_upload, div.version_upload { 
+	margin-bottom: 40px; /* screenshot and version forms */
+}
+
+div.quote, div.screenshot_upload, div.version_upload {
+	color: #000;
+	padding-left: 20px;
+	border-left: 5px solid #333;
+	text-align: justify;
+}
+
+
+
+/* ===============[ Maps ]=============== */
+
+div.map {
+}
+
+div.sidenote {
+		float: right;
+		margin-top: 7px;
+	}
+	div.sidenote a:link, div.sidenote a:visited {
+		padding: 7px 27px;
+		color: #666;
+		border: 1px solid #ddd;
+	}
+	div.sidenote a:hover, div.sidenote a:active {
+		color: #00a3e0;
+		border: 1px solid #00a3e0;
+}
+
+div.subnote {
+	clear: right;
+	background-color: #f1f1f1;
+	margin-left: -10px;
+	padding: 5px 10px;
+	border-top: 1px solid #cecece;
+	color: #555;
+	}
+	div.subnote span.pipe {
+		color: #f1f1f1;
+		border-right: 1px solid #cacaca;
+		padding: 5px 0;
+		margin-left: -6px;
+}
+
+div.indent {
+	padding-left: 10px;
+	margin-top: 15px;
+	border-left: 3px solid #000;
+	text-align: justify;
+	}
+	div.indent img {
+		float: right;
+		padding: 5px;
+		margin: 0 0 15px 15px;
+		border: 1px solid #ccc;
+}
+
+
+
+/* ===============[ Screenshots ]=============== */
 
 #map_screenshots {
 		margin-bottom: 110px;
@@ -239,335 +585,7 @@ hr.invisible {
 		font-size: 0.8em;
 }
 
-div.manage_map {
-	}
-	div.manage_map a.controls {
-		color: #aaa;
-		margin-top: 10px;
-		}
-		div.manage_map a.controls:hover {
-			color: #00a3e0;
-	}
-	table.manage {
-		float: right;
-		text-align: center;
-		font-size: 1.1em;
-		clear: right;
-		color: #ccc;
-		border-collapse: collapse;
-		}
-		table.manage td, table.manage th {
-			padding: 0 10px 10px;
-			background-color: #f3f3f3;
-			border-left: solid 1px #666;
-		}
-		table.manage th {
-			color: #000;
-			font-weight: normal;
-		}
-		table tr.newest {
-			color: #666;
-}
 
-div.message {
-	background-color: #dfe2e9;
-	padding: 10px 10px;
-	border-bottom: 5px solid gray;
-	}
-	div.message h3 a:link, div.message a:visited {
-		text-decoration: underline;
-}
-
-p.notice_comment {
-	padding: 20px;
-	color: #00a3e0;
-}
-
-div.quote, div.screenshot_upload, div.version_upload {
-	color: #000;
-	padding-left: 20px;
-	border-left: 5px solid #333;
-	text-align: justify;
-}
-div.quote img {
-	float: right;
-	border: 1px solid black;
-	margin-left: 10px;
-}
-
-
-
-/* ===============[ Notices ]=============== */
-
-div.notice {
-	background-color: #f1f1f1;
-	padding: 5px 20px;
-	margin: 0 -20px 15px;
-	border: 0px solid #ccc;
-	border-width: 1px 0;
-}
-
-#errorExplanation {
-	width: 400px;
-	border: 2px solid red;
-	padding: 7px;
-	padding-bottom: 12px;
-	margin-bottom: 20px;
-	background-color: #f0f0f0;
-	}
-	#errorExplanation h2 {
-		text-align: left;
-		font-weight: bold;
-		padding: 5px 5px 5px 15px;
-		font-size: 12px;
-		margin: -7px;
-		background-color: #c00;
-		color: #fff;
-	}
-	#errorExplanation p {
-		color: #333;
-		margin-bottom: 0;
-		padding: 5px;
-	}
-	#errorExplanation ul li {
-		font-size: 12px;
-		list-style: square;
-}
-
-
-
-/* ===============[ Sidebar Sites ]=============== */
-
-#sidebar ul li a div.tooltip {
-	display: none;
-}
-
-#sidebar ul li a:hover div.tooltip {
-	display: block;
-	position: absolute;
-	text-align: left;
-}
-
-#sidebar ul li a div.tooltip span {
-	display: block;
-	color: #999;
-	font-size: 0.8em;
-	font-weight: normal;
-}
-
-#sidebar ul li a div.tooltip {
-	font-weight: normal;
-	background-color: #333;
-	color: #fff;
-	border: 1px solid #000;
-	filter:alpha(opacity=90);
-	-moz-opacity:.90;
-	opacity:.90;
-	margin-left: 5.5em;
-	margin-top: -1em;
-	padding: 0px 3px;
-}
-
-
-
-/* ===============[ CMX Form Stuff ]=============== */
-
-form.cmxform {
-	width: 500px;
-}
-
-form.cmxform em {
-	font-style: normal;
-	color: #f00;
-}
-
-form.cmxform legend {
-	padding: 0 2px 0 0;
-	color: #000;
-	_margin: 0 -7px; /* IE Win */
-}
-
-/*\*//*/ form.cmxform legend { display: inline-block; } /* IE Mac legend fix */
-
-form.cmxform fieldset {
-	margin-bottom: 10px;
-	}
-	form.cmxform fieldset, form.cmxform fieldset fieldset {
-		border: none;
-	}
-	form.cmxform fieldset ol {
-		margin: 0;
-		padding: 0;
-		}
-		form.cmxform fieldset li {
-			padding: 5px 10px 7px;
-			list-style: none;
-			margin: 0;
-}
-
-form.cmxform div.form_sidenote ol li {
-	list-style: decimal inside;
-	margin: 0;
-	padding: 0;
-}
-form.cmxform div.form_sidenote ol {
-	padding: 0;
-	margin: 5px 0 10px 10px;
-}
-	
-
-form.cmxform label {
-	display: -moz-inline-box; /* Fixes Firefox */
-	display: inline-block;
-	line-height: 1.8;
-	vertical-align: top;
-	width: 120px; /* Width of labels */
-}
-	
-form.cmxform fieldset fieldset {
-	border: none;
-	margin: 3px 0 0;
-	}
-	form.cmxform fieldset fieldset legend {
-		padding: 0 0 5px;
-		font-weight: normal;
-	}
-	form.cmxform fieldset fieldset label {
-		display: block;
-		width: auto;
-		margin-left: 123px; /* Width plus 3 (html space) */
-}
-
-form.cmxform input, form.cmxform select, form.cmxform textarea {
-	font-family: verdana, arial, helvetica, sans-serif;
-	font-weight: normal;
-	line-height: 18px;
-	border: solid 1px #ddd;
-	font-size: 1.3em;
-	padding: 2px;
-	color: #666;
-	width: 210px;
-	background-color: #fff;
-	}
-	form.cmxform textarea.summary {
-		height: 200px;
-}
-form.cmxform input.file {
-	width: 202px;
-	font-size: 0.8em;
-	padding: 6px;
-	border: solid 1px #ddd;
-}
-
-form.cmxform div.form_sidenote {
-	clear: right;
-	font-size: 0.8em;
-	float: right;
-	padding: 5px;
-	width: 120px;
-	background-color: #eee;
-	margin-right: -30px;
-	margin-top: 13px;
-	border: solid 1px #ddd;
-}
-
-form.cmxform div.fieldWithErrors {
-	display: inline;
-}
-
-form.cmxform div.fieldWithErrors input, form.cmxform div.fieldWithErrors select, form.cmxform div.fieldWithErrors textarea {
-	border: solid 2px #c00;
-	background-color: #f0f0f0;
-	width: 208px;
-	}
-
-/* ===============[ More Form Stuff ]=============== */
-
-div.comment-block { /* Commenting drop down box */
-	padding-left: 20px;
-	border-left: 5px solid #00a3e0;
-}
-
-div.screenshot_upload, div.version_upload { 
-	margin-bottom: 40px; /* screenshot and version forms */
-}
-
-
-/* ===============[ The Indent ]=============== */
-
-#sidebar ul, form.cmxform fieldset ol {
-	margin: 0;
-	padding: 0;
-	margin-bottom: 20px;
-	margin-top: 10px;
-}
-
-#sidebar ul li, form.cmxform fieldset ol li, div.review {
-	list-style: none;
-	padding: 2px;
-	padding-left: 20px;
-}
-
-#sidebar, h3.title, h3.title_alt, form.cmxform legend {
-	margin-bottom: 10px;
-	font-size: 1.2em;
-	color: #333;
-}
-
-#sidebar ul li a, form.cmxform, div.review h3.title {
-	color: #666;
-}
-
-
-
-/* ===============[ New Skinny.css ]=============== */
-
-div.map {
-	margin-bottom: 40px;
-}
-
-div.sidenote {
-		float: right;
-		margin-top: 7px;
-	}
-	div.sidenote a:link, div.sidenote a:visited {
-		padding: 7px 27px;
-		color: #666;
-		border: 1px solid #ddd;
-	}
-	div.sidenote a:hover, div.sidenote a:active {
-		color: #00a3e0;
-		border: 1px solid #00a3e0;
-}
-
-div.subnote {
-	clear: right;
-	background-color: #f1f1f1;
-	margin-left: -10px;
-	padding: 5px 10px;
-	border-top: 1px solid #cecece;
-	color: #555;
-	}
-	div.subnote span.pipe {
-		color: #f1f1f1;
-		border-right: 1px solid #cacaca;
-		padding: 5px 0;
-		margin-left: -6px;
-}
-
-
-div.indent {
-	padding-left: 10px;
-	margin-top: 15px;
-	border-left: 3px solid #000;
-	text-align: justify;
-	}
-	div.indent img {
-		float: right;
-		padding: 5px;
-		margin: 0 0 15px 15px;
-		border: 1px solid #ccc;
-}
 
 /* ===============[ Star Rating ]=============== */
 
@@ -647,6 +665,8 @@ div.indent {
 		.star-rating a.five-stars:hover{
 			width: 125px;
 }
+
+
 
 /* ===============[ Pagination ]=============== */
 

@@ -1,23 +1,27 @@
 	<fieldset>
 		<legend>Version information</legend>
 		<div class="form_sidenote">
-			The version number will be displayed after the map name.<br><br>
-			<% if action_name == 'new' %>File's should be compressed, and uploaded as a <i>.zip</i> or <i>.tgz</i> file. Aleph One's <i>.SceA</i> format is twenty times smaller when zipped.<% end %>
+			Aleph One's <i>.SceA</i> format is twenty times smaller when zipped.
 		</div>
+		
 		<ol>
 			<li>
-				<label for="version_name">Version #</label>
+				<label for="version_name">Version number <small>displayed after map name.</small></label>
 				<%= f.text_field :name %>
 			</li>
 			<li>
-				<label for="version_body">Release Notes</label>
+				<label for="version_body">Release Notes <small>changes &amp; comments</small></label>
 				<%= f.text_area :body, :class => 'summary' %>
 			</li>
-			<% if action_name == 'new' %>
 			<li>
-				<label for="version_file">File Upload <em>*</em></label>
+				<label for="version_file">File Upload <em>*</em> <small>compressed zip or tgz</small></label>
 				<%= f.hidden_field :file_temp %><%= f.file_field :file, :class => 'file' %>
 			</li>
-			<% end %>
+			<li>
+				<label for="version_link">Link URL <em>*</em> <small>include http://</small></label>
+				<%= f.text_field :link %>
+			</li>
 		</ol>
+		
+		<em>&lowast; must have at least one, but may have both.</em>
 	</fieldset>

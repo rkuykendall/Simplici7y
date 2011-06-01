@@ -1,27 +1,30 @@
 <%= error_messages_for :user %>
+<% form_for :user, :url => user_path(@user), :html => { :method => :put, :class => 'cmxform' } do |f| -%>
 
-<% form_for(:user, :url => user_path(@user), :html => { :method => :put }) do |f| %>
+<fieldset>
+	<legend>Account Settings</legend>
 
-	<p>
-		<label for="user_login">Username</label><br />
-		<%= f.text_field :login %>
-	</p>
+	<ol>
+		<li>
+			<label for="user_login">Username</label>
+			<%= f.text_field :login %>
+		</li>
+		<li>
+			<label for="user_email">Email</label>
+			<%= f.text_field :email %>
+		</li>
+		<li>
+			<label for="user_password">New Password</label>
+			<%= f.password_field :password %>
+		</li>
+		<li>
+			<label for="user_password_confirmation">Confirm new password</label>
+			<%= f.password_field :password_confirmation %>
+		</li>
+	</ol>
 
-	<p>
-		<label for="user_email">Email</label><br />
-		<%= f.text_field :email %>
-	</p>
+	</fieldset>
 
-	<p>
-		<label for="user_password">New Password</label><br />	
-		<%= f.text_field :password %>
-	</p>
+	<p><%= submit_tag 'Save changes', :class => 'button positive accept' %></p>
 
-	<p>
-		<label for="user_password_confirmation">Confirm Password</label><br />	
-		<%= f.text_field :password_confirmation %>
-	</p>
-
-	<p><%= submit_tag "Submit" %></p>
-
-<% end %>
+<% end -%>

@@ -1,3 +1,3 @@
 <% for tag in @tags %>
-	<span style="font-size: <%= tag.popularity %>px;"><%= link_to clean(tag.name), tag_url(tag) %></span>
+	<span style="font-size: <%= ( tag.popularity.to_i + 30)/3  %>px;"><%= link_to clean(tag.name), tag_url(tag) %></span>
 <% end %>

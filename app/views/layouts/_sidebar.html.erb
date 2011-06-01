@@ -17,34 +17,26 @@
 
 	<h2>Gameplay</h2>
 	<ul>
-		<li><%= link_to 'EMFH', tag_path('emfh') %></li>
-		<li><%= link_to 'KOTH', tag_path('koth') %></li>
-		<li><%= link_to 'KTMWTB', tag_path('ktmwtb') %></li>
-		<li><%= link_to 'CTF', tag_path('ctf') %></li>		
-		<li><%= link_to 'Solo/Coop', tag_path('solocoop') %></li>		
+		<li><%= link_to 'Every Man for Himself', tag_path('emfh') %></li>
+		<li><%= link_to 'Solo / Cooperative', tag_path('solocoop') %></li>		
+		<li><%= link_to 'King of the Hill', tag_path('koth') %></li>
+		<li><%= link_to 'Kill the Man with the Ball', tag_path('ktmwtb') %></li>
+		<li><%= link_to 'Capture the Flag', tag_path('ctf') %></li>		
+		<li><%= link_to 'Survival', tag_path('survival') %></li>		
 	</ul>
 
 	<h2>File type</h2>
 	<ul>
-		<li><%= link_to 'Utility', tag_path('utility') %></li>		
+		<li><%= link_to 'Map', tag_path('map') %></li>
+		<li><%= link_to 'Scenario', tag_path('scenario') %></li>
 		<li><%= link_to 'Script', tag_path('script') %></li>		
-		<li><%= link_to 'Map', tag_path('map') %></li>		
+		<li><%= link_to 'Physics', tag_path('physics') %></li>		
+		<li><%= link_to 'Utility', tag_path('utility') %></li>		
 	</ul>
 
 	<h2>Scenarios</h2>
 	<ul>
 		<li><%= link_to 'Marathon', item_path('marathon') %></li>		
-		<li><%= link_to 'Durandal', item_path('marathon-2-durandal') %></li>		
-		<li><%= link_to 'Infinity', item_path('marathon-infinity') %></li>		
-	</ul>
-	
-	<h2>Community</h2>
-	<ul>
-		<li><a href="http://www.pfhorums.com/">Pfhorums<div class="tooltip">The Pfhorums<span>Marathon /  Aleph One Forum</span></div></a>
-		<li><a href="http://source.bungie.org/" target="_blank">SBO<div class="tooltip">Aleph One Project<span>source.bungie.org</span></div></a>
-		<li><a href="http://forums.bungie.org/story/" target="_blank">MSF<div class="tooltip">Marathon Story Forum<span>forums.bungie.org</span></div></a>
-		<li><a href="http://traxus.jjaro.net/traxus/Main_Page" target="_blank">Traxus<div class="tooltip">Traxus Wiki<span>Marathon universe and community wiki</span></div></a>
-		<li><a href="http://clique.jonirons.net/" target="_blank">JFO<div class="tooltip">Just Found Out<span>Wrk is Irons</span></div></a>
-		<li><a href="http://blog.treellama.org/" target="_blank">BTO<div class="tooltip">Treellama's Blog<span>blog.treellama.org</span></div></a>
-		<li><a href="http://pfhorchan.org/m/" target="_blank">/m/<div class="tooltip">Pfhorchan<span>Marathon Image Board</span></div></a>
+		<li><%= link_to 'Marathon: Durandal', item_path('marathon-2-durandal') %></li>		
+		<li><%= link_to 'Marathon: Infinity', item_path('marathon-infinity') %></li>		
 	</ul>

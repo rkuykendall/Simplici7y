@@ -1,6 +1,6 @@
 <h3>Screenshots for <%= link_to @item.name, item_url(@item) %></h3>
 	
-<h2><%= link_to 'Add Screenshot', new_item_screenshot_path(@item) %></h2>
+<h2><%= link_to 'New screenshot', new_item_screenshot_path(@item), :class => 'button positive add-image' %></h2>
 
 <% if @screenshots != nil %>
 	<% for screenshot in @screenshots %>

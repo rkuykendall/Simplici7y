@@ -5,36 +5,29 @@
 
 		<% if version != nil %>
 			<div class="map">
-				<div class="sidenote"><%= link_to 'download &raquo;', item_download_path(item) %></div>
+				<%= download_button(version) %>
 				<h3><%= link_to clean(item.name), item_path(item) %> <%= clean(version.name) %></h3>
-				<h4><%= link_to clean(item.user.login), user_path(item.user) %> <%= item.version_created_at.to_s(:readable_long) %></h4>
-				<div class="indent">
-					<%= image_tag url_for_file_column(screenshot, "file", "thumb") if screenshot %>
+				<h4><%= link_to clean(item.user.login), user_path(item.user) %> on <%= item.version_created_at.to_s(:readable_short) %></h4>
+				<div class="indent markdown">
+					<%= link_to ( image_tag url_for_file_column(screenshot, "file", "thumb")),  item_path(item) if screenshot %>
 					<%= format(item.body) %>
 				
-					<% if version.body != "" %>
-						<hr class="clear">
-						<h3 class='black'>Version notes:</h3>
+					<%= content_tag(:h5, "Notes for version "+clean(version.name)+":") if version.body != "" %>
+					<%= format(version.body) %>
 
-						<%= format(version.body) %>
-					<% end %>
-
-					<h4 style="clear: right; margin: 0 0 2px 0"><%= pluralize(item.downloads.size, 'download') %>, 
+					<h4 style="clear: right; margin: 0 0 2px 0">
+						<%= pluralize(item.downloads.size, 'download') %>, 
 						<%= pluralize(item.reviews.size, 'review') %>, 
-						<%= pluralize(item.screenshots.size, 'screenshot') %>,
-						Rating: <%= item.ratings_count %> ( <%= item.ratings_weighted_count %> weighted )
+						<%= pluralize(item.screenshots.size, 'screenshot') %>, 
+						<%= "%.1f" % item.ratings_count %> rating 
 						</h4>
-				
-					<div class="subnote">
-						<%= link_to "Write a review", new_item_review_url(item) %> <span class="pipe">&#124;</span> Tags: <%= clean(item.tag_list) %>
-					</div>
 				</div>
 			</div>
-			<hr class="clear">
+			<hr />
 		<% end %>
 	<% end %>
 
-	<%= will_paginate @items %>
+	<%= will_paginate @items, :next_label => 'Next', :previous_label => 'Previous' %>
 <% else %>
 	Nothing to see here, move along...
 <% end %>

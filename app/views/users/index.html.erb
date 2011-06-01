@@ -1,4 +1,10 @@
-<% if @items != nil %>
+<h2>Your Uploads</h2>
+
+<% if @items[0] == nil %>
+	<p>You can use Simplici7y to share something with the Aleph One community.</p>
+	<%= link_to "Add your first item", new_item_url, :class => 'button positive add' %>
+<% else %>
+	<p><%= link_to "Add a new item", new_item_url, :class => 'button positive add' %></p>
 	<% for item in @items %>
 		<% versions = item.versions %>
 		<% if versions[0] != nil %>
@@ -13,7 +19,7 @@
 						<tr class="<%= "newest" if version == item.find_version %>">
 							<td width="100px">
 								<% if version == item.find_version %>
-									<%= link_to clean(version.name), item_download_url(item) %><br /><small><%= link_to 'edit', edit_item_version_path(item, version) %></small>
+									<%= clean(version.name) %></small>
 								<% else %>
 									<%= clean(version.name) %>
 								<% end %>
@@ -25,13 +31,9 @@
 				</table>
 
 				<h3><%= link_to clean(item.name), item_path(item) %></h3>
-				<%= link_to "Manage Screenshots", item_screenshots_url(item), :class => 'controls' %><br />
-				<%= link_to "Edit", edit_item_url(item), :class => 'controls' %>, 
-				<%= link_to "update", new_item_version_url(item), :class => 'controls' %>, 
-				<%= link_to "destroy", item_url(item), :class => 'controls', :confirm => "Are you sure? This will destroy this item, along with all the versions, screenshots, and reviews associated with it.", :method => :delete %><br />
 				<%= pluralize(item.reviews.size, 'review') %>, <%= pluralize(item.downloads.size, 'downloads') %>
+				<hr />
 			</div>
-			<hr class="clear">
 		<% else %>
 			<div class="notice">
 				<%= clean(item.name) %> is missing its first revision, <%= link_to 'add one', new_item_version_url(item) %> or <%= link_to "Destroy it", item_url(item), :class => 'controls', :confirm => "Are you sure?", :method => :delete %>.
@@ -39,7 +41,5 @@
 		<% end %>
 	<% end %>
 	
-	<%= will_paginate @items %>
-<% else %>
-	Nothing to see here, move along...
+	<%= will_paginate @items, :next_label => 'Next', :previous_label => 'Previous' %>
 <% end %>

@@ -1,3 +1,3 @@
 <%= render :partial => 'show', :collection => @reviews %>
 
-<%= will_paginate @reviews %>
+<%= will_paginate @reviews, :next_label => 'Next', :previous_label => 'Previous' %>

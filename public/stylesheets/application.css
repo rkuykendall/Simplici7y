@@ -1,4 +1,6 @@
-/* ===============[ Meyer CSS Reset ]=============== */
+/* ==============================
+      Meyer CSS Reset
+   ============================== */
 
 /*
    http://meyerweb.com/eric/tools/css/reset/ 
@@ -52,7 +54,9 @@ table {
 
 
 
-/* ===============[ Core Structure ]=============== */
+/* ==============================
+      Core Structure
+   ============================== */
 
 html, body {
 	padding-bottom: 20px;
@@ -60,11 +64,8 @@ html, body {
 
 #container {
 	width: 770px;
+	padding-right: 200px;
 	margin: 0 auto;
-}
-
-#header {
-	padding: 20px;
 }
 
 #content { /*  510px in the end */
@@ -80,44 +81,190 @@ html, body {
 						a margin collapsing bug in IE */
 }
 
-#footer {
-	margin: 20px 20px 0 20px;
-	padding: 20px;
-	clear: left;
+hr {
+	border: 0px;
+	height: 1px;
+	margin-bottom: -1px;
+	width: 970px;
+	clear: both;
+	}
+	#content hr {
+		width: 510px;
+		clear: right;
+	}
+	#sidebar hr {
+		width: 200px;
+		clear: left;
+	}
+
+
+
+/* ==============================
+      Buttons
+   ============================== */
+
+.button,
+input[type=submit],
+form.cmxform input[type=submit] {
+	cursor: pointer;
+	display: inline-block;
+	width: auto;
+	padding: 5px 10px 5px 32px;
+	margin: 2px;
+	background-position: 10px center;
+	background-repeat: no-repeat;
+	background-color: whiteSmoke;
+
+	border: 1px solid #DEDEDE;
+	border-top: 1px solid #EEE;
+	border-left: 1px solid #EEE;
+
+	line-height: 22px;
+	text-decoration: none;
 }
 
-hr.clear {
-	border: 0;
-	width: 510px;
-	clear: right;
-	padding-bottom: 15px;
+.button:hover {
+	/* Colors: Standard */
+    background-color: #dff4ff;
+    border:1px solid #c2e1ef;
+    color: #336699;
+	}
+	.button:active {
+    background-color: #6299c5;
+    border:1px solid #6299c5;
+    color: #fff;
+}
+
+.button.positive {
+	/* Colors: Positive */
+    color: #529214;
+	}
+	.button.positive:hover {
+    background-color: #E6EFC2;
+    border: 1px solid #C6D880;
+    color: #529214;
+	}
+	.button.positive:active {
+    background-color: #529214;
+    border: 1px solid #529214;
+    color: #fff;
+}
+
+.button.negative {
+	/* Colors: Negative */
+    color: #d12f19;
+	}
+	.button.negative:hover {
+    background-color: #fbe3e4;
+    border: 1px solid #fbc2c4;
+    color: #d12f19;
+	}
+	.button.negative:active {
+    background-color: #d12f19;
+    border: 1px solid #d12f19;
+    color: #fff;
+}
+
+.button.change {
+	/* Colors: Change */
+    color: #563D11;
+	}
+	.button.change:hover {
+    background-color: #FBF5D3;
+    border: 1px solid #F1D576;
+    color: #000;
+	}
+	.button.change:active {
+    background-color: #563D11;
+    border: 1px solid #563D11;
+    color: #fff;
 }
 
 
-/* ===============[ Global Text ]=============== */
+/* Icons */
+.button.skip       { background-image: url('../images/silk/control_fastforward.png'); }
+.button.skip:hover { background-image: url('../images/silk/control_fastforward_blue.png'); }
+.button.next       { background-image: url('../images/silk/control_play.png'); }
+.button.next:hover { background-image: url('../images/silk/control_play_blue.png'); }
+.button.down       { background-image: url('../images/silklike/control_download.png'); }
+.button.down:hover { background-image: url('../images/silklike/control_download_blue.png'); }
 
-html, body, h1, h2, h3, h4, h5, input  {
+.button.accept     { background-image: url('../images/silk/accept.png'); }
+.button.add        { background-image: url('../images/silk/add.png');    }
+.button.add-image  { background-image: url('../images/silk/image_add.png'); }
+
+.button.cancel     { background-image: url('../images/silk/cross.png'); }
+.button.delete     { background-image: url('../images/silk/delete.png'); }
+
+.button.edit-txt   { background-image: url('../images/silk/page_white_edit.png'); }
+.button.edit-imge  { background-image: url('../images/silk/image_edit.png'); }
+
+
+
+/* ==============================
+      Global Text
+   ============================== */
+
+html, body, h4, h5, input  {
 	color: #666;
-	font-family: verdana, arial, helvetica, sans-serif;
-	font-size: 13px;
-	line-height: 18px;
+	font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.2em;
+}
+
+h1, h2, h3, legend {
+	line-height: 1.2em;
+	color: #333;
+}
+
+h4, h5 {
+	color: black;
+	margin-bottom: 2px;
+}
+
+#sidebar { 
+	font-size: 14px;
+	color: #333;
+}
+
+label,
+input,
+select,
+textarea,
+a.button {
+	font-size: 18px;
+	color: #666;
+	}
+	textarea {
+		font-size: 14px;
+	}
+	input.file {
+		font-size: 14px;
+}
+
+.form_sidenote {
+	font-size: 12px;
+}
+label small,
+label small a:link,
+label small a:visited {
+	color: #999;
+	font-size: 12px;
+	font-style: italic;
 }
 
 h1 {
-	padding: 40px 25px;
+	/* There currently is no h1 */
 	}
-	h2 {
-		margin-bottom: 10px;
+	h2, legend {
+		padding-bottom: 10px;
+		font-size: 20px;
 	}
 	h3 {
 		margin: 0;
-		font-size: 1.3em;
+		font-size: 20px;
 	}
-	h3.black {
-		color: #000;
-		margin-bottom: 10px;
-	}
-	h3.title { /* grey non-link part of the title */
+	h3 span { /* grey non-link part of the title */
 		color: #999;
 	}
 	h4, h4 a:link, h4 a:visited {
@@ -126,6 +273,10 @@ h1 {
 }
 
 p {
+	line-height: 1.4em;
+}
+
+p, ul, ol, hr.clear {
 	margin-bottom: 15px;
 }
 
@@ -137,120 +288,204 @@ strong, b {
 	font-weight: bold;
 }
 
-
-a:link, a:visited, a img {
+a, a img {
 	color: #000;
-	border: 0;
 	}
-	a:hover, a:active {
-		color: #00a3e0; /* The Blue */
+	a img {
+		border: 0;
+	}
+	a:hover {
+		color: #336699;
+	}
+	a:active {
+	    color: #fff;
+		background-color: #6299c5;
 }
 
 li {
-	padding: 2px;
-	padding-left: 20px;
+	padding: 0 0 4px 20px;
 }
 
 
 
-/* ===============[ Header ]=============== */
+/* ==============================
+      Markdown
+   ============================== */
 
-#header {
-	padding-top: 0px;
-	border-top: 5px solid #242426;
+	.markdown li {
+		margin: 0 0 10px 20px;
+		padding: 0 0 0 0;
+	}
+
+	.markdown ul {
+		list-style-type: circle;
+		list-style-position: outside;
+	}
+
+	.markdown ol {
+		list-style-type: decimal;
+		list-style-position: outside;
+	
+	}
+
+
+
+/* ==============================
+      Header Menu
+   ============================== */
+
+div#menu {
+	background-color: #1A1A1A;
+	border-bottom: 1px solid #000;
+	border-top: 2px solid #7197CC;
+	margin-bottom: 30px;
 }
-
-span.userinfo {
-	float: right;
-	color: #aaa;
-	}
-	span.userinfo a:link, span.userinfo a:visited {
-		color: #242426;
+div#menu ul li {
+	display: block;
+	float: left;
+	padding: 0;
+	margin: 0;
 }
-
-span.navigation {
+div#menu #navigation {
+	width: 970px;
+	margin: 0 auto;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+}
+div#menu a {
+	display: block;
+	margin: 5px;
+	padding: 5px 15px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
 	}
-	span.navigation a:link, span.navigation a:visited, span.navigation span {
-		padding: 3px 17px;
-		margin: -2px 5px;
+	div#menu a:link,
+	div#menu a:visited {
+		color: #fff;
+		text-decoration: none;
 	}
-	span.navigation a.rss {
-		padding: 0;
-		margin: 0 -13px 0 4px;
-	}
-	span.navigation a:link, span.navigation a:visited {
-		color: #333;
-	}
-	span.navigation a:hover, span.navigation a:active {
-		color: #000;
-	}
-	span.navigation span {
-		background-color: #242426;
+	div#menu ul li a:active,
+	div#menu ul li a:hover {
+		background-color: #000;
 		color: #fff;
 }
-
-
-
-/* ===============[ Notices ]=============== */
-
-div.message {
-	background-color: #dfe2e9;
-	padding: 10px 10px;
-	border-bottom: 5px solid gray;
+div#menu a.logo {
+	font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
+	text-transform: none;
+	font-size: 1.1em;
 	}
-	div.message h3 a:link, div.message a:visited {
-		text-decoration: underline;
+	a.logo span {
+		color: #6C98CC;
+}
+div#menu a.control {
+	color: #ccc;
+}
+div#menu a.username {
+	max-width: 135px;
+	overflow: hidden;
 }
 
-p.notice_comment {
-	padding: 20px;
-	color: #00a3e0;
+
+
+/* ==============================
+      Footer
+   ============================== */
+
+div#footer {
+	clear: both;
+	
+	background-color: #343434;
+	text-align: center;
+	background-image: url("../images/bg_footer.png");
+	background-repeat: repeat-x;
+	position: absolute;
+	right: 0;
+	left: 0;
 }
+div#footer div.community_box {
+	text-align: left;
+	width: 201px;
+	border: 2px solid #222;
+	float: left;
+	margin: 10px;
+	background-color: #272727;
+	padding: 10px;
+	color: #666;
+}
+div#footer div.community_box a {
+	display: block;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 14px;
+	text-decoration: none;
+}
+div#footer div.community_box:hover {
+	border-color: white;
+	outline: thin solid black;
+}
+div#footer div#community_boxes {
+	width: 980px;
+	margin: 0 auto;
+}
+
+
+
+/* ==============================
+      Notices
+   ============================== */
 
 div.notice {
-	background-color: #f1f1f1;
-	padding: 5px 20px;
-	margin: 0 -20px 15px;
-	border: 0px solid #ccc;
-	border-width: 1px 0;
+	padding: 5px 10px 5px 32px;
+	margin: 0;
+	margin-bottom: 15px;
+
+	background-position: 10px center;
+	background-repeat: no-repeat;
+	background-color: whiteSmoke;
+	background-image: url('../images/silk/information.png') ;
+
+	border: 1px solid #DEDEDE;
+	border-top: 1px solid #EEE;
+	border-left: 1px solid #EEE;
+
+	line-height: 22px;
+	text-decoration: none;
 }
 
 #errorExplanation {
-	width: 400px;
 	border: 2px solid red;
-	padding: 7px;
-	padding-bottom: 12px;
+	padding: 10px;
+	padding-bottom: 0px;
 	margin-bottom: 20px;
 	background-color: #f0f0f0;
 	}
 	#errorExplanation h2 {
 		text-align: left;
 		font-weight: bold;
+		letter-spacing: 1px;
 		padding: 5px 5px 5px 15px;
 		font-size: 12px;
-		margin: -7px;
+		margin: -10px; 
+		margin-bottom: 10px;
 		background-color: #c00;
 		color: #fff;
 	}
 	#errorExplanation p {
 		color: #333;
-		margin-bottom: 0;
-		padding: 5px;
 	}
-	#errorExplanation ul li {
-		font-size: 12px;
+	#errorExplanation ul {
 		list-style: square;
+		list-style-position: inside;
 }
 
 
 
-/* ===============[ Sidebar ]=============== */
+/* ==============================
+      Sidebar
+   ============================== */
 
-#sidebar,
-#sidebar h2 {
+#sidebar {
 	margin-bottom: 10px;
-	font-size: 1.2em;
-	color: #333;
 }
 
 #sidebar ul {
@@ -259,8 +494,15 @@ div.notice {
 	#sidebar ul li {
 		list-style: none;
 	}
-	#sidebar ul li a {
+	#sidebar ul li a:link,
+	#sidebar ul li a:visited {
 		color: #666;
+	}
+	#sidebar ul li a:hover {
+		color: #336699;
+	}
+	#sidebar ul li a:active {
+		color: #fff;
 }
 
 #search {
@@ -268,61 +510,22 @@ div.notice {
 	padding: 2px;
 	margin: 0;
 
-	font-size: 1em;
+	font-size: inherit;
 	border: solid 1px #ddd;
 }
 
 
 
-/* ===============[ Sidebar Sites ]=============== */
-
-#sidebar ul li a div.tooltip {
-	display: none;
-}
-
-#sidebar ul li a:hover div.tooltip {
-	display: block;
-	position: absolute;
-	text-align: left;
-}
-
-#sidebar ul li a div.tooltip span {
-	display: block;
-	color: #999;
-	font-size: 0.8em;
-	font-weight: normal;
-}
-
-#sidebar ul li a div.tooltip {
-	font-weight: normal;
-	background-color: #333;
-	color: #fff;
-	border: 1px solid #000;
-	filter:alpha(opacity=90);
-	-moz-opacity:.90;
-	opacity:.90;
-	margin-left: 5.5em;
-	margin-top: -1em;
-	padding: 0px 3px;
-}
-
-
-
-/* ===============[ Manage Tables ]=============== */
+/* ==============================
+      Manage Tables
+   ============================== */
 
 div.manage_map {
-	}
-	div.manage_map a.controls {
-		color: #aaa;
-		margin-top: 10px;
-		}
-		div.manage_map a.controls:hover {
-			color: #00a3e0;
+	margin-bottom: 20px;
 	}
 	table.manage {
 		float: right;
 		text-align: center;
-		font-size: 1.1em;
 		clear: right;
 		color: #ccc;
 		border-collapse: collapse;
@@ -333,6 +536,8 @@ div.manage_map {
 			border-left: solid 1px #666;
 		}
 		table.manage th {
+			padding: 10px;
+			border-top: 1px solid #ccc;
 			color: #000;
 			font-weight: normal;
 		}
@@ -348,12 +553,12 @@ div.quote img {
 
 
 
-/* ===============[ CMX Form ]=============== */
+/* ==============================
+      CMX Form
+   ============================== */
 
 form.cmxform {
 	width: 500px;
-	font-size: 1.2em;
-	color: #666;
 }
 
 form.cmxform em {
@@ -362,11 +567,6 @@ form.cmxform em {
 }
 
 form.cmxform legend {
-}
-
-form.cmxform legend {
-	padding: 0 2px 10px 0;
-	color: #000;
 	_margin: 0 -7px; /* IE Win */
 }
 
@@ -384,7 +584,7 @@ form.cmxform fieldset {
 		padding: 0;
 		}
 		form.cmxform fieldset li {
-			padding: 5px 10px 7px;
+			padding: 0px 10px 10px 10px;
 			list-style: none;
 			margin: 0;
 }
@@ -403,9 +603,12 @@ form.cmxform div.form_sidenote ol {
 form.cmxform label {
 	display: -moz-inline-box; /* Fixes Firefox */
 	display: inline-block;
-	line-height: 1.8;
 	vertical-align: top;
 	width: 120px; /* Width of labels */
+}
+
+form.cmxform label small {
+	display: block;
 }
 	
 form.cmxform fieldset fieldset {
@@ -425,11 +628,7 @@ form.cmxform fieldset fieldset {
 form.cmxform input,
 form.cmxform select,
 form.cmxform textarea {
-	font-family: verdana, arial, helvetica, sans-serif;
-	font-weight: normal;
-	line-height: 18px;
 	border: solid 1px #ddd;
-	font-size: 1.3em;
 	padding: 2px;
 	color: #666;
 	width: 210px;
@@ -448,21 +647,17 @@ form.cmxform textarea {
 
 form.cmxform input.file {
 	width: 202px;
-	font-size: 0.8em;
 	padding: 6px;
 	border: solid 1px #ddd;
 }
 
 form.cmxform div.form_sidenote {
 	clear: right;
-	font-size: 0.8em;
 	float: right;
-	padding: 5px;
-	width: 120px;
-	background-color: #eee;
-	margin-right: -30px;
-	margin-top: 13px;
-	border: solid 1px #ddd;
+	padding: 0;
+	width: 180px;
+	margin-right: -50px;
+	margin-bottom: 15px;
 }
 
 form.cmxform div.fieldWithErrors {
@@ -471,43 +666,20 @@ form.cmxform div.fieldWithErrors {
 
 
 
-/* ===============[ Additional Form ]=============== */
-
-div.comment-block { /* Commenting drop down box */
-	padding-left: 20px;
-	border-left: 5px solid #00a3e0;
-}
-
-div.screenshot_upload, div.version_upload { 
-	margin-bottom: 40px; /* screenshot and version forms */
-}
-
-div.quote, div.screenshot_upload, div.version_upload {
-	color: #000;
-	padding-left: 20px;
-	border-left: 5px solid #333;
-	text-align: justify;
-}
-
-
-
-/* ===============[ Maps ]=============== */
+/* ==============================
+      Maps
+   ============================== */
 
 div.map {
+	margin-bottom: 40px;
 }
 
 div.sidenote {
 		float: right;
 		margin-top: 7px;
 	}
-	div.sidenote a:link, div.sidenote a:visited {
-		padding: 7px 27px;
-		color: #666;
-		border: 1px solid #ddd;
-	}
-	div.sidenote a:hover, div.sidenote a:active {
-		color: #00a3e0;
-		border: 1px solid #00a3e0;
+	div.sidenote .button {
+		margin: 0;
 }
 
 div.subnote {
@@ -526,10 +698,7 @@ div.subnote {
 }
 
 div.indent {
-	padding-left: 10px;
 	margin-top: 15px;
-	border-left: 3px solid #000;
-	text-align: justify;
 	}
 	div.indent img {
 		float: right;
@@ -540,7 +709,19 @@ div.indent {
 
 
 
-/* ===============[ Screenshots ]=============== */
+/* ==============================
+      Reviews
+   ============================== */
+
+div.review {
+	margin-bottom: 30px;
+}
+
+
+
+/* ==============================
+      Screenshots
+   ============================== */
 
 #map_screenshots {
 		margin-bottom: 110px;
@@ -587,7 +768,9 @@ div.indent {
 
 
 
-/* ===============[ Star Rating ]=============== */
+/* ==============================
+      Star Rating
+   ============================== */
 
 .star-rating{
 	float: right;
@@ -668,27 +851,39 @@ div.indent {
 
 
 
-/* ===============[ Pagination ]=============== */
+/* ==============================
+      Pagination
+   ============================== */
 
 .pagination {
 	padding: 3px;
 	margin: 3px;
 	text-align: center;
 	}
-	.pagination a {
-		padding: 2px 5px 2px 5px;
+	.pagination a, span.current {
+		background-color: whiteSmoke;
+		padding: 2px 5px;
 		margin: 2px;
-		border: 1px solid;
+		border: 1px solid #DEDEDE;
+		border-top: 1px solid #EEE;
+		border-left: 1px solid #EEE;
 		text-decoration: none;
+		line-height: 22px;
 		}
-		.pagination a:hover, .pagination a:active {
-				border: 1px solid #00a3e0;
+		.pagination a:hover {
+		    background-color: #dff4ff;
+		    border: 1px solid #c2e1ef;
+		    color: #336699;
+		}
+		.pagination a:active {
+		    background-color: #6299c5;
+		    border:1px solid #6299c5;
+		    color: #fff;
 	}
 	.pagination span.current {
-		padding: 2px 5px 2px 5px;
-		margin: 2px;
-		border: 1px solid #00a3e0;
-		color: #00a3e0;
+	    background-color: #6299c5;
+	    border:1px solid #6299c5;
+	    color: #fff;
 	}
 	.pagination span.disabled {
 		padding: 2px 5px 2px 5px;

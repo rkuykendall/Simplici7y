@@ -10,7 +10,7 @@ class Item < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :name, :body, :user_id
-  validates_format_of :name, :with => /\A[^<>]+\Z/i, :message => "Brackets are not allowed in the name."
+  validates_format_of :name, :with => /\A[^<>]+\Z/i, :message => "can not contain brackets."
 
   # we now add the to_param method which Rails's routing uses
   def to_param

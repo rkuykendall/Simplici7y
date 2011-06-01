@@ -9,47 +9,47 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080731230505) do
+ActiveRecord::Schema.define(:version => 20110530174301) do
 
   create_table "downloads", :force => true do |t|
-    t.integer  "user_id",    :limit => 11
-    t.integer  "version_id", :limit => 11
-    t.integer  "item_id",    :limit => 11
+    t.integer  "user_id"
+    t.integer  "version_id"
+    t.integer  "item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "items", :force => true do |t|
-    t.integer  "user_id",                :limit => 11
-    t.integer  "tc_id",                  :limit => 11
+    t.integer  "user_id"
+    t.integer  "tc_id"
     t.string   "name"
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "downloads_count",        :limit => 11, :default => 0,   :null => false
-    t.integer  "reviews_count",          :limit => 11, :default => 0,   :null => false
+    t.integer  "downloads_count",        :default => 0,   :null => false
+    t.integer  "reviews_count",          :default => 0,   :null => false
     t.string   "permalink"
-    t.integer  "screenshots_count",      :limit => 11, :default => 0,   :null => false
-    t.integer  "versions_count",         :limit => 11, :default => 0,   :null => false
+    t.integer  "screenshots_count",      :default => 0,   :null => false
+    t.integer  "versions_count",         :default => 0,   :null => false
     t.datetime "version_created_at"
-    t.float    "ratings_count",                        :default => 0.0
-    t.float    "ratings_weighted_count",               :default => 0.0
+    t.float    "ratings_count",          :default => 0.0
+    t.float    "ratings_weighted_count", :default => 0.0
   end
 
   create_table "reviews", :force => true do |t|
-    t.integer  "item_id",    :limit => 11
-    t.integer  "version_id", :limit => 11
-    t.integer  "user_id",    :limit => 11
+    t.integer  "item_id"
+    t.integer  "version_id"
+    t.integer  "user_id"
     t.string   "title"
     t.text     "body"
-    t.integer  "rating",     :limit => 11
+    t.integer  "rating"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "relevancy",  :limit => 11, :default => 0, :null => false
+    t.integer  "relevancy",  :default => 0, :null => false
   end
 
   create_table "screenshots", :force => true do |t|
-    t.integer  "item_id",    :limit => 11
+    t.integer  "item_id"
     t.string   "file"
     t.string   "title"
     t.datetime "created_at"
@@ -57,9 +57,9 @@ ActiveRecord::Schema.define(:version => 20080731230505) do
   end
 
   create_table "taggings", :force => true do |t|
-    t.integer "tag_id",        :limit => 11, :null => false
-    t.integer "taggable_id",   :limit => 11, :null => false
-    t.string  "taggable_type",               :null => false
+    t.integer "tag_id",        :null => false
+    t.integer "taggable_id",   :null => false
+    t.string  "taggable_type", :null => false
   end
 
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type"], :name => "index_taggings_on_tag_id_and_taggable_id_and_taggable_type", :unique => true
@@ -81,17 +81,18 @@ ActiveRecord::Schema.define(:version => 20080731230505) do
     t.string   "remember_token"
     t.datetime "remember_token_expires_at"
     t.string   "permalink"
-    t.integer  "admin",                     :limit => 11, :default => 0, :null => false
+    t.integer  "admin",                                   :default => 0, :null => false
   end
 
   create_table "versions", :force => true do |t|
-    t.integer  "item_id",         :limit => 11
+    t.integer  "item_id"
     t.string   "name"
     t.string   "file"
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "downloads_count", :limit => 11, :default => 0, :null => false
+    t.integer  "downloads_count", :default => 0, :null => false
+    t.string   "link"
   end
 
 end

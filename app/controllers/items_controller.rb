@@ -48,7 +48,7 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.save
         @item.tag_with params[:tags] if params[:tags]
-        flash[:notice] = "#{@item.name} was successfully added, upload the first revision below."
+        flash[:notice] = "<strong>#{@item.name}</strong> was successfully added, upload the first revision below."
       
         format.html { redirect_to new_item_version_url(@item) }
         format.xml do
@@ -92,6 +92,7 @@ class ItemsController < ApplicationController
     @item.destroy
 
     respond_to do |format|
+      flash[:notice] = "<strong>#{params[:id]}</strong> has been destroyed."
       format.html { redirect_back_or_default('/')   }
       format.xml  { render :nothing => true }
     end

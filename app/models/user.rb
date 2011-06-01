@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   validates_length_of       :login,    :within => 3..40
-  validates_format_of       :login,    :with => /\A[^<>]+\Z/i, :message => "Brackets are not allowed in usernames."
+  validates_format_of       :login,    :with => /\A[^<>]*\Z/i, :message => "can not contain brackets."
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   before_save :encrypt_password

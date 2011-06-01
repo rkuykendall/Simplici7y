@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
     elsif params[:id] == nil && @item && permission(@item)
       return true
     else
+      flash[:notice] = "Access denied."  
       access_denied
     end
   end

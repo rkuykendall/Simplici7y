@@ -17,7 +17,7 @@ class Tag < ActiveRecord::Base
   end
   
   # Change this validation if you need more complex tag names.
-  validates_format_of :name, :with => /^[a-zA-Z0-9\_\-]+$/, :message => "Can not contain special characters."
+  validates_format_of :name, :with => /^[a-zA-Z0-9\_\-]+$/, :message => "can not contain special characters."
   
   # Set up the polymorphic relationship.
   has_many_polymorphs :taggables, 

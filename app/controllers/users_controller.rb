@@ -68,8 +68,8 @@ class UsersController < ApplicationController
 private
 
   def users_before
-    access_denied unless permission(User.find_by_permalink(params[:id]))
-    @user = current_user
+    @user = User.find_by_permalink(params[:id])
+    access_denied unless permission(@user)
   end
 
 end

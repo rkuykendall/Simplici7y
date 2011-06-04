@@ -3,7 +3,7 @@ module VersionsHelper
     if version.file
       url = ( link_to 'Download', item_download_path(version.item), :class => 'button down' )
     elsif version.link
-      url = ( link_to 'Webpage', version.link, :class => 'button next', :target => "_blank" )
+      url = ( link_to 'Webpage', item_download_path(version.item), :class => 'button next', :target => "_blank" )
     else
       url = ""
     end

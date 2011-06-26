@@ -335,6 +335,10 @@ li {
 	.markdown strong {
 		font-weight: bold;
 	}
+	
+	.markdown p {
+	  overflow: hidden;
+	}
 
 /* ==============================
       Header Menu

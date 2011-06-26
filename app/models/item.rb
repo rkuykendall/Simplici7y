@@ -49,7 +49,7 @@ class Item < ActiveRecord::Base
 
   
   def self.search(search = '', page = 1, order = 'new')
-    paginate :page => page, :order => order_sql(order), :conditions => [ 'name LIKE ? AND versions_count > 0', "%#{search}%"  ]
+    paginate :page => page, :order => order_sql(order), :conditions => [ 'name LIKE ?', "%#{search}%"  ]
   end
   
   def self.find_by_tc(tc, search = '', page = 1, order = 'new')
@@ -57,7 +57,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.search_by_user(user, search = '', page = 1, order = 'new')
-    paginate :page => page, :order => order_sql(order), :conditions => [ 'name LIKE ? AND versions_count > 0 AND user_id = ?', "%#{search}%", user ]
+    paginate :page => page, :order => order_sql(order), :conditions => [ 'name LIKE ? AND user_id = ?', "%#{search}%", user ]
   end
 
 

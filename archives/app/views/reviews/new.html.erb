@@ -1,9 +1,0 @@
-<%= error_messages_for :child %>
-
-<% form_for(:child, :url => item_reviews_url(@item), :html => { :class => "cmxform", :id => "ratingform" }) do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f} %>
-  
-  <p>
-    <%= submit_tag "Create" %>
-  </p>
-<% end %>

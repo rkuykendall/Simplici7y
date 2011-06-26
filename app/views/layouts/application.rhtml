@@ -27,6 +27,7 @@
 				<li><%= link_to "Settings", edit_user_path(current_user), :class => 'control' %></li>
 				<li><%= link_to "Log out", logout_path, :class => 'control' %></li>
 			<% else %>
+				<li><%= link_to 'About', item_path('simplici7y') %></li>
 				<li><%= link_to "sign up", signup_path, :class => 'control' %></li>
 				<li><%= link_to "log in", login_path, :class => 'control' %></li>
 			<% end %>

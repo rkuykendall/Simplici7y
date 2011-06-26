@@ -10,7 +10,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml 
   def index
-    @items = Item.search(params[:search], params[:page])
+    @items = Item.search(params[:search], params[:page], params[:order])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -105,7 +105,7 @@ private
     raise ActiveRecord::RecordNotFound if @item == nil
 
     if @item.tc_id == 0
-      @items = Item.find_by_tc(@item, params[:search], params[:page])
+      @items = Item.find_by_tc(@item, params[:search], params[:page], params[:order])
       render :action => 'index'
     elsif action_name != 'destroy'
       @version = @item.find_version if @item.find_version

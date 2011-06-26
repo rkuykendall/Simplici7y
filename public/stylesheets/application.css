@@ -328,7 +328,13 @@ li {
 	
 	}
 
+	.markdown em {
+		font-style: italic;
+	}
 
+	.markdown strong {
+		font-weight: bold;
+	}
 
 /* ==============================
       Header Menu
@@ -423,6 +429,7 @@ div#footer .community_box span {
 div#footer .community_box:hover {
 	border-color: white;
 	outline: thin solid black;
+	background-color: #222;
 }
 div#footer div#community_boxes {
 	width: 980px;

@@ -15,7 +15,7 @@ class TagsController < ApplicationController
   # GET /tags/1.xml
   def show
     @tag = Tag.find_by_name(params[:id])
-    @items = @tag.items.search(params[:search], params[:page]) if @tag
+    @items = @tag.items.search(params[:search], params[:page], params[:order]) if @tag
     
     respond_to do |format|
       format.html { render :template => "items/index" }

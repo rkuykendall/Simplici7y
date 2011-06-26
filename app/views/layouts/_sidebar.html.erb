@@ -14,6 +14,18 @@
 		<ul><li><% form_tag(items_url, :method => :get) do %> <%= text_field_tag :search, params[:search] %> <% end %></li></ul>
 	<% end %>
 	
+	<h2>Sort by</h2>
+	<ul>
+		<%= content_tag(:li, ( link_to "New Downloads", params.merge(:order => :new) ) ) %>
+		<%= content_tag(:li, ( link_to "Most Downloaded", params.merge(:order => :popular) ) ) %>
+		<%= content_tag(:li, ( link_to "Best Reviewed", params.merge(:order => :best) ) ) %>
+		<%= content_tag(:li, ( link_to "Most Reviews", params.merge(:order => :loud) ) ) %>
+    
+		<%# content_tag(:li, ( link_to "Least updated", params.merge(:order => :old) ) ) %>
+		<%# content_tag(:li, ( link_to "Worst Reviewed", params.merge(:order => :worst) ) ) %>
+		<%# content_tag(:li, ( link_to "Fewest Downloads", params.merge(:order => :unpopular) ) ) %>
+		<%= content_tag(:li, ( link_to "Fewest Reviews", params.merge(:order => :quiet) ) ) %>
+	</ul>
 
 	<h2>Gameplay</h2>
 	<ul>

@@ -267,7 +267,7 @@ h1 {
 	h3 span { /* grey non-link part of the title */
 		color: #999;
 	}
-	h4, h4 a:link, h4 a:visited {
+	h4, h4 a {
 		margin: 0;
 		color: #aaa;
 }
@@ -435,7 +435,7 @@ div#footer .community_box:hover {
 	outline: thin solid black;
 	background-color: #222;
 }
-div#footer div#community_boxes {
+div#footer div#community {
 	width: 980px;
 	margin: 0 auto;
 }
@@ -793,7 +793,7 @@ div.review {
 	width: 125px;
 	height: 25px;
 	position: relative;
-	background: url('../images/star_rating.gif') top left repeat-x;		   
+	background: url('../images/star_rating.png') top left repeat-x;		   
 }
 
 .star-rating li{
@@ -814,18 +814,22 @@ div.review {
 		padding: 0px;
 		}
 		.star-rating li a:hover{
-			background: url('../images/star_rating.gif') left center;
+			background: url('../images/star_rating.png') left 75px;
 			z-index: 2;
 			left: 0px;
 			border:none;
 }
 
 .star-rating li.current-rating{
-	background: url('../images/star_rating.gif') left bottom;
+	background: url('../images/star_rating.png') left 75px;
 	height: 25px;
 	display: block;
 	text-indent: -9000px;
 	z-index: 1;
+}
+div.relevancy-2 .star-rating li.current-rating,
+div.relevancy-3 .star-rating li.current-rating {
+  background-position: left 25px;
 }
 
 .stat-rating a {

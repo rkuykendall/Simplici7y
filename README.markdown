@@ -27,4 +27,8 @@ When you push the project live, be sure to protect these files:
 + /public/version/
 + /public/screenshot/
 
+and ignore these files:
+
++ /log/
+
 Then restart the application: touch Simplici7y/tmp/restart.txt

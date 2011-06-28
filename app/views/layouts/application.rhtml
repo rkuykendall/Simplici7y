@@ -28,6 +28,7 @@
 				<li><%= link_to "Log out", logout_path, :class => 'control' %></li>
 			<% else %>
 				<li><%= link_to 'About', item_path('simplici7y') %></li>
+				<li><%= link_to 'Community', '#community' %></li>
 				<li><%= link_to "sign up", signup_path, :class => 'control' %></li>
 				<li><%= link_to "log in", login_path, :class => 'control' %></li>
 			<% end %>
@@ -63,7 +64,7 @@
 	
 	<div id="footer">
 		<img src="/images/big-logo.png">
-		<div id="community_boxes">
+		<div id="community">
 			<a href="http://www.simplici7y.com/items/simplici7y" class="community_box">
 				<span>Simplici7y</span> Aleph One file sharing website.
 			</a>

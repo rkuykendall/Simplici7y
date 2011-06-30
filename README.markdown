@@ -17,6 +17,10 @@ Getting Started
 
 If you had any problems, please let me know so I can add it here.
 
+For hourly, daily and monthly download rankings, add the following line to cron, substituting your own installation paths.
+
+    7 * * * * /usr/bin/env ruby /var/www/Simplici7y/script/runner /var/www/Simplici7y/app/hourly.rb
+
 Pushing Live
 ------------
 

@@ -63,18 +63,18 @@ html, body {
 }
 
 #container {
-	width: 770px;
-	padding-right: 200px;
+	width: 960px;
 	margin: 0 auto;
 }
 
-#content { /*  510px in the end */
+#content { /* 480px in the end, half */
+  width: 460px;
 	margin-left: 240px;
-	margin-right: 20px;
+  padding-left: 20px;
 }
 
-#sidebar {
-	width: 200px;
+#sidebar {  /* 240px in the end, one fourth */
+	width: 220px;
 	margin-left: 20px;
 	float: left;
 	display: inline; /* floats are handled as block elements, this is to fix 
@@ -89,11 +89,11 @@ hr {
 	clear: both;
 	}
 	#content hr {
-		width: 510px;
+		width: 460px;
 		clear: right;
 	}
 	#sidebar hr {
-		width: 200px;
+		width: 220px;
 		clear: left;
 	}
 
@@ -317,15 +317,12 @@ li {
 		padding: 0 0 0 0;
 	}
 
-	.markdown ul {
-		list-style-type: circle;
-		list-style-position: outside;
+	.markdown ol {
+		list-style: decimal outside;
 	}
 
-	.markdown ol {
-		list-style-type: decimal;
-		list-style-position: outside;
-	
+	.markdown ul {
+		list-style: circle outside;
 	}
 
 	.markdown em {
@@ -338,6 +335,9 @@ li {
 	
 	.markdown p {
 	  overflow: hidden;
+	}
+	.markdown li p {
+    overflow: visible;
 	}
 
 /* ==============================
@@ -357,7 +357,7 @@ div#menu ul li {
 	margin: 0;
 }
 div#menu #navigation {
-	width: 970px;
+	width: 960px;
 	margin: 0 auto;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
 }

@@ -15,7 +15,7 @@
 					<%= content_tag(:h5, "Notes for version "+clean(version.name)+":") if version.body != "" %>
 					<%= format(version.body) %>
 
-					<h4 style="clear: right; margin: 0 0 2px 0">
+					<h4>
 						<%= pluralize(item.downloads.size, 'download') %>, 
 						<%= pluralize(item.reviews.size, 'review') %>, 
 						<%= pluralize(item.screenshots.size, 'screenshot') %>, 

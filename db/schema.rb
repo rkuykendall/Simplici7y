@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110530174301) do
+ActiveRecord::Schema.define(:version => 20110626215610) do
 
   create_table "downloads", :force => true do |t|
     t.integer  "user_id"
@@ -34,6 +34,9 @@ ActiveRecord::Schema.define(:version => 20110530174301) do
     t.datetime "version_created_at"
     t.float    "ratings_count",          :default => 0.0
     t.float    "ratings_weighted_count", :default => 0.0
+    t.integer  "downloads_day_count",    :default => 0,   :null => false
+    t.integer  "downloads_week_count",   :default => 0,   :null => false
+    t.integer  "downloads_month_count",  :default => 0,   :null => false
   end
 
   create_table "reviews", :force => true do |t|

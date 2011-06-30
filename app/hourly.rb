@@ -22,7 +22,6 @@ class Hourly < ActiveRecord::Base
 
   puts "Finished!"
 
-
   # Code from downloads development
   # after_filter :calculate_counts
   #

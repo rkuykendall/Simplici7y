@@ -21,15 +21,17 @@ class Item < ActiveRecord::Base
     10
   end
 
-  def self.order_sql(k)
+  def self.order_sql(k, conditions)
     if k == 'new'
       "version_created_at DESC"
     elsif k == 'old'
       "version_created_at ASC"
  
     elsif k == 'best'
+      conditions[0] += ' AND reviews_count > 0'
       "ratings_weighted_count DESC"
     elsif k == 'worst'
+      conditions[0] += ' AND reviews_count > 0'
       "ratings_weighted_count ASC"
 
     elsif k == 'popular'
@@ -37,7 +39,18 @@ class Item < ActiveRecord::Base
     elsif k == 'unpopular'
       "downloads_count ASC"
 
+    elsif k == 'day'
+      conditions[0] += ' AND downloads_day_count > 0'
+      "downloads_day_count DESC"
+    elsif k == 'week'
+      conditions[0] += ' AND downloads_week_count > 0'
+      "downloads_week_count DESC"
+    elsif k == 'month'
+      conditions[0] += ' AND downloads_month_count > 0'
+      "downloads_month_count DESC"
+
     elsif k == 'loud'
+      conditions[0] += ' AND reviews_count > 0'
       "reviews_count DESC"
     elsif k == 'quiet'
       "reviews_count ASC"
@@ -48,28 +61,23 @@ class Item < ActiveRecord::Base
   end
 
   
-  def self.search(search = '', page = 1, order = 'new')
-    paginate :page => page, :order => order_sql(order), :conditions => [ 'name LIKE ? AND versions_count > 0', "%#{search}%"  ]
-  end
-  
-  def self.find_by_tc(tc, search = '', page = 1, order = 'new')
-    paginate :page => page, :order => order_sql(order), :conditions => [ 'name LIKE ? AND versions_count > 0 AND tc_id = ?', "%#{search}%", tc.id ]
-  end
+  def self.search(search = '', page = 1, order = 'new', tc = nil, user = nil)
+    conditions = [ 'name LIKE ?', "%#{search}%" ]
 
-  def self.search_by_user(user, search = '', page = 1, order = 'new')
-    paginate :page => page, :order => order_sql(order), :conditions => [ 'name LIKE ? AND user_id = ?', "%#{search}%", user ]
+    if(!user)
+      conditions[0] += ' AND versions_count > 0'
+    end
+
+    if (tc)
+      conditions[0] += ' AND tc_id = ?'
+      conditions <<  tc.id
+    elsif(user)
+      conditions[0] += ' AND user_id = ?'
+      conditions <<  user
+    end
+      
+    paginate :page => page, :order => order_sql(order,conditions), :conditions => conditions
   end
-
-
-  # def self.find_popular(args = {})
-  #   find(:all, :select => 'tags.*, count(*) as popularity', 
-  #     :limit => args[:limit] || 10,
-  #     :joins => "JOIN taggings ON taggings.tag_id = tags.id",
-  #     :conditions => args[:conditions],
-  #     :group => "taggings.tag_id", 
-  #     :order => "popularity DESC"  )
-  # end
-  
 
     
   def find_version

@@ -105,7 +105,7 @@ private
     raise ActiveRecord::RecordNotFound if @item == nil
 
     if @item.tc_id == 0
-      @items = Item.find_by_tc(@item, params[:search], params[:page], params[:order])
+      @items = Item.search(params[:search], params[:page], params[:order], @item, nil)
       render :action => 'index'
     elsif action_name != 'destroy'
       @version = @item.find_version if @item.find_version

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @items = Item.search_by_user(current_user, params[:search], params[:page], params[:order])
+    @items = Item.search(params[:search], params[:page], params[:order], nil, current_user)
     
     respond_to do |format|
       format.html # index.rhtml
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @user = User.find_by_permalink(params[:id])
-    @items = Item.search_by_user(@user, params[:search], params[:page], params[:order])
+    @items = Item.search(params[:search], params[:page], params[:order], nil, @user)
     
     respond_to do |format|
       if current_user && current_user.admin == 1

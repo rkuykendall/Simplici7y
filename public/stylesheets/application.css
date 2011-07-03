@@ -67,18 +67,18 @@ html, body {
 	margin: 0 auto;
 }
 
-#content { /* 480px in the end, half */
+.content { /* 480px in the end, half */
   width: 460px;
-	margin-left: 240px;
   padding-left: 20px;
+  float: left;
 }
 
-#sidebar {  /* 240px in the end, one fourth */
+.sidebar {  /* 240px in the end, one fourth */
 	width: 220px;
 	margin-left: 20px;
 	float: left;
 	display: inline; /* floats are handled as block elements, this is to fix 
-						a margin collapsing bug in IE */
+					          	a margin collapsing bug in IE */
 }
 
 hr {
@@ -88,11 +88,11 @@ hr {
 	width: 970px;
 	clear: both;
 	}
-	#content hr {
+	.content hr {
 		width: 460px;
 		clear: right;
 	}
-	#sidebar hr {
+	.sidebar hr {
 		width: 220px;
 		clear: left;
 	}
@@ -222,7 +222,7 @@ h4, h5 {
 	margin-bottom: 2px;
 }
 
-#sidebar { 
+.sidebar { 
 	font-size: 14px;
 	color: #333;
 }
@@ -390,7 +390,7 @@ div#menu a.control {
 	color: #ccc;
 }
 div#menu a.username {
-	max-width: 135px;
+	max-width: 125px;
 	overflow: hidden;
 }
 
@@ -447,11 +447,12 @@ div#footer div#community {
    ============================== */
 
 div.notice {
-	padding: 5px 10px 5px 32px;
+	padding: 7px 10px 7px 42px;
 	margin: 0;
 	margin-bottom: 15px;
+	font-size: 16px;
 
-	background-position: 10px center;
+	background-position: 20px center;
 	background-repeat: no-repeat;
 	background-color: whiteSmoke;
 	background-image: url('../images/silk/information.png') ;
@@ -496,24 +497,24 @@ div.notice {
       Sidebar
    ============================== */
 
-#sidebar {
+.sidebar {
 	margin-bottom: 10px;
 }
 
-#sidebar ul {
+.sidebar ul {
 	margin-bottom: 20px;
 	}
-	#sidebar ul li {
+	.sidebar ul li {
 		list-style: none;
 	}
-	#sidebar ul li a:link,
-	#sidebar ul li a:visited {
+	.sidebar ul li a:link,
+	.sidebar ul li a:visited {
 		color: #666;
 	}
-	#sidebar ul li a:hover {
+	.sidebar ul li a:hover {
 		color: #336699;
 	}
-	#sidebar ul li a:active {
+	.sidebar ul li a:active {
 		color: #fff;
 }
 
@@ -570,7 +571,8 @@ div.quote img {
    ============================== */
 
 form.cmxform {
-	width: 500px;
+	width: 560px;
+	padding: 30px 200px 0 200px;
 }
 
 form.cmxform em {
@@ -596,7 +598,7 @@ form.cmxform fieldset {
 		padding: 0;
 		}
 		form.cmxform fieldset li {
-			padding: 0px 10px 10px 10px;
+			padding: 0px 10px 10px 0px;
 			list-style: none;
 			margin: 0;
 }
@@ -616,7 +618,7 @@ form.cmxform label {
 	display: -moz-inline-box; /* Fixes Firefox */
 	display: inline-block;
 	vertical-align: top;
-	width: 120px; /* Width of labels */
+	width: 145px; /* Width of labels */
 }
 
 form.cmxform label small {
@@ -653,6 +655,9 @@ form.cmxform textarea {
 		background-color: #f0f0f0;
 		width: 208px;
 	}
+	input[type=checkbox] {
+	  margin: 0;
+	}
 	form.cmxform textarea.summary {
 		height: 200px;
 }
@@ -668,7 +673,6 @@ form.cmxform div.form_sidenote {
 	float: right;
 	padding: 0;
 	width: 180px;
-	margin-right: -50px;
 	margin-bottom: 15px;
 }
 
@@ -735,49 +739,21 @@ div.review {
       Screenshots
    ============================== */
 
-#map_screenshots {
-		margin-bottom: 110px;
-	}
-	#map_screenshots div {
-		border: solid 1px #000;
-		width: 160px;
-		height: 90px;
-		text-align: center;
-		background-color: #000;
-		margin: 4px;
-		padding: 0;
-		margin-bottom: -60px;
-	}
-	#map_screenshots img.removescreenshot {
-		float: right;
-		position: relative;
-		bottom: 20px;
-		right: 4px;
-	}
-	#map_screenshots div#map_screenshots_list {
-		border: none;
-		background-color: #fff;
-		margin: 0;
-	}
-	div.screenshot_column_2 {
-			position: relative;
-			right: -170px;
-			top: -35px;
-		}
-		div.screenshot_column_3 {
-			position: relative;
-			right: -340px;
-			top: -70px;
-	}
-	div#map_screenshots span {
-		background-color: #000;
-		color: #fff;
-		display: block;
-		padding: 2px 1px;
-		margin: 0 -1px;
-		font-size: 0.8em;
+.screenshots img {
+  background-color: black;
+  margin-bottom: 15px;
 }
 
+.screenshots h3 {
+  margin-bottom: 5px;
+}
+
+.ss_edit {
+  width: 186px;
+  padding-left: 10px;
+  height: 275px;
+  float: left;
+}
 
 
 /* ==============================
@@ -872,6 +848,8 @@ div.relevancy-3 .star-rating li.current-rating {
    ============================== */
 
 .pagination {
+  width: 960px;
+  clear: both;
 	padding: 3px;
 	margin: 3px;
 	text-align: center;

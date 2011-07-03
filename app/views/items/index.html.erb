@@ -1,33 +1,52 @@
-<% if @items != nil %>
-	<% for item in @items %>
-		<% version = item.find_version %>
-		<% screenshot = item.rand_screenshot %>
+<div class="sidebar">
+	<%= render :partial => "layouts/sort" %>
+	<hr />
+</div>
 
-		<% if version != nil %>
-			<div class="map">
-				<%= download_button(version) %>
-				<h3><%= link_to clean(item.name), item_path(item) %> <%= clean(version.name) %></h3>
-				<h4><%= link_to clean(item.user.login), user_path(item.user) %> on <%= item.version_created_at.to_s(:readable_short) %></h4>
-				<div class="indent markdown">
-					<%= link_to ( image_tag url_for_file_column(screenshot, "file", "thumb")),  item_path(item) if screenshot %>
-					<%= format(item.body) %>
+<div class="content">			
+
+  <% if @items != nil %>
+  	<% for item in @items %>
+  		<% version = item.find_version %>
+  		<% screenshot = item.rand_screenshot %>
+
+  		<% if version != nil %>
+  			<div class="map">
+  				<%= download_button(version) %>
+  				<h3><%= link_to clean(item.name), item_path(item) %> <%= clean(version.name) %></h3>
+  				<h4><%= link_to clean(item.user.login), user_path(item.user) %> on <%= item.version_created_at.to_s(:readable_short) %></h4>
+  				<div class="indent markdown">
+  					<%= link_to ( image_tag url_for_file_column(screenshot, "file", "thumb")),  item_path(item) if screenshot %>
+  					<%= format(item.body) %>
 				
-					<%= content_tag(:h5, "Notes for version "+clean(version.name)+":") if version.body != "" %>
-					<%= format(version.body) %>
+  					<%= content_tag(:h5, "Notes for version "+clean(version.name)+":") if version.body != "" %>
+  					<%= format(version.body) %>
 
-					<h4>
-						<%= pluralize(item.downloads.size, 'download') %>, 
-						<%= pluralize(item.reviews.size, 'review') %>, 
-						<%= pluralize(item.screenshots.size, 'screenshot') %>, 
-						<%= "%.1f" % item.ratings_count %> rating 
-						</h4>
-				</div>
-			</div>
-			<hr />
-		<% end %>
-	<% end %>
+  					<h4>
+  						<%= pluralize(item.downloads.size, 'download') %>, 
+  						<%= pluralize(item.reviews.size, 'review') %>, 
+  						<%= pluralize(item.screenshots.size, 'screenshot') %>, 
+  						<%= "%.1f" % item.ratings_count %> rating 
+  						</h4>
+  				</div>
+  			</div>
+  			<hr />
+  		<% end %>
+  	<% end %>
+  <% else %>
+  	<p>Nothing to see here, move along...</p>
+  <% end %>
 
-	<%= will_paginate @items, :next_label => 'Next', :previous_label => 'Previous' %>
-<% else %>
-	<p>Nothing to see here, move along...</p>
-<% end %>
+	<hr />
+</div>
+
+<div class="sidebar">
+	<%= render :partial => "layouts/tags" %>
+	<hr />
+</div>
+
+<hr />
+
+<%= will_paginate @items, :next_label => 'Next', :previous_label => 'Previous' %>
+
+<hr />

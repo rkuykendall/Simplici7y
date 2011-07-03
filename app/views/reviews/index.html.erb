@@ -1,3 +1,12 @@
-<%= render :partial => 'show', :collection => @reviews %>
+<div class="sidebar">
+	<%= render :partial => "layouts/tags" %>
+	<hr />
+</div>
+
+<div class="content">
+  <%= render :partial => 'show', :collection => @reviews %>
+</div>
 
 <%= will_paginate @reviews, :next_label => 'Next', :previous_label => 'Previous' %>
+
+<hr />

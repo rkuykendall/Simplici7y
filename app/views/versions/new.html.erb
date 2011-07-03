@@ -1,6 +1,7 @@
-<%= error_messages_for :child %>
 
 <% form_for(:child, :url => item_versions_url(@item), :html => { :multipart => true, :class => "cmxform" }) do |f| %>
+
+  <%= error_messages_for :child %>
 
   <%= render :partial => 'form', :locals => {:f => f} %>
   

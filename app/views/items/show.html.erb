@@ -1,3 +1,5 @@
+<div class="content">			
+
 			<div class="map">
 				<%= download_button(@version) %>
 				<h3><%= clean(@item.name) %>  <span><%= clean(@version.name) %></span></h3>
@@ -33,25 +35,29 @@
 				<% end %>
 			</div>
 
-			<hr />
-
-			<div id="map_screenshots">
-				<%= content_tag(:h3, "Screenshots") if @screenshots.length.to_i > 0 %>
-				<%= link_to "Manage screenshots", item_screenshots_url(@item), :class => 'button next' if permission(@item) %>
-				<% for screenshot in @screenshots %>
-					<div class="screenshot_column_<%= cycle("1","2","3") %>">
-						<%= link_to((image_tag url_for_file_column(screenshot, "file", "thumb")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />
-						<span><%= clean(screenshot.title) %></span>
-					</div>
-				<% end %>
-			</div>
-			<hr />
-
 			<div id="map_reviews">
-				<%= content_tag(:h3, "Reviews") %>
-				<%= link_to "Write a review", new_item_review_url(@item), :class => 'button positive add' %>
-				<hr />
-
 				<%= render :partial => "reviews/show", :collection => @reviews %>
+				<%= link_to "Write a review", new_item_review_url(@item), :class => 'button positive add' %>
 			</div>
 			
+</div>
+
+<div class="content screenshots">
+
+    <% if permission(@item) %>
+      <div class="sidenote"><%= link_to "Manage screenshots", item_screenshots_url(@item), :class => 'button next' %></div>	<hr />
+    <% end %>
+
+		<% for screenshot in @screenshots %>
+		  <h3><%= clean(screenshot.title) %></h3>
+			<%= link_to((image_tag url_for_file_column(screenshot, "file", "content")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />
+		<% end %>
+
+	  <h3></h3>
+    <%= image_tag '/images/no-screenshots.png' if @screenshots.count < 1 %>
+
+	<hr />
+
+</div>
+
+<hr />

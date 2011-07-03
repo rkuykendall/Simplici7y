@@ -59,6 +59,20 @@ class Item < ActiveRecord::Base
       "version_created_at DESC"
     end
   end
+  
+  
+  # This is that passing params thing
+  
+  # @tags = Tag.find_popular(:limit => 50)     
+  
+  # def self.find_popular(args = {})
+  #   find(:all, :select => 'tags.*, count(*) as popularity', 
+  #     :limit => args[:limit] || 10,
+  #     :joins => "JOIN taggings ON taggings.tag_id = tags.id",
+  #     :conditions => args[:conditions],
+  #     :group => "taggings.tag_id", 
+  #     :order => "popularity DESC"  )
+  # end
 
   
   def self.search(search = '', page = 1, order = 'new', tc = nil, user = nil)

@@ -1,28 +1,28 @@
-<%= error_messages_for :session %>
-
-
 
 <% form_tag sessions_path, :class => 'cmxform' do -%>
 
-<fieldset>
-	<legend>Log in</legend>
+  <%= error_messages_for :session %>
 
-	<p>If you registered before July 28th 2008, you are awesome. Also, your password might not work, so send me an email using the link in the sidebar.</p>
+  <fieldset>
 
-	<ol>
-		<li>
-			<label for="user_login">Username</label>
-			<%= text_field_tag 'login' %>
-		</li>
-		<li>
-			<label for="user_password">Password</label>
-			<%= password_field_tag 'password' %>
-		</li>
-		<li>
-			<label for="user_remember_me">Remember me</label>
-			<%= check_box_tag 'remember_me' %>
-		</li>
-	</ol>
+  	<legend>Log in</legend>
+
+  	<p>If you registered before July 28th 2008, you are awesome. <br />Also, your password might not work, so send me an email using the link in the sidebar.</p>
+
+  	<ol>
+  		<li>
+  			<label for="user_login">Username</label>
+  			<%= text_field_tag 'login' %>
+  		</li>
+  		<li>
+  			<label for="user_password">Password</label>
+  			<%= password_field_tag 'password' %>
+  		</li>
+  		<li>
+  			<label for="user_remember_me">Remember me</label>
+  			<%= check_box_tag 'remember_me' %>
+  		</li>
+  	</ol>
 
 	</fieldset>
 

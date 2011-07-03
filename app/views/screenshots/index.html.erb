@@ -1,19 +1,24 @@
-<h3>Screenshots for <%= link_to @item.name, item_url(@item) %></h3>
-	
-<h2><%= link_to 'New screenshot', new_item_screenshot_path(@item), :class => 'button positive add-image' %></h2>
+<h2>Screenshots for <%= link_to @item.name, item_url(@item) %></h2>
+
 
 <% if @screenshots != nil %>
 	<% for screenshot in @screenshots %>
-		<p><%= link_to((image_tag url_for_file_column(screenshot, "file", "thumb")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />	
-		<% if screenshot.title != '' %>
-			<%= clean(screenshot.title) %>
-		<% else %>
-			Untitled
-		<% end %>
-		( <%= link_to 'edit', edit_item_screenshot_path(@item, screenshot) %>,
-		<%= link_to 'delete', item_screenshot_path(@item, screenshot), :confirm => "Are you sure you want to delete?", :method => :delete %>,
-		<%= link_to 'full', url_for_file_column(screenshot, "file") %> )</p>
+		<div class="ss_edit">
+  		<%= link_to((image_tag url_for_file_column(screenshot, "file", "thumb")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />
+  		<p>
+    		<%= clean(screenshot.title) if screenshot.title != ''  %><br />
+    		<%= link_to 'edit', edit_item_screenshot_path(@item, screenshot) %>,
+    		<%= link_to 'delete', item_screenshot_path(@item, screenshot), :confirm => "Are you sure you want to delete?", :method => :delete %>,
+    		<%= link_to 'full', url_for_file_column(screenshot, "file") %>
+  		</p>
+    </div>
 	<% end %>
 <% else %>
 	Nothing to see here, move along...
 <% end %>
+
+<div class="ss_edit">
+<%= link_to 'New screenshot', new_item_screenshot_path(@item), :class => 'button positive add-image' %>
+</div>
+
+<hr />

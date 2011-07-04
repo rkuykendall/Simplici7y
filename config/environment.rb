@@ -83,6 +83,9 @@ end
 gem 'sanitize', '~> 2.0.1'
 require 'sanitize'
 
+gem 'gravtastic'
+require 'gravtastic'
+
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   :readable_long => lambda { |time| time.strftime("%A the #{time.day.ordinalize} of %B, %Y") },

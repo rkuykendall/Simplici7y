@@ -13,16 +13,16 @@
 	<link rel="icon" type="image/png" href="/images/favicon.png"/>
 </head>
 
-<body>
+<body class="<%= controller.controller_name + ' ' + controller.action_name %>">
 	<div id="menu">
 		<ul id="navigation">
 			<li><a href="/" class="logo">Simplici<span>7</span>y</a></li>
 			<li><%= link_to('Downloads', items_path); %></li>
 			<li><%= link_to('Reviews', reviews_path) %></li>
+			<li><%= link_to "Users", users_path %></li>
 
 			<% if logged_in? %>	
 				<li><%= link_to clean(current_user.login), user_path(current_user), :class => 'username' %></li>
-				<li><%= link_to "Uploads", users_path, :class => 'control' %></li>
 				<li><%= link_to "Submit", new_item_path, :class => 'control' %></li>
 				<li><%= link_to "Settings", edit_user_path(current_user), :class => 'control' %></li>
 				<li><%= link_to "Log out", logout_path, :class => 'control' %></li>

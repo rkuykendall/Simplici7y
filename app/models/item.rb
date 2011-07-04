@@ -7,7 +7,7 @@ class Item < ActiveRecord::Base
   has_many :downloads, :dependent => :destroy
   has_many :reviews
   
-  belongs_to :user
+  belongs_to :user, :counter_cache => true
   
   validates_presence_of :name, :body, :user_id
   validates_format_of :name, :with => /\A[^<>]+\Z/i, :message => "can not contain brackets."

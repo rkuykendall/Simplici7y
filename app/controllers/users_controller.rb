@@ -5,11 +5,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @items = Item.search(params[:search], params[:page], params[:order], nil, current_user)
+    @users = User.find(:all, :order => 'admin DESC, login ASC', :conditions => [ 'items_count > 1 OR reviews_count > 1' ])
     
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @items.to_xml }
+      format.xml  { render :xml => @users.to_xml }
     end
   end
 
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       if current_user && current_user.admin == 1
-        format.html { render :action => "index" }
+        format.html { render :action => "show" }
       else
         format.html { render :template => "items/index" }
       end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110626215610) do
+ActiveRecord::Schema.define(:version => 20110703232022) do
 
   create_table "downloads", :force => true do |t|
     t.integer  "user_id"
@@ -85,6 +85,8 @@ ActiveRecord::Schema.define(:version => 20110626215610) do
     t.datetime "remember_token_expires_at"
     t.string   "permalink"
     t.integer  "admin",                                   :default => 0, :null => false
+    t.integer  "items_count",                             :default => 0
+    t.integer  "reviews_count",                           :default => 0
   end
 
   create_table "versions", :force => true do |t|

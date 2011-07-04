@@ -13,13 +13,10 @@
 		<% url = item_url(params[:id]) %>
 	<% end %>
 
-  <h2>Search &amp; Sorting</h2>
+  <h2><% form_tag(url, :method => :get) do %> <%= text_field_tag :search, params[:search], :placeholder => placeholder %> <% end %></h2>
 
-	<ul>
-		<%= content_tag(:li, ( link_to "New Submissions", params.merge(:order => :new) ) ) %>
-	  <li><% form_tag(url, :method => :get) do %> <%= text_field_tag :search, params[:search], :placeholder => placeholder %> <% end %></li>
+		<%# content_tag(:li, ( link_to "New Submissions", params.merge(:order => :new) ) ) %>
 		<%# content_tag(:li, ( link_to "Least updated", params.merge(:order => :old) ) ) %>
-  </ul>
 
 	<h2>Sort by User Reviews</h2>
 	<ul>

@@ -12,6 +12,11 @@ class ItemsController < ApplicationController
   def index
     @items = Item.search(params[:search], params[:page], params[:order])
 
+    users = User.find(:all, :conditions => [ "login LIKE ?", "%#{params[:search]}%" ] )
+    if users.count == 1
+  	    flash[:notice] = "Were you looking for <a href='#{user_path(users.first.permalink)}'>#{users.first.login}</a>?"
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.rss { render :action => 'index.xml.builder' }

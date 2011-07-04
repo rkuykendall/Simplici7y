@@ -519,9 +519,10 @@ div.notice {
 }
 
 #search {
-	width: 120px;
+	width: 180px;
 	padding: 2px;
 	margin: 0;
+	margin-bottom: 15px;
 
 	font-size: inherit;
 	border: solid 1px #ddd;
@@ -733,6 +734,27 @@ div.review {
 	margin-bottom: 30px;
 }
 
+
+/* ==============================
+      Users
+   ============================== */
+
+div.user {
+	width: 160px;
+	padding: 10px;
+	margin: 5px;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #bbb;
+	overflow: hidden;
+	float: left;
+}
+
+
+body.users.index #container a {
+  text-decoration: none;
+}
 
 
 /* ==============================

@@ -1,11 +1,13 @@
+
+
 <div class="sidebar">
 	<%= render :partial => "layouts/sort" %>
 	<hr />
 </div>
 
-<div class="content">			
+<div class="content">
 
-  <% if @items != nil %>
+  <% if @items != nil and @items.count > 0 %>
   	<% for item in @items %>
   		<% version = item.find_version %>
   		<% screenshot = item.rand_screenshot %>
@@ -34,7 +36,7 @@
   		<% end %>
   	<% end %>
   <% else %>
-  	<p>Nothing to see here, move along...</p>
+  	<p>There are no results to display.</p>
   <% end %>
 
 	<hr />

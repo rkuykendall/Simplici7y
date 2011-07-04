@@ -1,11 +1,15 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  include Gravtastic
+  is_gravtastic :email
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
   # title is the field name you want to convert to a permalink
   has_permalink :login 
   # you can also specifiy a different permalink field in your database by giving a second paramater
   # has_permalink :title, :my_permalink_field
+
 
   # we now add the to_param method which Rails's routing uses
   def to_param

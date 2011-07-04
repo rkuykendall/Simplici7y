@@ -1,12 +1,16 @@
 		<fieldset>
-			<legend>Basic Information</legend>
+			<legend>Item Information</legend>
+  
 			<div class="form_sidenote">
-				Items on Simplici7y consist of basic information, and version-specific information. Basic information shouldn't change with each new version. Put information about your changes in the version release notes.
-			</div>
-			<div class="form_sidenote">
-				<u>Suggested tags</u><br />(separate with spaces)</small><br />
-				<b>File Types:</b> map script utility film<br />
-				<b>Gameplay:</b> emfh koth ktmwtb emfhs solocoop</a><br />
+        <p>You can use Simplici7y to share something with the Aleph One community.</p>
+  
+  	    <p>Items on Simplici7y consist of <strong>item information</strong>, and <strong>version information</strong>.</p>
+  	    
+  	    <p><strong>Item information</strong> shouldn't change with each new version. Put information about your changes in the version release notes on the next page.</p>
+
+				<p>You can tag your item with 
+				<strong>file types</strong> like map, scenario, plugin, enhancement, script, physics and utility, or
+				<strong>gameplay types</strong> like emfh, solocoop, koth, ktmwtb, ctf and survival to help people find it.</p>
 			</div>
 
 			<ol>
@@ -19,11 +23,11 @@
 					<%= f.collection_select(:tc_id, Tag.find_by_name('scenario').items, :id, :name, { :include_blank => true }) if Tag.find_by_name('scenario') %>
 				</li>
 				<li>
-					<label for="tags">Tags</label>
+					<label for="tags">Tags <small>separate with spaces</small></label>
 					<%= text_field_tag 'tags', @item.tag_list %>
 				</li>
 				<li>
-					<label for="item_body">Body <em>*</em> <small><a href="http://daringfireball.net/projects/markdown/basics">advanced formatting</a></small></label>
+					<label for="item_body">Body <em>*</em> <small><a href="http://daringfireball.net/projects/markdown/basics" target="_blank">advanced formatting</a></small></label>
 					<%= f.text_area :body, :class => 'summary' %>
 				</li>
 			</ol>

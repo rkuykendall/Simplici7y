@@ -10,7 +10,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml 
   def index
-    @items = Item.search(params[:search], params[:page], params[:order])
+    @items = Item.search(params)
 
     users = User.find(:all, :conditions => [ "login LIKE ?", "%#{params[:search]}%" ] )
     if users.count == 1
@@ -110,7 +110,7 @@ private
     raise ActiveRecord::RecordNotFound if @item == nil
 
     if @item.tc_id == 0
-      @items = Item.search(params[:search], params[:page], params[:order], @item, nil)
+      @items = Item.search(params.merge!({:user => @user, :tc => @item}))
       render :action => 'index'
     elsif action_name != 'destroy'
       @version = @item.find_version if @item.find_version

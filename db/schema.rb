@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110703232022) do
+ActiveRecord::Schema.define(:version => 20110704185846) do
 
   create_table "downloads", :force => true do |t|
     t.integer  "user_id"

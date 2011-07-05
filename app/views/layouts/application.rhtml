@@ -41,15 +41,10 @@
 	<div id="container">
 		<% if flash[:notice] %>
 				<div class="notice"><%= flash[:notice] %></div>
-    <% else %>
-      <div class="notice">
-			  All maps and reviews submitted July 2nd were lost while updating S7. I am sorry for losing anything you wrote that day.
-			</div>  
-    <% end %>
-
-    <% if true %>
 		<% elsif !logged_in? %>	
 				<div class="notice">
+					Welcome to Simplici7y, file sharing for the
+					<a href="http://marathon.sourceforge.net/" target="blank">Aleph One</a> community. 
 					<%= link_to "Sign up", signup_url %> or 
 					<%= link_to "log in", login_url %>
 					to start adding and reviewing files.
@@ -57,6 +52,7 @@
 		<% end %>
 
 		<%= yield  %>
+    <hr />
 	</div>
 	
 	<div id="footer">

@@ -1,3 +1,4 @@
+
 /* ==============================
       Meyer CSS Reset
    ============================== */
@@ -66,19 +67,21 @@ html, body {
 	width: 960px;
 	margin: 0 auto;
 }
-
-.content { /* 480px in the end, half */
-  width: 460px;
-  padding-left: 20px;
-  float: left;
-}
-
-.sidebar {  /* 240px in the end, one fourth */
-	width: 220px;
-	margin-left: 20px;
-	float: left;
-	display: inline; /* floats are handled as block elements, this is to fix 
-					          	a margin collapsing bug in IE */
+  .content { /* 480px in the end, half */
+    width: 460px;
+    padding-left: 20px;
+    float: left;
+  }
+  .sidebar {  /* 240px in the end, one fourth */
+  	width: 220px;
+  	margin-left: 20px;
+  	float: left;
+  	display: inline; /* floats are handled as block elements, this is to fix 
+  					          	a margin collapsing bug in IE */
+  }
+  .simple, form.cmxform { /* Center of the page */
+  	width: 560px;
+  	padding: 30px 200px 0 200px;
 }
 
 hr {
@@ -400,6 +403,15 @@ div#menu a.username {
       Footer
    ============================== */
 
+html {
+  background-color: #343434;
+}
+
+body {
+  background-color: white;
+}
+
+
 div#footer {
 	clear: both;
 	
@@ -501,25 +513,49 @@ div.notice {
 	margin-bottom: 10px;
 }
 
-.sidebar ul {
+
+/* ==============================
+      Navblocks
+   ============================== */
+
+.navblock {
+  width: 220px;
+  margin: 0;
+  padding: 0;
+}
+
+.navblock ul {
 	margin-bottom: 20px;
 	}
-	.sidebar ul li {
+	.navblock ul li {
 		list-style: none;
 	}
-	.sidebar ul li a:link,
-	.sidebar ul li a:visited {
+	.navblock ul li a:link,
+	.navblock ul li a:visited {
 		color: #666;
 	}
-	.sidebar ul li a:hover {
+	.navblock ul li a:hover {
 		color: #336699;
 	}
-	.sidebar ul li a:active {
+	.navblock ul li a:active {
 		color: #fff;
 }
 
+#container .content .navblock {
+  float: left;
+}
+
+#container .content .navblock + hr {
+  margin-bottom: 20px;
+}
+
+#container .content .navblock.search,
+#container .content .navblock.search input {
+  width: 440px;
+}
+
 #search {
-	width: 180px;
+	width: 195px;
 	padding: 2px;
 	margin: 0;
 	margin-bottom: 15px;
@@ -559,6 +595,10 @@ div.manage_map {
 			color: #666;
 }
 
+.manage_map hr {
+  width: 560px;
+}
+
 div.quote img {
 	float: right;
 	border: 1px solid black;
@@ -570,11 +610,6 @@ div.quote img {
 /* ==============================
       CMX Form
    ============================== */
-
-form.cmxform {
-	width: 560px;
-	padding: 30px 200px 0 200px;
-}
 
 form.cmxform em {
 	font-style: normal;
@@ -734,6 +769,28 @@ div.review {
 	margin-bottom: 30px;
 }
 
+h3 span,
+h3 span a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+
+/* ==============================
+      Tags
+   ============================== */
+
+body.tags #container span {
+	line-height: 1em;
+	padding: 5px;
+	display: inline-block;
+}
+
+body.tags #container span a {
+  text-decoration: none;
+}
+
+
 
 /* ==============================
       Users
@@ -751,6 +808,23 @@ div.user {
 	float: left;
 }
 
+div.user {
+  background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.46, rgb(252,252,252)),
+      color-stop(0.73, rgb(255,255,255))
+  );
+  background-image: -moz-linear-gradient(
+      center bottom,
+      rgb(252,252,252) 46%,
+      rgb(255,255,255) 73%
+  );
+}
+div.user:hover {
+  background-image: none;
+}
 
 body.users.index #container a {
   text-decoration: none;

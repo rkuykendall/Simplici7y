@@ -1,7 +1,5 @@
 <% for tag in @tags %>
-
-	<span style="font-size: <%= ( tag.popularity.to_i + 60)/2  %>px; line-height: 1em; padding: 5px; display: inline-block;"><%= link_to clean(tag.name), tag_url(tag) %></span>
-
+	<span style="font-size: <%= ( tag.popularity.to_i + 60)/2  %>px;">
+	  <%= link_to clean(tag.name), tag_url(tag) %>
+	</span>
 <% end %>
-
-<hr />

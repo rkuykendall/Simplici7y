@@ -13,42 +13,30 @@
 		<% url = item_url(params[:id]) %>
 	<% end %>
 
-  <h2><% form_tag(url, :method => :get) do %> <%= text_field_tag :search, params[:search], :placeholder => placeholder %> <% end %></h2>
 
-		<%# content_tag(:li, ( link_to "New Submissions", params.merge(:order => :new) ) ) %>
-		<%# content_tag(:li, ( link_to "Least updated", params.merge(:order => :old) ) ) %>
+  <div class="navblock search">
+    <h2><% form_tag(url, :method => :get) do %> <%= text_field_tag :search, params[:search], :placeholder => placeholder %> <% end %></h2>
+  	<%# content_tag(:li, ( link_to "New Submissions", params.merge(:order => :new) ) ) %>
+  	<%# content_tag(:li, ( link_to "Least updated", params.merge(:order => :old) ) ) %>
+  </div>
 
-	<h2>Sort by User Reviews</h2>
-	<ul>
-  	<%= content_tag(:li, ( link_to "Best Reviewed", params.merge(:order => :best) ) ) %>
-  	<%= content_tag(:li, ( link_to "Most Reviews", params.merge(:order => :loud) ) ) %>
-  	<%= content_tag(:li, ( link_to "Fewest Reviews", params.merge(:order => :quiet) ) ) %>
-		<%# content_tag(:li, ( link_to "Worst Reviewed", params.merge(:order => :worst) ) ) %>
-  </ul>
+  <div class="navblock">
+  	<h2>Sort by User Reviews</h2>
+  	<ul>
+    	<%= content_tag(:li, ( link_to "Best Reviewed", params.merge(:order => :best) ) ) %>
+    	<%= content_tag(:li, ( link_to "Most Reviews", params.merge(:order => :loud) ) ) %>
+    	<%= content_tag(:li, ( link_to "Fewest Reviews", params.merge(:order => :quiet) ) ) %>
+  		<%# content_tag(:li, ( link_to "Worst Reviewed", params.merge(:order => :worst) ) ) %>
+    </ul>
+  </div>
 
-	<h2>Sort by Downloads</h2>
-  <ul>
-		<%= content_tag(:li, ( link_to "All Time", params.merge(:order => :popular) ) ) %>
-		<%= content_tag(:li, ( link_to "Last 24 Hours", params.merge(:order => :day) ) ) %>
-		<%= content_tag(:li, ( link_to "The Past Week", params.merge(:order => :week) ) ) %>
-		<%= content_tag(:li, ( link_to "The Past Month", params.merge(:order => :month) ) ) %>
-		<%# content_tag(:li, ( link_to "Fewest Downloads", params.merge(:order => :unpopular) ) ) %>
-  </ul>
-	
-	<h2 class="logo">Simplici7y Links</h2>
-	<ul>
-		<li><%= link_to 'About the project', item_path('simplici7y') %></li>		
-		<li><%= link_to 'Popular tags', tags_path %></li>		
-		<li><%= link_to 'Issue tracker', 'https://github.com/rkuykendall/Simplici7y/issues', :target => '_blank' %></li>		
-		<li>
-			<script type="text/javascript" language="javascript">
-			<!--
-			ML="j\"/k0cK=t?i2.<:7>@b feRmnyld-p%usharoS";
-			MI="=RCQSED71GR:J8T>FTBES8C6OI3EHKRJJC=STBES8AS3OI3EHKRJJ<5TG@9POB0E587U:GMJ:5:?IN;4LN;41@UEHKCGECRHCEGR:J=2R@";
-			OT="";
-			for(j=0;j<MI.length;j++){
-			OT+=ML.charAt(MI.charCodeAt(j)-48);
-			}document.write(OT);
-			// --></script>
-		</li>
-	</ul>
+  <div class="navblock">
+  	<h2>Sort by Downloads</h2>
+    <ul>
+  		<%= content_tag(:li, ( link_to "All Time", params.merge(:order => :popular) ) ) %>
+  		<%= content_tag(:li, ( link_to "Last 24 Hours", params.merge(:order => :day) ) ) %>
+  		<%= content_tag(:li, ( link_to "The Past Week", params.merge(:order => :week) ) ) %>
+  		<%= content_tag(:li, ( link_to "The Past Month", params.merge(:order => :month) ) ) %>
+  		<%# content_tag(:li, ( link_to "Fewest Downloads", params.merge(:order => :unpopular) ) ) %>
+    </ul>
+  </div>

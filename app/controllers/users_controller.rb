@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.find(:all, :order => 'admin DESC, login ASC', :conditions => [ 'items_count > 1 OR reviews_count > 1' ])
+    @users = User.find(:all, :order => 'admin DESC, login ASC', :conditions => [ 'items_count > 0 OR reviews_count > 1' ])
     
     respond_to do |format|
       format.html # index.rhtml
@@ -17,16 +17,23 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @user = User.find_by_permalink(params[:id])
-    @items = Item.search(params[:search], params[:page], params[:order], nil, @user)
+    raise ActiveRecord::RecordNotFound if @user == nil
+
+    @items = Item.search(params.merge!({:user => @user, :per_page => 50}))
+    @reviews = Review.find(:all, :order => 'created_at DESC', :conditions => [ 'user_id = ?', @user.id ] )
     
     respond_to do |format|
-      if current_user && current_user.admin == 1
-        format.html { render :action => "show" }
+      if permission(@user)
+        format.html { render :action => "manage" }
       else
-        format.html { render :template => "items/index" }
+        format.html { render :action => "show" }
       end
       format.xml  { render :xml => @items.to_xml }
     end
+    
+  rescue ActiveRecord::RecordNotFound
+    redirect_back_or_default('/')
+    flash[:notice] = "User #{params[:id]} does not exist."
   end
 
   # render new.rhtml

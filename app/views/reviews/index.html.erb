@@ -5,8 +5,7 @@
 
 <div class="content">
   <%= render :partial => 'show', :collection => @reviews %>
+  <hr />
 </div>
 
 <%= will_paginate @reviews, :next_label => 'Next', :previous_label => 'Previous' %>
-
-<hr />

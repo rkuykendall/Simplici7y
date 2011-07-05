@@ -75,22 +75,24 @@ class Item < ActiveRecord::Base
   # end
 
   
-  def self.search(search = '', page = 1, order = 'new', tc = nil, user = nil)
-    conditions = [ 'name LIKE ?', "%#{search}%" ]
+  def self.search(args = {})
+    perpage = args[:per_page] || 10
+    
+    conditions = [ 'name LIKE ?', "%#{ args[:search] || '' }%" ] 
 
-    if(!user)
+    if(!args[:user])
       conditions[0] += ' AND versions_count > 0'
     end
 
-    if (tc)
+    if (args[:tc])
       conditions[0] += ' AND tc_id = ?'
-      conditions <<  tc.id
-    elsif(user)
+      conditions <<  args[:tc].id
+    elsif(args[:user])
       conditions[0] += ' AND user_id = ?'
-      conditions <<  user
+      conditions << args[:user].id
     end
       
-    paginate :page => page, :order => order_sql(order,conditions), :conditions => conditions
+    paginate :page => args[:page], :order => order_sql(args[:order],conditions), :conditions => conditions, :per_page => perpage
   end
 
     

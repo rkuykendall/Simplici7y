@@ -1,5 +1,9 @@
-<div class="content">			
+<h1><%= clean(@item.name) %>  <span><%= clean(@version.name) %></span></h1>
 
+<div class="content">			
+  
+      <h2>Details</h2>
+  
 			<div class="map">
 				<%= download_button(@version) %>
 				<h3><%= clean(@item.name) %>  <span><%= clean(@version.name) %></span></h3>
@@ -27,6 +31,8 @@
 				<hr>
 				
 				<% if permission(@item) %>
+          <h2>Controls</h2>
+
 					<%= link_to "Edit information", edit_item_url(@item), :class => 'button change edit-txt' %>
 					<%= link_to "Delete everything", item_url(@item), :class => 'button negative delete', :confirm => "Are you sure? This will destroy this item, along with all the versions, screenshots, and reviews associated with it.", :method => :delete %>
 
@@ -34,6 +40,8 @@
 					<%= link_to "Add version", new_item_version_url(@item), :class => 'button positive add' %>
 				<% end %>
 			</div>
+
+      <h2>Reviews</h2>
 
 			<div id="map_reviews">
 				<%= render :partial => "reviews/show", :collection => @reviews %>
@@ -43,13 +51,14 @@
 </div>
 
 <div class="content screenshots">
+    <h2>Screenshots</h2>
 
     <% if permission(@item) %>
       <div class="sidenote"><%= link_to "Manage screenshots", item_screenshots_url(@item), :class => 'button next' %></div>	<hr />
     <% end %>
 
 		<% for screenshot in @screenshots %>
-		  <h3><%= clean(screenshot.title) %></h3>
+		  <%= content_tag :h3, clean(screenshot.title) if screenshot.title != '' %>
 			<%= link_to((image_tag url_for_file_column(screenshot, "file", "content")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />
 		<% end %>
 

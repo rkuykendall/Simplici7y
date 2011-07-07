@@ -1,12 +1,16 @@
 
+<h1>Downloads</h1>
 
 <div class="sidebar">
+  <h2>Search &amp; Sort</h2>
+
 	<%= render :partial => "layouts/sort" %>
 	<%= render :partial => "layouts/site" %>
 	<hr />
 </div>
 
 <div class="content">
+  <h2>Items</h2>
 
   <% if @items.count == 0 %>
 	  <p>There are no results to display.</p>
@@ -18,6 +22,7 @@
 </div>
 
 <div class="sidebar">
+  <h2>Filter by Tags</h2>
 	<%= render :partial => "layouts/tags" %>
 	<hr />
 </div>

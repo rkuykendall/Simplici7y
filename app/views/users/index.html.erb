@@ -1,4 +1,8 @@
 
+<h1>Active Users</h1>
+
+<div class="full">
+
 	<% for user in @users %>
 	  <a href="<%= user_path(user.permalink) %>">
 		<div class="user">
@@ -7,5 +11,7 @@
 		</div>
     </a>
 	<% end %>
+
+</div>
 
 <hr />

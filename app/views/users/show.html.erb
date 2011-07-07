@@ -1,4 +1,8 @@
+<h1><%= @user.login %></h1>
+
 <div class="content">
+  <h2>Submissions</h2>
+  
   <%= render :partial => "layouts/sort" %>
   <hr />
   
@@ -6,5 +10,6 @@
 </div>
 
 <div class="content">
+  <h2>Reviews</h2>
   <%= render :partial => 'reviews/show', :collection => @reviews %>
 </div>

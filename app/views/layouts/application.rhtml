@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-	<title><%= yield :title %>Simplici7y</title>
+	<title>Simplici7y - File sharing for the Marathon Aleph One Community</title>
 	<%= stylesheet_link_tag 'application' %>
 	<%= stylesheet_link_tag 'pushup' %>
 	<%= javascript_include_tag 'pushup' %>
@@ -29,8 +29,8 @@
 			<% else %>
 				<li><%= link_to 'About', item_path('simplici7y') %></li>
 				<li><%= link_to 'Community', '#community' %></li>
-				<li><%= link_to "sign up", signup_path, :class => 'control' %></li>
-				<li><%= link_to "log in", login_path, :class => 'control' %></li>
+				<li><%= link_to "Sign Up", signup_path, :class => 'control' %></li>
+				<li><%= link_to "Log In", login_path, :class => 'control' %></li>
 			<% end %>
 
 		</ul>

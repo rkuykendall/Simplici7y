@@ -82,6 +82,9 @@ html, body {
   .simple, form.cmxform { /* Center of the page */
   	width: 560px;
   	padding: 30px 200px 0 200px;
+  }
+  .full {
+    padding: 0 20px;
 }
 
 hr {
@@ -124,6 +127,12 @@ form.cmxform input[type=submit] {
 
 	line-height: 22px;
 	text-decoration: none;
+}
+
+form.cmxform input[type=submit] {
+  margin-left: 150px;
+  margin-top: -20px;
+	
 }
 
 .button:hover {
@@ -216,14 +225,51 @@ html, body, h4, h5, input  {
 }
 
 h1, h2, h3, legend {
-	line-height: 1.2em;
-	color: #333;
+ 	line-height: 1.2em;
+ 	color: #333;
 }
 
-h4, h5 {
+h1 {
+  /* Header for a whole page */
+	font-size: 35px;
+  width: 920px;
+  clear: both;
+  margin: 20px;
+}
+
+h2 {
+  /* Header for a section */
+  font-size: 25px;
+  margin: 0 0 20px 0;
+  border-bottom: 5px solid #eee;
+}
+
+h3, legend {
+  /* Header for a item */
+	margin: 0;
+	font-size: 20px;
+	padding-bottom: 10px;
+	}
+	h3 span,
+	h3 span a {
+	  /* grey part of the title */
+    color: #ccc;
+    text-decoration: none;
+}
+
+h4, h4 a {
+  /* Subheader for a item */
+	margin: 0;
+	margin-top: -10px;
+	color: #aaa;
+}
+
+h5 {
 	color: black;
 	margin-bottom: 2px;
 }
+
+
 
 .sidebar { 
 	font-size: 14px;
@@ -249,30 +295,10 @@ a.button {
 	font-size: 12px;
 }
 label small,
-label small a:link,
-label small a:visited {
+label small a {
 	color: #999;
 	font-size: 12px;
 	font-style: italic;
-}
-
-h1 {
-	/* There currently is no h1 */
-	}
-	h2, legend {
-		padding-bottom: 10px;
-		font-size: 20px;
-	}
-	h3 {
-		margin: 0;
-		font-size: 20px;
-	}
-	h3 span { /* grey non-link part of the title */
-		color: #999;
-	}
-	h4, h4 a {
-		margin: 0;
-		color: #aaa;
 }
 
 p {
@@ -769,12 +795,6 @@ div.review {
 	margin-bottom: 30px;
 }
 
-h3 span,
-h3 span a {
-  color: #ccc;
-  text-decoration: none;
-}
-
 
 /* ==============================
       Tags
@@ -791,13 +811,12 @@ body.tags #container span a {
 }
 
 
-
 /* ==============================
       Users
    ============================== */
 
 div.user {
-	width: 160px;
+	width: 152px;
 	padding: 10px;
 	margin: 5px;
 	border-top: 1px solid #eee;
@@ -845,9 +864,8 @@ body.users.index #container a {
 }
 
 .ss_edit {
-  width: 186px;
+  width: 176px;
   padding-left: 10px;
-  height: 275px;
   float: left;
 }
 

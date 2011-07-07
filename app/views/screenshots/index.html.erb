@@ -1,5 +1,6 @@
-<h2>Screenshots for <%= link_to @item.name, item_url(@item) %></h2>
+<div class="simple">
 
+<h2>Screenshots for <%= link_to @item.name, item_url(@item) %></h2>
 
 <% if @screenshots != nil %>
 	<% for screenshot in @screenshots %>
@@ -17,6 +18,6 @@
 	Nothing to see here, move along...
 <% end %>
 
-<div class="ss_edit">
 <%= link_to 'New screenshot', new_item_screenshot_path(@item), :class => 'button positive add-image' %>
+
 </div>

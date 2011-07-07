@@ -40,6 +40,7 @@ class Item < ActiveRecord::Base
       "downloads_count ASC"
 
     elsif k == 'day'
+      @title = "Testing day"
       conditions[0] += ' AND downloads_day_count > 0'
       "downloads_day_count DESC"
     elsif k == 'week'
@@ -60,21 +61,6 @@ class Item < ActiveRecord::Base
     end
   end
   
-  
-  # This is that passing params thing
-  
-  # @tags = Tag.find_popular(:limit => 50)     
-  
-  # def self.find_popular(args = {})
-  #   find(:all, :select => 'tags.*, count(*) as popularity', 
-  #     :limit => args[:limit] || 10,
-  #     :joins => "JOIN taggings ON taggings.tag_id = tags.id",
-  #     :conditions => args[:conditions],
-  #     :group => "taggings.tag_id", 
-  #     :order => "popularity DESC"  )
-  # end
-
-  
   def self.search(args = {})
     perpage = args[:per_page] || 10
     
@@ -94,7 +80,6 @@ class Item < ActiveRecord::Base
       
     paginate :page => args[:page], :order => order_sql(args[:order],conditions), :conditions => conditions, :per_page => perpage
   end
-
     
   def find_version
     versions.reverse[0]

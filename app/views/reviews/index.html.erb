@@ -1,9 +1,13 @@
+<h1>Reviews</h1>
+
 <div class="sidebar">
+  <h2>Filter by Tags</h2>
 	<%= render :partial => "layouts/tags" %>
 	<hr />
 </div>
 
 <div class="content">
+  <h2>Newest Reviews</h2>
   <%= render :partial => 'show', :collection => @reviews %>
   <hr />
 </div>

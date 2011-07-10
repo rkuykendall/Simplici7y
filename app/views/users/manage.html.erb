@@ -1,6 +1,6 @@
 <div class="simple">
 
-  <h2>Your Uploads</h2>
+  <h2><%= pagetitle('Your Uploads') %></h2>
 
   <% if @items[0] == nil %>
   	<p>You can use Simplici7y to share something with the Aleph One community.</p>
@@ -41,7 +41,5 @@
   <% end %>
 
 </div>
-
-<%= will_paginate @items, :next_label => 'Next', :previous_label => 'Previous' %>
 
 <hr />

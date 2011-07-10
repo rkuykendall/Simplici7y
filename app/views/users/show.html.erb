@@ -1,7 +1,7 @@
-<h1><%= @user.login %></h1>
+<h1><%= link_to pagetitle(@user.login), user_path(@user) %></h1>
 
 <div class="content">
-  <h2>Submissions</h2>
+  <h2><%= pluralize(@items.size, 'Submission') %></h2>
   
   <%= render :partial => "layouts/sort" %>
   <hr />
@@ -10,6 +10,6 @@
 </div>
 
 <div class="content">
-  <h2>Reviews</h2>
+  <h2><%= pluralize(@reviews.size, 'Review') %></h2>
   <%= render :partial => 'reviews/show', :collection => @reviews %>
 </div>

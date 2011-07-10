@@ -4,13 +4,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-	<title>Simplici7y - File sharing for the Marathon Aleph One Community</title>
+	<meta name="description" content="File sharing downloads for the Marathon Aleph One community. Download community created maps, scenarios, mods, scripts, and applications." />
+	<meta name="keywords" content="bungie, marathon, downloads, maps, multiplayer, aleph one, scenarios, simplicity, pfhorums" />
+  
+	<title>Simplici7y - <%= clean(@pagetitle) %></title>
 	<%= stylesheet_link_tag 'application' %>
 	<%= stylesheet_link_tag 'pushup' %>
 	<%= javascript_include_tag 'pushup' %>
-	<link rel="alternate" type="application/rss+xml" title="New Uploads" href="/items.rss">
-	<link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss">
-	<link rel="icon" type="image/png" href="/images/favicon.png"/>
+	<link rel="alternate" type="application/rss+xml" title="New Uploads" href="/items.rss" />
+	<link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss" />
+	<link rel="icon" type="image/png" href="/images/favicon.png" />
 </head>
 
 <body class="<%= controller.controller_name + ' ' + controller.action_name %>">
@@ -37,26 +40,25 @@
 		<hr />
 	</div>
 	
+	<% if flash[:notice] %>
+			<div class="subnav"><div class="notice"><%= flash[:notice] %></div></div>
+	<% elsif !logged_in? %>	
+			<div class="subnav"><div class="notice">
+				Welcome to Simplici7y, file sharing for the
+				<a href="http://marathon.sourceforge.net/" target="blank">Aleph One</a> community. 
+				<%= link_to "Sign up", signup_url %> or 
+				<%= link_to "log in", login_url %>
+				to start adding and reviewing files.
+			</div></div>
+	<% end %>
 	
 	<div id="container">
-		<% if flash[:notice] %>
-				<div class="notice"><%= flash[:notice] %></div>
-		<% elsif !logged_in? %>	
-				<div class="notice">
-					Welcome to Simplici7y, file sharing for the
-					<a href="http://marathon.sourceforge.net/" target="blank">Aleph One</a> community. 
-					<%= link_to "Sign up", signup_url %> or 
-					<%= link_to "log in", login_url %>
-					to start adding and reviewing files.
-				</div>
-		<% end %>
-
 		<%= yield  %>
     <hr />
 	</div>
 	
 	<div id="footer">
-		<img src="/images/big-logo.png">
+		<img src="/images/big-logo.png" alt="Simplici7y" />
 		<div id="community">
 			<a href="http://www.simplici7y.com/items/simplici7y" class="community_box">
 				<span>Simplici7y</span> Aleph One file sharing website.
@@ -71,7 +73,7 @@
 				<span>Marathon Story</span> The original Marathon forum.
 			</a> 
 		</div>
-		<hr>
+		<hr />
 	</div>
 	
 	<script type="text/javascript">

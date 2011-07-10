@@ -84,7 +84,7 @@ html, body {
   	padding: 30px 200px 0 200px;
   }
   .full {
-    padding: 0 20px;
+    padding: 20px;
 }
 
 hr {
@@ -234,17 +234,26 @@ h1 {
 	font-size: 35px;
   width: 920px;
   clear: both;
-  margin: 20px;
+  margin: 20px 20px 0 20px;
+}
+h1 a {
+  text-decoration: none;
+}
+h1 span,
+h1 span a {
+  color: #999;
 }
 
 h2 {
   /* Header for a section */
   font-size: 25px;
-  margin: 0 0 20px 0;
+  margin: 25px 0 20px 0;
   border-bottom: 5px solid #eee;
+  font-weight: 400;
+  letter-spacing: 0.03em;
 }
 
-h3, legend {
+h3, legend, .search {
   /* Header for a item */
 	margin: 0;
 	font-size: 20px;
@@ -333,6 +342,20 @@ a, a img {
 
 li {
 	padding: 0 0 4px 20px;
+}
+
+ol.details {
+	list-style: decimal outside;
+  }
+  ul.details {
+  	list-style: circle outside;
+  }
+  .details li {
+  	margin: 0 0 5px 20px;
+  	padding: 0 0 0 0;
+  }
+  .details li a {
+    color: #555;
 }
 
 
@@ -486,7 +509,8 @@ div#footer div#community {
 
 div.notice {
 	padding: 7px 10px 7px 42px;
-	margin: 0;
+	margin: 0 auto;
+	max-width: 908px;
 	margin-bottom: 15px;
 	font-size: 16px;
 
@@ -501,6 +525,15 @@ div.notice {
 
 	line-height: 22px;
 	text-decoration: none;
+}
+
+div.subnav {
+	background-color: whiteSmoke;
+	margin-top: -30px;
+}
+
+div.subnav div.notice {
+  border: none;
 }
 
 #errorExplanation {
@@ -559,6 +592,7 @@ div.notice {
 	.navblock ul li a:link,
 	.navblock ul li a:visited {
 		color: #666;
+		text-decoration: none;
 	}
 	.navblock ul li a:hover {
 		color: #336699;
@@ -577,11 +611,11 @@ div.notice {
 
 #container .content .navblock.search,
 #container .content .navblock.search input {
-  width: 440px;
+  width: 400px;
 }
 
 #search {
-	width: 195px;
+	width: 200px;
 	padding: 2px;
 	margin: 0;
 	margin-bottom: 15px;
@@ -589,7 +623,9 @@ div.notice {
 	font-size: inherit;
 	border: solid 1px #ddd;
 }
-
+#search:hover {
+	border: solid 1px #6299C5;
+}
 
 
 /* ==============================
@@ -861,6 +897,7 @@ body.users.index #container a {
 
 .screenshots h3 {
   margin-bottom: 5px;
+  padding: 0;
 }
 
 .ss_edit {

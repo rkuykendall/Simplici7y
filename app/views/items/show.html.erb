@@ -1,35 +1,36 @@
-<h1><%= clean(@item.name) %>  <span><%= clean(@version.name) %></span></h1>
+
+<h1><%= pagetitle(link_to(clean(@item.name),item_path(@item))+' <span>by '+link_to(clean(@item.user.login),user_path(@item.user))+'</span>') %></h1>
 
 <div class="content">			
   
-      <h2>Details</h2>
+      <h2>Description</h2>
   
-			<div class="map">
-				<%= download_button(@version) %>
-				<h3><%= clean(@item.name) %>  <span><%= clean(@version.name) %></span></h3>
-				<h4><%= link_to clean(@item.user.login), user_path(@item.user) %> on <%= @item.version_created_at.to_s(:readable_short) %></h4>
 				<div class="indent">
 					<div class="markdown">
 						<%= format(@item.body) %>
-
-						<%= content_tag(:h5, "Notes for version "+clean(@version.name)+":") if @version.body != "" %>
-						<%= format(@version.body) %>
 					</div>
+          <%= download_button(@version) %>
 		
-					<h4>
-						<%= pluralize(@item.downloads.size, 'download') %><br />
-						<%= pluralize(@item.reviews.size, 'review') %>, <br />
-						<%= pluralize(@item.screenshots.size, 'screenshot') %><br />
-						<%= "%.1f" % @item.ratings_count %> rating ( <%= "%.2f" % @item.ratings_weighted_count %>w )<br />
-						tags: 
+					<%= content_tag(:h2, "Version "+clean(@version.name)) %>
+					<div class="markdown">
+  					<%= format(@version.body) %>
+      		</div>
+      				
+					<ul class="details">
+					  <li>Uploaded <%= @item.version_created_at.to_s(:readable_short) %></li>
+						<li>tags: 
 						<% @item.tag_list.split(' ').each do |t| %>
 							<%= link_to t, tag_path(t) %>
-						<% end %>
-					</h4>
+						<% end %></li>
+						<li><%= pluralize(@item.downloads.size, 'download') %> of this item</li>
+						<li><%= pluralize(@version.downloads.size, 'download') %> of latest version</li>
+						<li><%= pluralize(@item.downloads_day_count, 'download') %> in the last 24 hours</li>
+						<li><%= pluralize(@item.downloads_week_count, 'download') %> in the last 7 days</li>
+						<li><%= pluralize(@item.downloads_month_count, 'download') %> in the last month</li>
+						<li><%= "%.1f" % @item.ratings_count %> rating ( <%= "%.2f" % @item.ratings_weighted_count %> weighted for sorting )</li>
+					</ul>
 				</div>
-				
-				<hr>
-				
+
 				<% if permission(@item) %>
           <h2>Controls</h2>
 
@@ -39,9 +40,8 @@
 					<%= link_to 'Edit version', edit_item_version_path(@item, @version), :class => 'button change edit-txt' %>
 					<%= link_to "Add version", new_item_version_url(@item), :class => 'button positive add' %>
 				<% end %>
-			</div>
 
-      <h2>Reviews</h2>
+      <h2><%= pluralize(@item.reviews.size, 'Review') %></h2>
 
 			<div id="map_reviews">
 				<%= render :partial => "reviews/show", :collection => @reviews %>
@@ -51,7 +51,7 @@
 </div>
 
 <div class="content screenshots">
-    <h2>Screenshots</h2>
+    <h2><%= pluralize(@item.screenshots.size, 'Screenshot') %></h2>
 
     <% if permission(@item) %>
       <div class="sidenote"><%= link_to "Manage screenshots", item_screenshots_url(@item), :class => 'button next' %></div>	<hr />
@@ -59,7 +59,7 @@
 
 		<% for screenshot in @screenshots %>
 		  <%= content_tag :h3, clean(screenshot.title) if screenshot.title != '' %>
-			<%= link_to((image_tag url_for_file_column(screenshot, "file", "content")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %><br />
+			<%= link_to((image_tag url_for_file_column(screenshot, "file", "content")), url_for_file_column(screenshot, "file"), {:target => "_blank"} ) %>
 		<% end %>
 
 	  <h3></h3>

@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
       access_denied
     end
   end
-  
+    
   def set_variables
     if params[:item_id] && params[:id]
       @item = Item.find_by_permalink(params[:item_id])

@@ -15,13 +15,13 @@
 
 
   <div class="navblock search">
-    <h3><% form_tag(url, :method => :get) do %> <%= text_field_tag :search, params[:search], :placeholder => placeholder %> <% end %></h2>
+    <% form_tag(url, :method => :get) do %> <%= text_field_tag :search, params[:search], :placeholder => placeholder %> <% end %>
   	<%# content_tag(:li, ( link_to "New Submissions", params.merge(:order => :new) ) ) %>
   	<%# content_tag(:li, ( link_to "Least updated", params.merge(:order => :old) ) ) %>
   </div>
 
   <div class="navblock">
-  	<h3>Sort by User Reviews</h2>
+  	<h3>Sort by User Reviews</h3>
   	<ul>
     	<%= content_tag(:li, ( link_to "Best Reviewed", params.merge(:order => :best) ) ) %>
     	<%= content_tag(:li, ( link_to "Most Reviews", params.merge(:order => :loud) ) ) %>
@@ -31,7 +31,7 @@
   </div>
 
   <div class="navblock">
-  	<h3>Sort by Downloads</h2>
+  	<h3>Sort by Downloads</h3>
     <ul>
   		<%= content_tag(:li, ( link_to "All Time", params.merge(:order => :popular) ) ) %>
   		<%= content_tag(:li, ( link_to "Last 24 Hours", params.merge(:order => :day) ) ) %>

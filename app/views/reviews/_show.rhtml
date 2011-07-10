@@ -15,4 +15,17 @@
 		</div>
 	</div>
 	<hr />
+<% elsif show and controller.controller_name == 'users' and controller.action_name == 'show' and permission(@user) %>
+  
+  <div class="review relevancy-<%= show.relevancy.to_s %>">
+  	<%= stars(show.rating) %>
+  	<h3><%= clean(show.title) %></h3>
+  	<h4><%= link_to clean(show.user.login), user_path(show.user) %> on <%= show.created_at.to_s(:readable_short) %></h4>
+
+  	<div class="indent markdown">
+  		<%= format(show.body) %>
+  	</div>
+  </div>
+  <hr />
+
 <% end %>

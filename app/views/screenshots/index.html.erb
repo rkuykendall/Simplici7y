@@ -1,6 +1,6 @@
 <div class="simple">
 
-<h2>Screenshots for <%= link_to @item.name, item_url(@item) %></h2>
+<h2><%= pagetitle('Screenshots for '+ link_to(@item.name,item_url(@item))) %></h2>
 
 <% if @screenshots != nil %>
 	<% for screenshot in @screenshots %>

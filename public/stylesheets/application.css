@@ -3,6 +3,8 @@
       Meyer CSS Reset
    ============================== */
 
+LALALALALALAALL
+
 /*
    http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -119,7 +121,7 @@ form.cmxform input[type=submit] {
 	margin: 2px;
 	background-position: 10px center;
 	background-repeat: no-repeat;
-	background-color: whiteSmoke;
+	background-color: #F5F5F5;
 
 	border: 1px solid #DEDEDE;
 	border-top: 1px solid #EEE;
@@ -516,7 +518,7 @@ div.notice {
 
 	background-position: 20px center;
 	background-repeat: no-repeat;
-	background-color: whiteSmoke;
+	background-color: #F5F5F5;
 	background-image: url('../images/silk/information.png') ;
 
 	border: 1px solid #DEDEDE;
@@ -528,7 +530,7 @@ div.notice {
 }
 
 div.subnav {
-	background-color: whiteSmoke;
+	background-color: #F5F5F5;
 	margin-top: -30px;
 }
 
@@ -621,10 +623,10 @@ div.subnav div.notice {
 	margin-bottom: 15px;
 
 	font-size: inherit;
-	border: solid 1px #ddd;
+	border: solid 3px #eee;
 }
 #search:hover {
-	border: solid 1px #6299C5;
+	border-color: #6299C5;
 }
 
 
@@ -678,12 +680,6 @@ form.cmxform em {
 	color: #f00;
 }
 
-form.cmxform legend {
-	_margin: 0 -7px; /* IE Win */
-}
-
-/*\*//*/ form.cmxform legend { display: inline-block; } /* IE Mac legend fix */
-
 form.cmxform fieldset {
 	margin-bottom: 10px;
 	}
@@ -713,7 +709,6 @@ form.cmxform div.form_sidenote ol {
 	
 
 form.cmxform label {
-	display: -moz-inline-box; /* Fixes Firefox */
 	display: inline-block;
 	vertical-align: top;
 	width: 145px; /* Width of labels */
@@ -788,11 +783,11 @@ div.map {
 	margin-bottom: 40px;
 }
 
-div.sidenote {
+div.map div.sidenote {
 		float: right;
 		margin-top: 7px;
 	}
-	div.sidenote .button {
+	div.map div.sidenote .button {
 		margin: 0;
 }
 
@@ -1006,7 +1001,7 @@ div.relevancy-3 .star-rating li.current-rating {
 	text-align: center;
 	}
 	.pagination a, span.current {
-		background-color: whiteSmoke;
+		background-color: #F5F5F5;
 		padding: 2px 5px;
 		margin: 2px;
 		border: 1px solid #DEDEDE;

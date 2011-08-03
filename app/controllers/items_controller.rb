@@ -12,6 +12,7 @@ class ItemsController < ApplicationController
   def index
     @items = Item.search(params)
 
+    # Simple username check
     users = User.find(:all, :conditions => [ "login LIKE ?", "%#{params[:search]}%" ] )
     if users.count == 1
   	    flash[:notice] = "Were you looking for <a href='#{user_path(users.first.permalink)}'>#{users.first.login}</a>?"

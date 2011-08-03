@@ -8,7 +8,6 @@ module VersionsHelper
       url = ""
     end
     
-    return url if controller.controller_name == 'items' and controller.action_name == 'show'
     '<div class="sidenote">' + url + '</div>'
   end
 end

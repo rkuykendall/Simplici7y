@@ -14,19 +14,21 @@ module ApplicationHelper
   end
   
   def pagetitle(text)
-    # c = params[:controller]
-    # a = params[:action]
+    c = controller.controller_name
+    a = controller.action_name
+    i = params[:id]
+
+    if c == 'items'
+      if a == 'list'
+        @pagetitle = 'Marathon ' + @pagetitle if i == 'Marathon'
+      end
+    end
     
     @pagetitle = text
     @pagetitle = "Marathon Aleph One community downloads." if current_page?('/')
     text
     
-    # if c == 'items'
-    #   if a == 'index'
-    #     "Downloads" 
-    #   end
-    # end
-    
+    text
   end
   
   def subtitle
@@ -39,8 +41,10 @@ module ApplicationHelper
       subtitle = "Latest Updates and Submissions" if !params[:order]
     elsif c == 'items' and a == 'show'
       subtitle = Item.find_by_permalink(params[:id]).name
+      @pagetitle = subtitle +' '+ @pagetitle
     elsif c == 'tags' and a == 'show'
       subtitle = "Tagged '" + params[:id].capitalize + "'"
+      @pagetitle = (params[:id].capitalize) +' '+ @pagetitle
     end
     
     if params[:order]

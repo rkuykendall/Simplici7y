@@ -46,12 +46,14 @@ class UsersController < ApplicationController
     # request forgery protection.
     # uncomment at your own risk
     # reset_session
+    
     @user = User.new(params[:user])
-    @user.save
-    if @user.errors.empty?
+
+    if @user.errors.empty? && verify_recaptcha(:model => @user, :message => "reCAPTCHA was incorrect, please try again.")
+      @user.save
       self.current_user = @user
       redirect_back_or_default('/')
-      flash[:notice] = "Thanks for signing up!"
+      flash[:notice] = "Thanks for signing up! Welcome to Simplici7y."
     else
       render :action => 'new'
     end

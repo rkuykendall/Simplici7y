@@ -773,6 +773,10 @@ form.cmxform div.fieldWithErrors {
 	display: inline;
 }
 
+form.cmxform #recaptcha_widget_div {
+  margin-left: 150px;
+  margin-bottom: 40px;
+}
 
 
 /* ==============================

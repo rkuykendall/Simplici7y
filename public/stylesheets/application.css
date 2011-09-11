@@ -137,6 +137,11 @@ form.cmxform input[type=submit] {
 	
 }
 
+h1 .button {
+  position: relative;
+  top: -10px;
+}
+
 .button:hover {
 	/* Colors: Standard */
     background-color: #dff4ff;

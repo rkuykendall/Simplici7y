@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @reviews = Review.find(:all, :order => 'created_at DESC', :conditions => [ 'user_id = ?', @user.id ] )
     
     respond_to do |format|
-      if permission(@user)
+      if permission(@user) && !admin?
         format.html { render :action => "manage" }
       else
         format.html { render :action => "show" }
@@ -74,11 +74,29 @@ class UsersController < ApplicationController
     end
   end
 
+  # DELETE /users/1
+  # DELETE /users/1.xml
+  def destroy
+    @users = User.find_by_permalink(params[:id]) 
+    @users.destroy
+
+    respond_to do |format|
+      flash[:notice] = "<strong>#{params[:id]}</strong> has been destroyed."
+      format.html { redirect_to '/' }
+      format.xml  { render :nothing => true }
+    end
+  end
+
 private
 
   def users_before
     @user = User.find_by_permalink(params[:id])
-    access_denied unless permission(@user)
+    
+    if action_name == 'destroy'
+      access_denied unless admin?
+    else
+      access_denied unless permission(@user)
+    end
   end
 
 end

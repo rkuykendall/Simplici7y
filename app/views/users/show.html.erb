@@ -1,4 +1,9 @@
-<h1><%= link_to pagetitle(@user.login), user_path(@user) %></h1>
+<h1>
+  <%= link_to pagetitle(@user.login), user_path(@user) %>
+  <% if permission(@user) %>
+    <%= link_to("Delete this spammer", user_url(@user), :class => 'button negative delete', :confirm => "Are you sure? This will destroy everything he owns.", :method => :delete) if admin? %>
+  <% end %>
+</h1>
 
 <div class="content">
   <h2><%= pluralize(@items.size, 'Submission') %></h2>

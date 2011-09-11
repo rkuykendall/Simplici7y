@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   # you can also specifiy a different permalink field in your database by giving a second paramater
   # has_permalink :title, :my_permalink_field
 
+  has_many :reviews, :dependent => :destroy
+  has_many :items, :dependent => :destroy
 
   # we now add the to_param method which Rails's routing uses
   def to_param

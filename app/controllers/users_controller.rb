@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @users.to_xml }
+      format.xml  { render :xml => @users.to_xml(:except => [ :id, :admin, :crypted_password, :salt, :email, :remember_token, :remember_token_expires_at ]) }
     end
   end
 

@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.xml 
   def index
-    @tags = Tag.find_popular(:limit => 50)   
+    @tags = Tag.find_popular(:limit => 1000).paginate(:page => params[:page], :per_page => params[:per_page] || 50)
 
     respond_to do |format|
       format.html # index.html.erb

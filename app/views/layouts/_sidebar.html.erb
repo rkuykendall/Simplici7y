@@ -1,0 +1,85 @@
+  
+  <% placeholder = 'Search' %>
+  <% url = items_url %>
+
+	<% if controller.controller_name == 'tags' && params[:id] %>
+		<% placeholder += ' ' + clean(params[:id]) %>
+		<% url = tag_url(params[:id]) %>
+	<% elsif controller.controller_name == 'users' && params[:id] %>
+		<% placeholder += ' ' + clean(@user.login) %>
+		<% url = user_url(params[:id]) %>
+	<% elsif controller.controller_name == 'items' && params[:id] && @item.tc_id == 0 %>
+		<% placeholder += ' ' + clean(@item.name) %>
+		<% url = item_url(params[:id]) %>
+	<% end %>
+
+  <h2>Search &amp; Sorting</h2>
+
+	<ul>
+		<%= content_tag(:li, ( link_to "New Submissions", params.merge(:order => :new) ) ) %>
+	  <li><% form_tag(url, :method => :get) do %> <%= text_field_tag :search, params[:search], :placeholder => placeholder %> <% end %></li>
+		<%# content_tag(:li, ( link_to "Least updated", params.merge(:order => :old) ) ) %>
+  </ul>
+
+	<h2>User Reviews</h2>
+	<ul>
+  	<%= content_tag(:li, ( link_to "Best Reviewed", params.merge(:order => :best) ) ) %>
+  	<%= content_tag(:li, ( link_to "Most Reviews", params.merge(:order => :loud) ) ) %>
+  	<%= content_tag(:li, ( link_to "Fewest Reviews", params.merge(:order => :quiet) ) ) %>
+		<%# content_tag(:li, ( link_to "Worst Reviewed", params.merge(:order => :worst) ) ) %>
+  </ul>
+
+	<h2>Most Downloaded</h2>
+  <ul>
+		<%= content_tag(:li, ( link_to "All Time", params.merge(:order => :popular) ) ) %>
+		<%= content_tag(:li, ( link_to "Last 24 Hours", params.merge(:order => :day) ) ) %>
+		<%= content_tag(:li, ( link_to "The Past Week", params.merge(:order => :week) ) ) %>
+		<%= content_tag(:li, ( link_to "The Past Month", params.merge(:order => :month) ) ) %>
+		<%# content_tag(:li, ( link_to "Fewest Downloads", params.merge(:order => :unpopular) ) ) %>
+  </ul>  
+
+	<h2>Gameplay</h2>
+	<ul>
+		<li><%= link_to 'Every Man for Himself', tag_path('emfh') %></li>
+		<li><%= link_to 'Solo / Cooperative', tag_path('solocoop') %></li>		
+		<li><%= link_to 'King of the Hill', tag_path('koth') %></li>
+		<li><%= link_to 'Kill the Man with the Ball', tag_path('ktmwtb') %></li>
+		<li><%= link_to 'Capture the Flag', tag_path('ctf') %></li>		
+		<li><%= link_to 'Survival', tag_path('survival') %></li>		
+	</ul>
+
+	<h2>File type</h2>
+	<ul>
+		<li><%= link_to 'Map', tag_path('map') %></li>
+		<li><%= link_to 'Scenario', tag_path('scenario') %></li>
+		<li><%= link_to 'Plugin', tag_path('plugin') %></li>		
+		<li><%= link_to 'Enhancement', tag_path('enhancement') %></li>		
+		<li><%= link_to 'Script', tag_path('script') %></li>		
+		<li><%= link_to 'Physics', tag_path('physics') %></li>		
+		<li><%= link_to 'Utility', tag_path('utility') %></li>		
+	</ul>
+
+	<h2>Scenarios</h2>
+	<ul>
+		<li><%= link_to 'Marathon', item_path('marathon') %></li>		
+		<li><%= link_to 'Marathon: Durandal', item_path('marathon-2-durandal') %></li>		
+		<li><%= link_to 'Marathon: Infinity', item_path('marathon-infinity') %></li>		
+	</ul>
+	
+	<h2 class="logo">Simplici<span>7</span>y</h2>
+	<ul>
+		<li><%= link_to 'About the project', item_path('simplici7y') %></li>		
+		<li><%= link_to 'Popular tags', tags_path %></li>		
+		<li><%= link_to 'Issue tracker', 'https://github.com/rkuykendall/Simplici7y/issues', :target => '_blank' %></li>		
+		<li>
+			<script type="text/javascript" language="javascript">
+			<!--
+			ML="j\"/k0cK=t?i2.<:7>@b feRmnyld-p%usharoS";
+			MI="=RCQSED71GR:J8T>FTBES8C6OI3EHKRJJC=STBES8AS3OI3EHKRJJ<5TG@9POB0E587U:GMJ:5:?IN;4LN;41@UEHKCGECRHCEGR:J=2R@";
+			OT="";
+			for(j=0;j<MI.length;j++){
+			OT+=ML.charAt(MI.charCodeAt(j)-48);
+			}document.write(OT);
+			// --></script>
+		</li>
+	</ul>

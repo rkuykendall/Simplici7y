@@ -26,8 +26,6 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
 
-  config.gem 'nokogiri', :version => '~> 1.4.4', :source => 'http://gems.github.com'
-
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -52,7 +50,7 @@ Rails::Initializer.run do |config|
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
     :session_key => '_Simplici7y_session',
-    :secret      => 'f6ee98c13ef642478e731edcd4399d94DevelopmentOnlySecret'
+    :secret      => ENV['S7_SECRET'] || 'f6ee98c13ef642478e731edcd4399d94DevelopmentOnlySecret'
   }
 
   # Use the database for sessions instead of the cookie-based default,
@@ -72,16 +70,6 @@ end
 require 'tagging_extensions'
 # gem 'mislav-will_paginate', '~> 2.2'
 # require 'will_paginate'
-
-gem 'nokogiri', '~> 1.4.4'
-require 'nokogiri'
-
-Rails::Initializer.run do |config|
-  config.gem 'sanitize', :version => '~> 2.0.1', :source => 'http://gems.github.com'
-end
-
-gem 'sanitize', '~> 2.0.1'
-require 'sanitize'
 
 gem 'gravtastic'
 require 'gravtastic'

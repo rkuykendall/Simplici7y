@@ -1,5 +1,7 @@
-*.log
+log
 database.yml
 public/screenshot/
 public/version/
 tmp/
+archives
+

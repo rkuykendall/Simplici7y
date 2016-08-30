@@ -3,6 +3,15 @@ Simplici7y
 
 > "Welcome to the Marathon" -Leela
 
+App Requirements
+----------------
+
++ *ruby*: ruby 1.8.7 (2013-12-22 patchlevel 375)
++ gravtastic (3.2.6)
++ rails (2.1.2)
++ rmagick (2.13.1)
+
+
 Getting Started
 ---------------
 

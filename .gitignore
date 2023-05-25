@@ -1,7 +1,4 @@
-log
-database.yml
-public/screenshot/
-public/version/
-tmp/
-archives
-
+.idea
+venv
+**/*.pyc
+db.sqlite3

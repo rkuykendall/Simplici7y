@@ -2,3 +2,5 @@
 venv
 **/*.pyc
 db.sqlite3
+development_config.py
+test_config.py

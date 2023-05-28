@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 (
                     "tc",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT, to="s7.item"
+                        on_delete=django.db.models.deletion.PROTECT, to="items.item"
                     ),
                 ),
                 (
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 (
                     "item",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="s7.item"
+                        on_delete=django.db.models.deletion.CASCADE, to="items.item"
                     ),
                 ),
             ],
@@ -94,7 +94,7 @@ class Migration(migrations.Migration):
                 (
                     "item",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="s7.item"
+                        on_delete=django.db.models.deletion.CASCADE, to="items.item"
                     ),
                 ),
             ],
@@ -129,7 +129,7 @@ class Migration(migrations.Migration):
                 (
                     "version",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="s7.version"
+                        on_delete=django.db.models.deletion.CASCADE, to="items.version"
                     ),
                 ),
             ],
@@ -161,7 +161,7 @@ class Migration(migrations.Migration):
                 (
                     "version",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="s7.version"
+                        on_delete=django.db.models.deletion.CASCADE, to="items.version"
                     ),
                 ),
             ],

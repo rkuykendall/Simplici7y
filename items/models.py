@@ -45,7 +45,7 @@ class Screenshot(TimeStampMixin):
     # file_column :file, :magick => { :versions => { "content" => "460x800", "thumb" => "150x200" } }
 
 
-class Tag:
+class Tag(models.Model):
     name = models.CharField(max_length=255)
     permalink = models.CharField(max_length=255)
     items = models.ManyToManyField(Item)

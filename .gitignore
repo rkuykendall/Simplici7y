@@ -2,5 +2,4 @@
 venv
 **/*.pyc
 db.sqlite3
-s7/deployment_config.py
 test_config.py

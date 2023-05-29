@@ -27,7 +27,7 @@ if not DEBUG:
 else:
     SECRET_KEY = json.load(open("test_config.json"))["SECRET_KEY"]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['simplici7y.herokuapp.com', 'simplici7y.com']
 
 
 # Application definition

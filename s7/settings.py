@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-if not DEBUG:
-    SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-else:
-    SECRET_KEY = json.load(open("test_config.json"))["SECRET_KEY"]
+# if not DEBUG:
+#     SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+# else:
+SECRET_KEY = json.load(open("test_config.json"))["SECRET_KEY"]
 
-ALLOWED_HOSTS = ['simplici7y.herokuapp.com', 'simplici7y.com']
+ALLOWED_HOSTS = ['simplici7y.herokuapp.com', 'simplici7y.com', '127.0.0.1']
 
 
 # Application definition
@@ -57,7 +57,7 @@ ROOT_URLCONF = "s7.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ['templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

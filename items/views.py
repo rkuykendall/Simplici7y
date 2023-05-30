@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from .models import Item, Version, Download, Review, Screenshot, Tag
@@ -18,8 +19,12 @@ def page_not_found_view(request, exception):
 
 
 def item_list(request):
-    items = Item.objects.all()
-    return render(request, "item_list.html", {"items": items})
+    item_list = Item.objects.all().order_by('-updated_at')
+    paginator = Paginator(item_list, 10)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "item_list.html", {"page_obj": page_obj})
 
 
 class ItemViewSet(viewsets.ModelViewSet):

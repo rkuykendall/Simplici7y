@@ -13,7 +13,7 @@ class TimeStampMixin(models.Model):
 class Item(TimeStampMixin):
     name = models.CharField(max_length=255)
     body = models.TextField()
-    tc = models.ForeignKey('self', on_delete=models.PROTECT)
+    tc = models.ForeignKey("self", on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     permalink = models.CharField(max_length=255)
 
@@ -49,4 +49,3 @@ class Tag(models.Model):
     name = models.CharField(max_length=255)
     permalink = models.CharField(max_length=255)
     items = models.ManyToManyField(Item)
-

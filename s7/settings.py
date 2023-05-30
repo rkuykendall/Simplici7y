@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # else:
 SECRET_KEY = json.load(open("test_config.json"))["SECRET_KEY"]
 
-ALLOWED_HOSTS = ['simplici7y.herokuapp.com', 'simplici7y.com', '127.0.0.1']
+ALLOWED_HOSTS = ["simplici7y.herokuapp.com", "simplici7y.com", "127.0.0.1"]
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ ROOT_URLCONF = "s7.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['templates'],
+        "DIRS": ["templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

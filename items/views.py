@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
@@ -18,6 +19,7 @@ def page_not_found_view(request, exception):
     return render(request, "404.html", status=404)
 
 
+@login_required
 def item_list(request):
     item_list = Item.objects.all().order_by('-updated_at')
     paginator = Paginator(item_list, 10)

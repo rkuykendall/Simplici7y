@@ -23,6 +23,3 @@ urlpatterns = [
     path("items/", item_list, name="item_list"),
     path("api/", include(router.urls)),
 ]
-
-
-print(urlpatterns)

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, permissions
 from .models import Item, Version, Download, Review, Screenshot, Tag
 from .permissions import IsOwnerOrReadOnly
@@ -21,12 +21,18 @@ def page_not_found_view(request, exception):
 
 @login_required
 def item_list(request):
-    item_list = Item.objects.all().order_by('-updated_at')
-    paginator = Paginator(item_list, 10)
+    item_objects = Item.objects.all().order_by("-updated_at")
+    paginator = Paginator(item_objects, 10)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "item_list.html", {"page_obj": page_obj})
+
+
+@login_required
+def item_detail(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+    return render(request, "item_detail.html", {"item": item})
 
 
 class ItemViewSet(viewsets.ModelViewSet):

@@ -3,20 +3,37 @@
 <head>
     <title>Page not found</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
         body {
             color: #242426;
-            font-family: sans-serif;
+            font-weight: 400;
+            font-family: 'Source Sans Pro', sans-serif;
             padding: 4rem;
         }
 
-        a, a:hover, a:active, a:link {
+        .blue,
+        a, a:active, a:link {
+            color: #6299c5;
+        }
+
+        a:hover {
             color: #00a3e0;
+        }
+
+        .bottom-logo {
+            font-size: 10rem;
+            transform: rotate(-3deg);
+            position: absolute;
+            bottom: -4rem;;
+            left: 20%;
         }
     </style>
 </head>
 <body>
-    <h1>Simplici<span style="color: #00a3e0">7</span>y <span style="color: #00a3e0">2.0</span>: Coming soon</h1>
+    <h1>Simplici<span class="blue">7</span>y <span class="blue">2.0</span> is getting closer</h1>
     <p>For now, check out <a href="https://lochnits.com/s7/">lochnits.com/s7/</a></p>
     <p>Check out my progress (or help out) at <a href="https://github.com/rkuykendall/Simplici7y">github.com/rkuykendall/Simplici7y</a></p>
+    <span class="bottom-logo">Simplici<span class="blue">7</span>y</span>
 </body>
 </html>

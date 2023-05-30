@@ -9,6 +9,7 @@ from .views import (
     ScreenshotViewSet,
     TagViewSet,
     item_list,
+    item_detail,
 )
 
 router = DefaultRouter()
@@ -20,6 +21,8 @@ router.register(r"screenshots", ScreenshotViewSet)
 router.register(r"tags", TagViewSet)
 
 urlpatterns = [
+    # path("", item_list, name="homepage"),
     path("items/", item_list, name="item_list"),
+    path("items/<str:item_permalink>/", item_detail, name="item_detail"),
     path("api/", include(router.urls)),
 ]

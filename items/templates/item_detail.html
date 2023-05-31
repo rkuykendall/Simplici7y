@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 <h1>{{ item.name|escape }} <span>by {{ item.user.username|escape }}</span></h1>
 
 <div class="content">
@@ -7,7 +11,7 @@
             {{ item.body|safe }}
         </div>
         <!-- You'll need to create a custom template tag or filter for download_button -->
-        {{ version|download_button }}
+        <!-- {\{ version|download_button }\} -->
 
         <h2>Version {{ version.name|escape }}</h2>
         <div class="markdown">
@@ -33,11 +37,11 @@
         {% if user == item.user %}
             <h2>Controls</h2>
 
-            <a href="{% url 'edit_item' item.pk %}" class="button change edit-txt">Edit information</a>
-            <a href="{% url 'delete_item' item.pk %}" class="button negative delete" onclick="return confirm('Are you sure? This will destroy this item, along with all the versions, screenshots, and reviews associated with it.');">Delete everything</a>
+            <a href="{\% url 'edit_item' item.pk %}" class="button change edit-txt">Edit information</a>
+            <a href="{\% url 'delete_item' item.pk %}" class="button negative delete" onclick="return confirm('Are you sure? This will destroy this item, along with all the versions, screenshots, and reviews associated with it.');">Delete everything</a>
 
-            <a href="{% url 'edit_item_version' item.pk version.pk %}" class="button change edit-txt">Edit version</a>
-            <a href="{% url 'new_item_version' item.pk %}" class="button positive add">Add version</a>
+            <a href="{\% url 'edit_item_version' item.pk version.pk %}" class="button change edit-txt">Edit version</a>
+            <a href="{\% url 'new_item_version' item.pk %}" class="button positive add">Add version</a>
         {% endif %}
 
         <h2>{{ item.reviews.count }} Review{{ item.reviews.count|plural
@@ -47,16 +51,16 @@
             {% for review in reviews %}
                 {% include "reviews/show.html" %}
             {% endfor %}
-            <a href="{% url 'new_item_review' item.pk %}" class="button positive add">Write a review</a>
+            <a href="{\% url 'new_item_review' item.pk %}" class="button positive add">Write a review</a>
         </div>
 
     </div>
 
     <div class="content screenshots">
-        <h2>{{ item.screenshots.count }} Screenshot{{ item.screenshots.count|pluralize }}</h2>
+        <h2>{\{ item.screenshots.count }} Screenshot{{ item.screenshots.count|pluralize }}</h2>
 
         {% if user == item.user %}
-            <div class="sidenote"><a href="{% url 'item_screenshots' item.pk %}" class="button next">Manage screenshots</a></div><hr />
+            <div class="sidenote"><a href="{\% url 'item_screenshots' item.pk %}" class="button next">Manage screenshots</a></div><hr />
         {% endif %}
 
         {% for screenshot in screenshots %}
@@ -64,15 +68,16 @@
                 <h3>{{ screenshot.title|escape }}</h3>
             {% endif %}
             <!-- Django doesn't have a url_for_file_column helper like Rails. You'll need to manually construct the URL for the screenshot file -->
-            <a href="{{ screenshot.file.url }}" target="_blank"><img src="{{ screenshot.file.url }}"></a>
+            <a href="{\{ screenshot.file.url }}" target="_blank"><img src="{{ screenshot.file.url }}"></a>
         {% endfor %}
 
         <h3></h3>
         {% if screenshots.count < 1 %}
-            <img src="{% static 'images/no-screenshots.png' %}">
+            <img src="\{% static 'images/no-screenshots.png' %\}">
         {% endif %}
 
         <hr />
 
     </div>
 </div>
+{% endblock %}

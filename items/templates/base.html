@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<meta name="description" content="File sharing downloads for the Marathon Aleph One community. Download community created maps, scenarios, mods, scripts, and applications." />
+	<meta name="keywords" content="bungie, marathon, downloads, maps, multiplayer, aleph one, scenarios, simplicity, pfhorums" />
+	<title>Simplici7y - {{ page_title|default:'' }}</title>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+	<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+</head>
+
+<body class="{{ view_name }}">
+	<div id="menu">
+		<ul id="navigation">
+			<li><a href="/" class="logo">Simplici<span>7</span>y</a></li>
+			<li><a href="{% url 'item_list' %}">Downloads</a></li>
+			<li><a href="{\% url 'review_list' %}">Reviews</a></li>
+			<li><a href="{\% url 'user_list' %}">Users</a></li>
+
+			{% if user.is_authenticated %}
+				<li><a href="{\% url 'user_detail' user.username %}" class="username">{{ user.username }}</a></li>
+				<li><a href="{\% url 'submit' %}" class="control">Submit</a></li>
+				<li><a href="{\% url 'settings' user.username %}" class="control">Settings</a></li>
+				<li><a href="{\% url 'logout' %}" class="control">Log out</a></li>
+			{% else %}
+				<li><a href="{\% url 'about' %}">About</a></li>
+				<li><a href="#community">Community</a></li>
+				<li><a href="{\% url 'signup' %}" class="control">Sign Up</a></li>
+				<li><a href="{\% url 'login' %}" class="control">Log In</a></li>
+			{% endif %}
+
+		</ul>
+		<hr />
+	</div>
+
+	{\% messages %}
+
+	<div id="container">
+		{% block content %}{% endblock %}
+        <hr />
+	</div>
+
+	<div id="footer">
+		<img src="{% static 'images/big-logo.png' %}" alt="Simplici7y" />
+		<div id="community">
+			<a href="http://www.simplici7y.com/items/simplici7y" class="community_box">
+				<span>Simplici7y</span> Aleph One file sharing website.
+			</a>
+			<a href="http://www.pfhorums.com/" class="community_box">
+				<span>The Pfhorums</span> Talk with players and mappers.
+			</a>
+			<a href="http://source.bungie.org/" class="community_box">
+				<span>Source.Bungie.Org</span> Aleph One project homepage.
+			</a>
+			<a href="http://forums.bungie.org/story/" class="community_box">
+				<span>Marathon Story</span> The original Marathon forum.
+			</a>
+		</div>
+		<hr />
+	</div>
+
+	<!-- Include Google Analytics script here -->
+</body>
+</html>

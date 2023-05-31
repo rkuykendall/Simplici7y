@@ -23,7 +23,7 @@ class Version(TimeStampMixin):
     name = models.CharField(max_length=255)
     body = models.TextField()
     # file_column :file
-    link = models.CharField(max_length=255)
+    link = models.CharField(max_length=255, null=True, blank=True)
 
 
 class Download(TimeStampMixin):

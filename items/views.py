@@ -1,7 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.decorators import login_required
+from .models import User
 from rest_framework import viewsets, permissions
+from .forms import UserForm
 from .models import Item, Version, Download, Review, Screenshot, Tag
 from .permissions import IsOwnerOrReadOnly
 from .serializers import (
@@ -14,22 +18,21 @@ from .serializers import (
 )
 
 
-# Create your views here.
 def page_not_found_view(request, exception):
     return render(request, "404.html", status=404)
 
 
-@login_required
-def item_list(request):
+@login_required  # Remove after go-live
+def items(request):
     item_objects = Item.objects.all().order_by("-updated_at")
     paginator = Paginator(item_objects, 10)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "item_list.html", {"page_obj": page_obj})
+    return render(request, "items.html", {"page_obj": page_obj})
 
 
-@login_required
+@login_required  # Remove after go-live
 def item_detail(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     return render(request, "item_detail.html", {"item": item})
@@ -68,3 +71,63 @@ class ScreenshotViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+
+@login_required  # Remove after go-live
+def reviews(request):
+    return render(request, "reviews.html")
+
+
+@login_required  # Remove after go-live
+def users(request):
+    return render(request, "users.html")
+
+
+@login_required
+def submit(request):
+    return render(request, "submit.html")
+
+
+@login_required
+def settings(request):
+    return render(request, "settings.html")
+
+
+@login_required  # Remove after go-live
+def logout_view(request):
+    logout(request)
+    return redirect("home")
+
+
+@login_required  # Remove after go-live
+def about(request):
+    return render(request, "about.html")
+
+
+@login_required  # Remove after go-live
+def signup(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            raw_password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect("items")
+    else:
+        form = UserForm()
+
+    return render(request, "signup.html", {"form": form})
+
+
+@login_required  # Remove after go-live
+def login_view(request):
+    # You would generally use Django's built-in views for this.
+    pass
+
+
+@login_required  # Remove after go-live
+def user(request, username):
+    user = User.objects.get(username=username)
+    return render(request, "user.html", {"user": user})

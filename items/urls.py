@@ -8,8 +8,17 @@ from .views import (
     ReviewViewSet,
     ScreenshotViewSet,
     TagViewSet,
-    item_list,
+    items,
     item_detail,
+    reviews,
+    users,
+    submit,
+    settings,
+    logout_view,
+    about,
+    signup,
+    login_view,
+    user,
 )
 
 router = DefaultRouter()
@@ -21,8 +30,17 @@ router.register(r"screenshots", ScreenshotViewSet)
 router.register(r"tags", TagViewSet)
 
 urlpatterns = [
-    # path("", item_list, name="homepage"),
-    path("items/", item_list, name="item_list"),
-    path("items/<str:item_permalink>/", item_detail, name="item_detail"),
+    path("", items, name="home"),
+    path("about/", about, name="about"),
     path("api/", include(router.urls)),
+    path("items/", items, name="items"),
+    path("items/<str:item_permalink>/", item_detail, name="item_detail"),
+    path("login/", login_view, name="login"),
+    path("logout/", logout_view, name="logout"),
+    path("reviews/", reviews, name="reviews"),
+    path("settings/", settings, name="settings"),
+    path("signup/", signup, name="signup"),
+    path("submit/", submit, name="submit"),
+    path("users/", users, name="users"),
+    path("users/<str:username>/", user, name="user"),
 ]

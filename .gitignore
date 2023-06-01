@@ -1,5 +1,7 @@
 .idea
 venv
 **/*.pyc
-db.sqlite3
+**/*.sqlite3
+**/*.db
+**/*.sql
 test_config.py

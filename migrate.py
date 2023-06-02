@@ -13,6 +13,9 @@ from contextlib import contextmanager
 
 
 def has_field(model, field_name):
+    if model is None:
+        return False;
+
     return field_name in [field.name for field in model._meta.get_fields()]
 
 
@@ -50,15 +53,17 @@ conn = sqlite3.connect("s7.db")
 username_counts = {}
 
 tables = [
+    ("tags", Tag),
+    ("taggings", None),
     ("users", User),
     ("items", Item),
     ("versions", Version),
-    ("downloads", Download),
+    # ("downloads", Download),
     ("reviews", Review),
     ("screenshots", Screenshot),
-    ("tags", Tag),
 ]
 
+taggings_dict = {}
 version_ids = set()
 item_ids = set()
 user_ids = set()
@@ -67,6 +72,9 @@ user_ids = set()
 for table, Model in tables[::-1]:
     if table == "items":
         Model.objects.update(tc=None)
+
+    if Model is None:
+        continue
 
     print(f"Deleting all {table} rows...")
     Model.objects.all().delete()
@@ -91,6 +99,18 @@ for table, Model in tables:
 
     for row in cursor.fetchall():
         row_dict = dict(zip(column_names, row))
+
+        if table == "taggings":
+            item_id = row_dict['taggable_id']
+            tag_id = row_dict['tag_id']
+
+            # Add item-tag relationship to dictionary
+            if item_id in taggings_dict:
+                taggings_dict[item_id].append(tag_id)
+            else:
+                taggings_dict[item_id] = [tag_id]
+
+            continue
 
         if "tc_id" in row_dict and row_dict["tc_id"] == 0:
             row_dict["tc_id"] = None
@@ -210,9 +230,10 @@ for table, Model in tables:
             instances = []
 
     # Bulk create instances
-    with suppress_auto_now(Model, ["created_at", "updated_at"]):
-        print(f"Saving {len(instances)} rows to {table} table...")
-        Model.objects.bulk_create(instances)
+    if Model is not None:
+        with suppress_auto_now(Model, ["created_at", "updated_at"]):
+            print(f"Saving {len(instances)} rows to {table} table...")
+            Model.objects.bulk_create(instances)
 
     if table == "items":
         item_ids = set(Item.objects.values_list("id", flat=True))
@@ -222,6 +243,25 @@ for table, Model in tables:
 
     if table == "users":
         user_ids = set(User.objects.values_list("id", flat=True))
+
+
+with suppress_auto_now(Item, ["created_at", "updated_at"]):
+    # Iterate over every item id in the taggings_dict
+    for item_id in taggings_dict:
+        if item_id not in item_ids:
+            print(f'Could not find item_id {item_id} in item_ids')
+            continue
+
+        # Fetch the item object for this item_id
+        item = Item.objects.get(id=item_id)
+        # Get tag ids for this item from taggings_dict
+        tag_ids = taggings_dict.get(item_id, [])
+        # Fetch Tag instances
+        tags = Tag.objects.filter(id__in=tag_ids)
+        # Save tags to the item
+        item.tags.set(tags)
+        # Save the item
+        item.save()
 
 
 # Close the SQLite database connection

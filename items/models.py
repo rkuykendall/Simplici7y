@@ -10,12 +10,21 @@ class TimeStampMixin(models.Model):
         abstract = True
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+    permalink = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Item(TimeStampMixin):
     name = models.CharField(max_length=255)
     body = models.TextField()
     tc = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     permalink = models.CharField(max_length=255)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.name
@@ -61,12 +70,3 @@ class Screenshot(TimeStampMixin):
 
     def __str__(self):
         return self.title
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=255)
-    permalink = models.CharField(max_length=255)
-    items = models.ManyToManyField(Item)
-
-    def __str__(self):
-        return self.name

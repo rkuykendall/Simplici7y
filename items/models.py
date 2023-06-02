@@ -22,12 +22,12 @@ class Version(TimeStampMixin):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     body = models.TextField()
-    # file_column :file
+    file = models.FileField(upload_to="versions/", null=True, blank=True)
     link = models.CharField(max_length=255, null=True, blank=True)
 
 
 class Download(TimeStampMixin):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     version = models.ForeignKey(Version, on_delete=models.CASCADE)
 
 
@@ -42,7 +42,7 @@ class Review(TimeStampMixin):
 class Screenshot(TimeStampMixin):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    # file_column :file, :magick => { :versions => { "content" => "460x800", "thumb" => "150x200" } }
+    file = models.ImageField(upload_to="screenshots/", null=True, blank=True)
 
 
 class Tag(models.Model):

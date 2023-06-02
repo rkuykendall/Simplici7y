@@ -14,6 +14,7 @@ idna==3.4
 mypy-extensions==1.0.0
 packaging==23.1
 pathspec==0.11.1
+Pillow==9.5.0
 pip-upgrader==1.4.15
 platformdirs==3.5.1
 psycopg2==2.9.6

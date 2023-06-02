@@ -131,3 +131,7 @@ def login_view(request):
 def user(request, username):
     user = User.objects.get(username=username)
     return render(request, "user.html", {"user": user})
+
+
+def view_404(request):
+    return render(request, "404.html")

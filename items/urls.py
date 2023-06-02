@@ -2,23 +2,24 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import (
-    ItemViewSet,
-    VersionViewSet,
     DownloadViewSet,
+    ItemViewSet,
     ReviewViewSet,
     ScreenshotViewSet,
     TagViewSet,
-    items,
-    item_detail,
-    reviews,
-    users,
-    submit,
-    settings,
-    logout_view,
+    VersionViewSet,
     about,
-    signup,
+    item_detail,
+    items,
     login_view,
+    logout_view,
+    reviews,
+    settings,
+    signup,
+    submit,
     user,
+    users,
+    view_404,
 )
 
 router = DefaultRouter()
@@ -36,6 +37,7 @@ urlpatterns = [
     path("items/", items, name="items"),
     path("items/<str:item_permalink>/", item_detail, name="item_detail"),
     path("login/", login_view, name="login"),
+    path("404/", view_404, name="view_404"),
     path("logout/", logout_view, name="logout"),
     path("reviews/", reviews, name="reviews"),
     path("settings/", settings, name="settings"),

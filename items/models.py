@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+def get_upload_path(instance, filename):
+    model = instance.__class__.__name__.lower()
+    return f'{model}/{instance.id}/{filename}'
+
+
 class TimeStampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -34,7 +39,7 @@ class Version(TimeStampMixin):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     body = models.TextField()
-    file = models.FileField(upload_to="versions/", null=True, blank=True)
+    file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
     link = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
@@ -65,8 +70,8 @@ class Review(TimeStampMixin):
 
 class Screenshot(TimeStampMixin):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    file = models.ImageField(upload_to="screenshots/", null=True, blank=True)
+    title = models.CharField(max_length=255, blank=True)
+    file = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
 
     def __str__(self):
         return self.title

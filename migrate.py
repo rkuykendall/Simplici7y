@@ -14,7 +14,7 @@ from contextlib import contextmanager
 
 def has_field(model, field_name):
     if model is None:
-        return False;
+        return False
 
     return field_name in [field.name for field in model._meta.get_fields()]
 
@@ -101,8 +101,8 @@ for table, Model in tables:
         row_dict = dict(zip(column_names, row))
 
         if table == "taggings":
-            item_id = row_dict['taggable_id']
-            tag_id = row_dict['tag_id']
+            item_id = row_dict["taggable_id"]
+            tag_id = row_dict["tag_id"]
 
             # Add item-tag relationship to dictionary
             if item_id in taggings_dict:
@@ -115,8 +115,9 @@ for table, Model in tables:
         if "tc_id" in row_dict and row_dict["tc_id"] == 0:
             row_dict["tc_id"] = None
 
-        if table == "versions" and "body" in row_dict and row_dict["body"] is None:
-            row_dict["body"] = ""
+        if table == "versions":
+            if "body" in row_dict and row_dict["body"] is None:
+                row_dict["body"] = ""
 
         if table == "downloads":
             row_dict.pop("item_id")
@@ -179,10 +180,10 @@ for table, Model in tables:
                 print(row_dict)
                 continue
 
-        if table == "screenshots" and "title" in row_dict and row_dict["title"] is None:
-            row_dict["title"] = ""
-
         if table == "screenshots":
+            if "title" in row_dict and row_dict["title"] is None:
+                row_dict["title"] = ""
+
             # if item doesn't exist, skip the row
             item_id = row_dict.get("item_id")
             if item_id is None or item_id not in item_ids:
@@ -190,16 +191,20 @@ for table, Model in tables:
                 print(row_dict)
                 continue
 
+        if "file" in row_dict and row_dict['file'] is not None:
+            filename = row_dict['file']
+            row_dict['file'] = f"{table}/{row_dict['id']}/{filename}"
+
         if "updated_at" in row_dict:
             row_dict["updated_at"] = clean_date(row_dict["updated_at"])
 
         if "created_at" in row_dict:
             row_dict["created_at"] = clean_date(row_dict["created_at"])
 
-        if 'created_at' in row_dict and row_dict["created_at"] is None:
+        if "created_at" in row_dict and row_dict["created_at"] is None:
             row_dict["created_at"] = row_dict["updated_at"]
 
-        if 'updated_at' in row_dict and row_dict["updated_at"] is None:
+        if "updated_at" in row_dict and row_dict["updated_at"] is None:
             row_dict["updated_at"] = row_dict["created_at"]
 
         if (
@@ -249,7 +254,7 @@ with suppress_auto_now(Item, ["created_at", "updated_at"]):
     # Iterate over every item id in the taggings_dict
     for item_id in taggings_dict:
         if item_id not in item_ids:
-            print(f'Could not find item_id {item_id} in item_ids')
+            print(f"Could not find item_id {item_id} in item_ids")
             continue
 
         # Fetch the item object for this item_id

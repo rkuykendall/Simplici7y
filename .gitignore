@@ -5,3 +5,4 @@ venv
 **/*.db
 **/*.sql
 test_config.py
+.env

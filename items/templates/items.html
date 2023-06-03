@@ -1,20 +1,14 @@
 {% extends "base.html" %}
+{% load markdownify %}
 
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Item List</title>
-</head>
-<body>
-    <h1>Item List</h1>
-    <ul>
     {% for item in page_obj %}
-        <li>{{ item.name }}</li>
+        {% with show=item %}
+            {% include "_show_partial.html" %}
+        {% endwith %}
     {% empty %}
-        <li>No items available.</li>
+        <div>No items available.</div>
     {% endfor %}
-    </ul>
 
     <div class="pagination">
         <span class="step-links">
@@ -33,6 +27,4 @@
             {% endif %}
         </span>
     </div>
-</body>
-</html>
 {% endblock %}

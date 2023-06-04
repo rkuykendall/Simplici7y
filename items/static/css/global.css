@@ -904,9 +904,18 @@ body.users.index #container a {
   float: left;
 }
 
-.thumb {
+.screenshot_thumb {
   max-width: 150px;
   max-height: 200px;
+}
+
+.screenshot_content {
+    max-width: 460px;
+    max-height: 800px;
+}
+
+.wip {
+  display: none;
 }
 
 

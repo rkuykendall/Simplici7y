@@ -35,7 +35,20 @@ def items(request):
 @login_required  # Remove after go-live
 def item_detail(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
-    return render(request, "item_detail.html", {"item": item})
+    item_version = item.find_version()
+    item_screenshots = Screenshot.objects.filter(item=item).all()
+    item_reviews = Review.objects.filter(version__item=item).all()
+
+    return render(
+        request,
+        "item_detail.html",
+        {
+            "item": item,
+            "screenshots": item_screenshots,
+            "version": item_version,
+            "reviews": item_reviews,
+        },
+    )
 
 
 class ItemViewSet(viewsets.ModelViewSet):

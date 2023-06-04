@@ -1,15 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
+from django.contrib.auth.models import AbstractUser
+
+
+def get_model_name(instance):
+    return instance.__class__.__name__.lower()
 
 
 def get_upload_path(instance, filename):
-    model = instance.__class__.__name__.lower()
-    return f"{model}/{instance.id}/{filename}"
+    return f"{get_model_name(instance)}/{instance.id}/{filename}"
 
 
 class TimeStampMixin(models.Model):
@@ -18,6 +21,11 @@ class TimeStampMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class User(AbstractUser):
+    def get_absolute_url(self):
+        return reverse("user", kwargs={"username": self.username})
 
 
 class Tag(models.Model):
@@ -54,7 +62,7 @@ class Item(TimeStampMixin):
         return Screenshot.objects.order_by("?").first()
 
     def get_absolute_url(self):
-        reverse("item_detail", args={"permalink": self.permalink})
+        return reverse("item_detail", kwargs={"item_permalink": self.permalink})
 
 
 class Version(TimeStampMixin):
@@ -69,12 +77,10 @@ class Version(TimeStampMixin):
 
     def download_button(self):
         if self.file:
-            url = '<a href="{}" class="button down">Download</a>'.format(
-                self.item.get_absolute_url()
-            )
+            url = '<a href="{}" class="button down">Download</a>'.format(self.file)
         elif self.link:
             url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(
-                self.item.get_absolute_url()
+                self.link
             )
         else:
             url = ""
@@ -102,6 +108,9 @@ class Review(TimeStampMixin):
 
     def __str__(self):
         return f"Review by {self.user.username} - {self.title}"
+
+    def can_be_edited_by(self, user):
+        return self.user == user or user.is_superuser
 
 
 class Screenshot(TimeStampMixin):

@@ -7,10 +7,10 @@
 	<div class="map">
 		{{ version.download_button }}
 		<h3><a href="{{ show.get_absolute_url }}">{{ show.name }} {{ version.name }}</a></h3>
-		<h4><a href="{{ show.user.get_absolute_url }}">{{ show.user.username }}</a> on {{ show.version_created_at|date:"SHORT_DATE_FORMAT" }}</h4>
+		<h4><a href="{{ show.user.get_absolute_url }}">{{ show.user.username }}</a> on {{ version.created_at|date:"SHORT_DATE_FORMAT" }}</h4>
 		<div class="indent markdown">
 			{% if screenshot %}
-			<a href="{{ show.get_absolute_url }}"><img src="{{ screenshot.file_thumb.url }}" alt="" class="thumb"></a>
+			<a href="{{ show.get_absolute_url }}"><img src="{{ screenshot.file_thumb.url }}" alt="" class="screenshot_thumb"></a>
 			{% endif %}
 			{{ show.body|markdownify }}
 
@@ -20,7 +20,7 @@
 
 			{{ version.body|markdownify }}
 
-			<h4>
+			<h4 class="wip">
 				{{ show.downloads.count }} download{{ show.downloads.count|pluralize }},
 				{{ show.reviews.count }} review{{ show.reviews.count|pluralize }},
 				{{ show.screenshots.count }} screenshot{{ show.screenshots.count|pluralize }},

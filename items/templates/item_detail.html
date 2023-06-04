@@ -1,55 +1,61 @@
 {% extends "base.html" %}
+{% load markdownify %}
 
 {% block content %}
 
 <h1>{{ item.name|escape }} <span>by {{ item.user.username|escape }}</span></h1>
 
-<div class="content">
-    <h2>Description</h2>
-    <div class="indent">
-        <div class="markdown">
-            {{ item.body|safe }}
+<div>
+    <div class="content">
+        <h2>Description</h2>
+        <div class="indent">
+            <div class="markdown">
+                {{ item.body|markdownify }}
+            </div>
+            {{ version.download_button }}
         </div>
-        <!-- You'll need to create a custom template tag or filter for download_button -->
-        <!-- {\{ version|download_button }\} -->
 
         <h2>Version {{ version.name|escape }}</h2>
         <div class="markdown">
-            {{ version.body|safe }}
+            {{ version.body|markdownify }}
         </div>
 
         <ul class="details">
-            <li>Uploaded {{ item.version_created_at|date:"F j, Y" }}</li>
+            <li>Uploaded {{ version.created_at|date:"F j, Y" }}</li>
             <li>tags:
                 {% for tag in item.tag_list.split %}
-                    <a href="{% url 'tag' tag %}">{{ tag }}</a>
+                <a href="{% url 'tag' tag %}">{{ tag }}</a>
                 {% endfor %}
             </li>
             <li>{{ item.downloads.count }} download{{ item.downloads.count|pluralize }}</li>
             <li>{{ version.downloads.count }} download{{ version.downloads.count|pluralize }}</li>
-            <!-- You'll need to add properties or methods to your models for downloads_day_count, downloads_week_count, downloads_month_count -->
+
+            <span class="wip">
             <li>{{ item.downloads_day_count }} download{{ item.downloads_day_count|pluralize }} in the last 24 hours</li>
             <li>{{ item.downloads_week_count }} download{{ item.downloads_week_count|pluralize }} in the last 7 days</li>
             <li>{{ item.downloads_month_count }} download{{ item.downloads_month_count|pluralize }} in the last month</li>
             <li>{{ item.ratings_count|stringformat:".1f" }} rating ( {{ item.ratings_weighted_count|stringformat:".2f" }} weighted for sorting )</li>
+            </span>
         </ul>
 
         {% if user == item.user %}
-            <h2>Controls</h2>
+        <h2>Controls</h2>
 
-            <a href="{\% url 'edit_item' item.pk %}" class="button change edit-txt">Edit information</a>
-            <a href="{\% url 'delete_item' item.pk %}" class="button negative delete" onclick="return confirm('Are you sure? This will destroy this item, along with all the versions, screenshots, and reviews associated with it.');">Delete everything</a>
+        <a href="{\% url 'edit_item' item.pk %}" class="button change edit-txt">Edit information</a>
+        <a href="{\% url 'delete_item' item.pk %}" class="button negative delete"
+           onclick="return confirm('Are you sure? This will destroy this item, along with all the versions, screenshots, and reviews associated with it.');">Delete
+            everything</a>
 
-            <a href="{\% url 'edit_item_version' item.pk version.pk %}" class="button change edit-txt">Edit version</a>
-            <a href="{\% url 'new_item_version' item.pk %}" class="button positive add">Add version</a>
+        <a href="{\% url 'edit_item_version' item.pk version.pk %}" class="button change edit-txt">Edit version</a>
+        <a href="{\% url 'new_item_version' item.pk %}" class="button positive add">Add version</a>
         {% endif %}
 
-        <h2>{{ item.reviews.count }} Review{{ item.reviews.count|plural
+        <h2 class="wip">{{ reviews.count }} Review{{ reviews.count|plural
         </h2>
 
-        <div id="map_reviews">
+        <div id="map_reviews" class="wip">
             {% for review in reviews %}
-                {% include "reviews/show.html" %}
+            {% include "_show_review.html" %}
             {% endfor %}
             <a href="{\% url 'new_item_review' item.pk %}" class="button positive add">Write a review</a>
         </div>
@@ -57,26 +63,28 @@
     </div>
 
     <div class="content screenshots">
-        <h2>{\{ item.screenshots.count }} Screenshot{{ item.screenshots.count|pluralize }}</h2>
+        <h2>{{ screenshots.count }} Screenshot{{ screenshots.count|pluralize }}</h2>
 
         {% if user == item.user %}
-            <div class="sidenote"><a href="{\% url 'item_screenshots' item.pk %}" class="button next">Manage screenshots</a></div><hr />
+        <div class="sidenote"><a href="{\% url 'item_screenshots' item.pk %}" class="button next">Manage screenshots</a>
+        </div>
+        <hr/>
         {% endif %}
 
         {% for screenshot in screenshots %}
-            {% if screenshot.title %}
-                <h3>{{ screenshot.title|escape }}</h3>
-            {% endif %}
-            <!-- Django doesn't have a url_for_file_column helper like Rails. You'll need to manually construct the URL for the screenshot file -->
-            <a href="{\{ screenshot.file.url }}" target="_blank"><img src="{{ screenshot.file.url }}"></a>
+        {% if screenshot.title %}
+        <h3>{{ screenshot.title|escape }}</h3>
+        {% endif %}
+        <a href="{{ screenshot.file.url }}" target="_blank"><img class="screenshot_content"
+                                                                 src="{{ screenshot.file_content.url }}"></a>
         {% endfor %}
 
         <h3></h3>
         {% if screenshots.count < 1 %}
-            <img src="\{% static 'images/no-screenshots.png' %\}">
+        <img src="\{% static 'images/no-screenshots.png' %\}">
         {% endif %}
 
-        <hr />
+        <hr/>
 
     </div>
 </div>

@@ -67,6 +67,8 @@ MIDDLEWARE = (
 
 ROOT_URLCONF = "s7.urls"
 
+AUTH_USER_MODEL = "items.User"
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

@@ -23,7 +23,7 @@ def page_not_found_view(request, exception):
     return render(request, "404.html", status=404)
 
 
-@login_required  # Remove after go-live
+# @login_required  # Remove after go-live
 def items(request):
     latest_versions = Prefetch(
         "version_set",
@@ -46,7 +46,7 @@ def items(request):
     return render(request, "items.html", {"page_obj": page_obj})
 
 
-@login_required  # Remove after go-live
+# @login_required  # Remove after go-live
 def item_detail(request, item_permalink):
     item = get_object_or_404(
         Item.objects.annotate(total_downloads=Count("version__download")),
@@ -104,17 +104,17 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
 
 
-@login_required  # Remove after go-live
+# @login_required  # Remove after go-live
 def reviews(request):
     return render(request, "reviews.html")
 
 
-@login_required  # Remove after go-live
+# @login_required  # Remove after go-live
 def users(request):
     return render(request, "users.html")
 
 
-@login_required
+# @login_required
 def submit(request):
     return render(request, "submit.html")
 
@@ -124,13 +124,13 @@ def settings(request):
     return render(request, "settings.html")
 
 
-@login_required  # Remove after go-live
+@login_required
 def logout_view(request):
     logout(request)
     return redirect("home")
 
 
-@login_required  # Remove after go-live
+# @login_required  # Remove after go-live
 def about(request):
     return render(request, "about.html")
 
@@ -158,7 +158,7 @@ def login_view(request):
     pass
 
 
-@login_required  # Remove after go-live
+# @login_required  # Remove after go-live
 def user(request, username):
     user = User.objects.get(username=username)
     return render(request, "user.html", {"user": user})

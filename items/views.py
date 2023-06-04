@@ -24,7 +24,7 @@ def page_not_found_view(request, exception):
 
 @login_required  # Remove after go-live
 def items(request):
-    item_objects = Item.objects.all().order_by("-updated_at")
+    item_objects = Item.objects.all().order_by("-created_at")
     paginator = Paginator(item_objects, 10)
 
     page_number = request.GET.get("page")

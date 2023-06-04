@@ -16,7 +16,7 @@ def get_upload_path(instance, filename):
 
 
 class TimeStampMixin(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False, db_index=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:

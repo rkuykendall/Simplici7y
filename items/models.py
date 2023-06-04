@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
 
 
 def get_upload_path(instance, filename):
     model = instance.__class__.__name__.lower()
-    return f'{model}/{instance.id}/{filename}'
+    return f"{model}/{instance.id}/{filename}"
 
 
 class TimeStampMixin(models.Model):
@@ -40,19 +42,19 @@ class Item(TimeStampMixin):
     def __str__(self):
         return self.name
 
-    # def save(self, *args, **kwargs):
-    #     if not self.pk:
-    #         self.permalink = slugify(self.name)
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.permalink = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def find_version(self):
-        return Version.objects.filter(item=self).latest('created_at')
+        return Version.objects.filter(item=self).latest("created_at")
 
     def rand_screenshot(self):
-        return Screenshot.objects.order_by('?').first()
+        return Screenshot.objects.order_by("?").first()
 
     def get_absolute_url(self):
-        reverse('item_detail', args={'permalink': self.permalink})
+        reverse("item_detail", args={"permalink": self.permalink})
 
 
 class Version(TimeStampMixin):
@@ -67,9 +69,13 @@ class Version(TimeStampMixin):
 
     def download_button(self):
         if self.file:
-            url = '<a href="{}" class="button down">Download</a>'.format(self.item.get_absolute_url())
+            url = '<a href="{}" class="button down">Download</a>'.format(
+                self.item.get_absolute_url()
+            )
         elif self.link:
-            url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(self.item.get_absolute_url())
+            url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(
+                self.item.get_absolute_url()
+            )
         else:
             url = ""
 
@@ -101,7 +107,19 @@ class Review(TimeStampMixin):
 class Screenshot(TimeStampMixin):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, blank=True)
-    file = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
+    file = models.ImageField(upload_to=get_upload_path)
+    file_thumb = ImageSpecField(
+        source="file",
+        processors=[ResizeToFit(300, 400)],
+        format="JPEG",
+        options={"quality": 90},
+    )
+    file_content = ImageSpecField(
+        source="file",
+        processors=[ResizeToFit(920, 1600)],
+        format="JPEG",
+        options={"quality": 90},
+    )
 
     def __str__(self):
         return self.title

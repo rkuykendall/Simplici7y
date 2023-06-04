@@ -904,6 +904,11 @@ body.users.index #container a {
   float: left;
 }
 
+.thumb {
+  max-width: 150px;
+  max-height: 200px;
+}
+
 
 /* ==============================
       Star Rating

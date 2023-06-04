@@ -58,7 +58,7 @@ tables = [
     ("users", User),
     ("items", Item),
     ("versions", Version),
-    # ("downloads", Download),
+    ("downloads", Download),
     ("reviews", Review),
     ("screenshots", Screenshot),
 ]
@@ -191,9 +191,9 @@ for table, Model in tables:
                 print(row_dict)
                 continue
 
-        if "file" in row_dict and row_dict['file'] is not None:
-            filename = row_dict['file']
-            row_dict['file'] = f"{table}/{row_dict['id']}/{filename}"
+        if "file" in row_dict and row_dict["file"] is not None:
+            filename = row_dict["file"]
+            row_dict["file"] = f"{table}/{row_dict['id']}/{filename}"
 
         if "updated_at" in row_dict:
             row_dict["updated_at"] = clean_date(row_dict["updated_at"])
@@ -215,6 +215,11 @@ for table, Model in tables:
         ):
             print("Skipping record with no created_at or updated_at")
             continue
+
+        if "body" in row_dict and row_dict["body"] is not None:
+            row_dict["body"] = (
+                row_dict["body"].replace("\\r\\n", "\\r").replace("\\r", "\r")
+            )
 
         row_dict = {
             k: v

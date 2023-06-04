@@ -3,7 +3,7 @@
 
 {% block content %}
     {% for item in page_obj %}
-        {% with show=item %}
+        {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
             {% include "_show_partial.html" %}
         {% endwith %}
     {% empty %}

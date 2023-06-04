@@ -22,13 +22,13 @@
 
         <ul class="details">
             <li>Uploaded {{ version.created_at|date:"F j, Y" }}</li>
-            <li>tags:
-                {% for tag in item.tag_list.split %}
+            <li class="wip">tags:
+                {% for tag in item.tag_set %}
                 <a href="{% url 'tag' tag %}">{{ tag }}</a>
                 {% endfor %}
             </li>
-            <li>{{ item.downloads.count }} download{{ item.downloads.count|pluralize }}</li>
-            <li>{{ version.downloads.count }} download{{ version.downloads.count|pluralize }}</li>
+            <li>{{ item.total_downloads }} download{{ item.total_downloads|pluralize }} of this item</li>
+            <li>{{ version.download_set.count }} download{{ version.download_set.count|pluralize }} of latest version</li>
 
             <span class="wip">
             <li>{{ item.downloads_day_count }} download{{ item.downloads_day_count|pluralize }} in the last 24 hours</li>

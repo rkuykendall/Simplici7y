@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Prefetch, Sum, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -24,7 +25,20 @@ def page_not_found_view(request, exception):
 
 @login_required  # Remove after go-live
 def items(request):
-    item_objects = Item.objects.all().order_by("-created_at")
+    latest_versions = Prefetch(
+        "version_set",
+        queryset=Version.objects.order_by("-created_at"),
+        to_attr="latest_version",
+    )
+    random_screenshots = Prefetch(
+        "screenshot_set",
+        queryset=Screenshot.objects.order_by("?"),
+        to_attr="random_screenshot",
+    )
+
+    item_objects = Item.objects.prefetch_related(
+        latest_versions, random_screenshots, "user"
+    ).order_by("-created_at")
     paginator = Paginator(item_objects, 10)
 
     page_number = request.GET.get("page")
@@ -34,7 +48,11 @@ def items(request):
 
 @login_required  # Remove after go-live
 def item_detail(request, item_permalink):
-    item = get_object_or_404(Item, permalink=item_permalink)
+    item = get_object_or_404(
+        Item.objects.annotate(total_downloads=Count("version__download")),
+        permalink=item_permalink,
+    )
+    # item.prefetch_related('version_set', 'screenshot_set', 'review_set')
     item_version = item.find_version()
     item_screenshots = Screenshot.objects.filter(item=item).all()
     item_reviews = Review.objects.filter(version__item=item).all()

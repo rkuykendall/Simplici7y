@@ -542,25 +542,26 @@ div.subnav div.notice {
 }
 
 #errorExplanation {
-	border: 2px solid red;
+	border: 3px solid #c00;
 	padding: 10px;
 	padding-bottom: 0px;
 	margin-bottom: 20px;
-	background-color: #f0f0f0;
+	background-color: #f9e5e5;
+	border-radius: 4px;
 	}
+
 	#errorExplanation h2 {
 		text-align: left;
-		font-weight: bold;
+        font-size: 20px;
 		letter-spacing: 1px;
 		padding: 5px 5px 5px 15px;
-		font-size: 12px;
 		margin: -10px;
 		margin-bottom: 10px;
 		background-color: #c00;
 		color: #fff;
 	}
 	#errorExplanation p {
-		color: #333;
+		color: #280000;
 	}
 	#errorExplanation ul {
 		list-style: square;

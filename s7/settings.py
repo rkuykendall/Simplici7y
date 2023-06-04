@@ -15,7 +15,8 @@ import json
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+if not os.environ.get("PRODUCTION"):
+    load_dotenv()
 
 DEBUG = os.environ.get("DEBUG")
 

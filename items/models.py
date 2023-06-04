@@ -77,7 +77,7 @@ class Version(TimeStampMixin):
 
     def download_button(self):
         if self.file:
-            url = '<a href="{}" class="button down">Download</a>'.format(self.file)
+            url = '<a href="{}" class="button down">Download</a>'.format(self.file.url)
         elif self.link:
             url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(
                 self.link

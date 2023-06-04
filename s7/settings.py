@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # else:
 SECRET_KEY = json.load(open("test_config.json"))["SECRET_KEY"]
 
-ALLOWED_HOSTS = ["simplici7y.herokuapp.com", "simplici7y.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["simplici7y.herokuapp.com", "www.simplici7y.com", "simplici7y.com", "127.0.0.1"]
 
 
 # Application definition

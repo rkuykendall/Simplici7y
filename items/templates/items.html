@@ -2,6 +2,17 @@
 {% load markdownify %}
 
 {% block content %}
+<div class="sidebar">
+  <h2>Search &amp; Sort</h2>
+
+    {% include "_sort.html" %}
+<!--	<%= render :partial => "layouts/site" %>-->
+	<hr />
+</div>
+
+
+<div class="content">
+
     {% for item in page_obj %}
         {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
             {% include "_show_partial.html" %}
@@ -27,4 +38,16 @@
             {% endif %}
         </span>
     </div>
+
+    	<hr />
+</div>
+
+<div class="sidebar">
+  <h2>Filter by Tags</h2>
+    In Development
+<!--	<%= render :partial => "layouts/tags" %>-->
+	<hr />
+</div>
+
+<hr />
 {% endblock %}

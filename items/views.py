@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Prefetch, Sum, Count
+from django.db.models import Prefetch, Sum, Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -25,6 +25,7 @@ def page_not_found_view(request, exception):
 
 # @login_required  # Remove after go-live
 def items(request):
+
     latest_versions = Prefetch(
         "version_set",
         queryset=Version.objects.order_by("-created_at"),
@@ -36,10 +37,43 @@ def items(request):
         to_attr="random_screenshot",
     )
 
-    item_objects = Item.objects.prefetch_related(
+    items = Item.objects.prefetch_related(
         latest_versions, random_screenshots, "user"
-    ).order_by("-created_at")
-    paginator = Paginator(item_objects, 10)
+    )
+
+    order = request.GET.get('order')
+    search = request.GET.get('search', None)
+
+    if search:
+        items = items.filter(Q(name__icontains=search) | Q(body__icontains=search))
+
+    # apply filters and ordering
+    if order == 'new':
+        items = items.order_by('-created_at')
+    elif order == 'old':
+        items = items.order_by('created_at')
+    elif order == 'best':
+        items = items.filter(review_set__count__gt=0).order_by('-ratings_weighted_count')
+    elif order == 'worst':
+        items = items.filter(review_set__count__gt=0).order_by('ratings_weighted_count')
+    elif order == 'popular':
+        items = items.order_by('-downloads_count')
+    elif order == 'unpopular':
+        items = items.order_by('downloads_count')
+    elif order == 'day':
+        items = items.filter(downloads_day_count__gt=0).order_by('-downloads_day_count')
+    elif order == 'week':
+        items = items.filter(downloads_week_count__gt=0).order_by('-downloads_week_count')
+    elif order == 'month':
+        items = items.filter(downloads_month_count__gt=0).order_by('-downloads_month_count')
+    elif order == 'loud':
+        items = items.filter(review_set__count__gt=0).order_by('-reviews_count')
+    elif order == 'quiet':
+        items = items.order_by('review_set__count')
+    else:  # Default to new
+        items = items.order_by('-created_at')
+
+    paginator = Paginator(items, 10)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)

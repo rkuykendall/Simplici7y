@@ -1,12 +1,11 @@
 {% load reviews_helpers %}
 {% load markdownify %}
 
-{% if show and show.item %}
+{% if show %}
     <div class="review relevancy-{{ show.relevancy }}">
-        <!-- You need to create stars Django template tag or filter -->
-        {{ show.rating|stars }}
+        {{ show.rating|stars|safe }}
         <h3>{{ show.title|escape }} {% if not controller.name == 'items' and not controller.action == 'show' %}<span>{{ show.item.name|escape }}</span>{% endif %}</h3>
-        <h4><a href="{% url 'user_detail' show.user.id %}">{{ show.user.username }}</a> on {{ show.created_at|date:"F j, Y" }}, Version {{ show.version.name|escape }}</h4>
+        <h4><a href="{% url 'user' show.user.id %}">{{ show.user.username }}</a> on {{ show.created_at|date:"F j, Y" }}, Version {{ show.version.name|escape }}</h4>
 
         {% if 'permission' == True %}
             <a href="{% url 'review_edit' show.item.id show.id %}" class="button change edit-txt">Edit</a>
@@ -15,14 +14,13 @@
         {% endif %}
 
         <div class="indent markdown">
-            {{ show.body|markdownify|linebreaks }}
+            {{ show.body|markdownify }}
         </div>
     </div>
     <hr />
 {% elif show and controller.name == 'users' and controller.action == 'show' and 'permission' == True %}
     <div class="review relevancy-{{ show.relevancy }}">
-        <!-- You need to create stars Django template tag or filter -->
-        {{ show.rating|stars }}
+        {{ show.rating|stars|safe }}
         <h3>{{ show.title|escape }}</h3>
         <h4><a href="{% url 'user_detail' show.user.id %}">{{ show.user.username }}</a> on {{ show.created_at|date:"F j, Y" }}</h4>
 

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Prefetch, Sum, Count, Q
+from django.db.models import Prefetch, Sum, Count, Q, ExpressionWrapper, F, FloatField, Avg
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -47,29 +47,42 @@ def items(request):
     if search:
         items = items.filter(Q(name__icontains=search) | Q(body__icontains=search))
 
+    # Calculate the average review score and the number of reviews for each item
+    # items = items.annotate(avg_rating=Avg('version__review__rating'), num_reviews=Count('version__review'))
+
+    # Calculate a weighted score by multiplying the average rating by the number of reviews
+    # items = items.annotate(
+    #     weighted_score=ExpressionWrapper(
+    #         F('avg_rating') * F('num_reviews'),
+    #         output_field=FloatField(),
+    #     )
+    # )
+
     # apply filters and ordering
     if order == 'new':
         items = items.order_by('-created_at')
-    elif order == 'old':
-        items = items.order_by('created_at')
-    elif order == 'best':
-        items = items.filter(review_set__count__gt=0).order_by('-ratings_weighted_count')
-    elif order == 'worst':
-        items = items.filter(review_set__count__gt=0).order_by('ratings_weighted_count')
-    elif order == 'popular':
-        items = items.order_by('-downloads_count')
-    elif order == 'unpopular':
-        items = items.order_by('downloads_count')
-    elif order == 'day':
-        items = items.filter(downloads_day_count__gt=0).order_by('-downloads_day_count')
-    elif order == 'week':
-        items = items.filter(downloads_week_count__gt=0).order_by('-downloads_week_count')
-    elif order == 'month':
-        items = items.filter(downloads_month_count__gt=0).order_by('-downloads_month_count')
-    elif order == 'loud':
-        items = items.filter(review_set__count__gt=0).order_by('-reviews_count')
-    elif order == 'quiet':
-        items = items.order_by('review_set__count')
+    # elif order == 'old':
+    #     items = items.order_by('created_at')
+    # elif order == 'reviews':
+    #     items = items.order_by('-avg_rating')
+    # elif order == 'best':
+    #     items = items.order_by('-weighted_score')
+    # elif order == 'worst':
+    #     items = items.order_by('ratings_weighted_count')
+    # elif order == 'popular':
+    #     items = items.order_by('-downloads_count')
+    # elif order == 'unpopular':
+    #     items = items.order_by('downloads_count')
+    # elif order == 'day':
+    #     items = items.filter(downloads_day_count__gt=0).order_by('-downloads_day_count')
+    # elif order == 'week':
+    #     items = items.filter(downloads_week_count__gt=0).order_by('-downloads_week_count')
+    # elif order == 'month':
+    #     items = items.filter(downloads_month_count__gt=0).order_by('-downloads_month_count')
+    # elif order == 'loud':
+    #     items = items.filter(review_set__count__gt=0).order_by('-reviews_count')
+    # elif order == 'quiet':
+    #     items = items.order_by('review_set__count')
     else:  # Default to new
         items = items.order_by('-created_at')
 

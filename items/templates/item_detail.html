@@ -50,14 +50,16 @@
         <a href="{\% url 'new_item_version' item.pk %}" class="button positive add">Add version</a>
         {% endif %}
 
-        <h2 class="wip">{{ reviews.count }} Review{{ reviews.count|plural
+        <h2>{{ reviews.count }} Review{{reviews.count|pluralize}}
         </h2>
 
-        <div id="map_reviews" class="wip">
+        <div id="map_reviews">
             {% for review in reviews %}
+            {% with show=review %}
             {% include "_show_review.html" %}
+            {% endwith %}
             {% endfor %}
-            <a href="{\% url 'new_item_review' item.pk %}" class="button positive add">Write a review</a>
+<!--            <a href="{\% url 'new_item_review' item.pk %}" class="button positive add">Write a review</a>-->
         </div>
 
     </div>

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Prefetch, Sum, Count, Q, ExpressionWrapper, F, FloatField, Avg
+from django.db.models import Prefetch, Sum, Count, Q, ExpressionWrapper, F, FloatField, Avg, Exists, OuterRef
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -26,7 +26,7 @@ def page_not_found_view(request, exception):
 # @login_required  # Remove after go-live
 def items(request):
 
-    latest_versions = Prefetch(
+    latest_version = Prefetch(
         "version_set",
         queryset=Version.objects.order_by("-created_at"),
         to_attr="latest_version",
@@ -37,8 +37,10 @@ def items(request):
         to_attr="random_screenshot",
     )
 
-    items = Item.objects.prefetch_related(
-        latest_versions, random_screenshots, "user"
+    items = Item.objects.annotate(has_version=Exists(Version.objects.filter(item=OuterRef('pk'))))
+
+    items = items.filter(has_version=True).prefetch_related(
+        latest_version, random_screenshots, "user"
     )
 
     order = request.GET.get('order')
@@ -86,7 +88,7 @@ def items(request):
     else:  # Default to new
         items = items.order_by('-created_at')
 
-    paginator = Paginator(items, 10)
+    paginator = Paginator(items, 20)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)

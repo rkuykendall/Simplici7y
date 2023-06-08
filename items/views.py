@@ -179,11 +179,6 @@ def logout_view(request):
     return redirect("home")
 
 
-# @login_required  # Remove after go-live
-def about(request):
-    return render(request, "about.html")
-
-
 @login_required  # Remove after go-live
 def signup(request):
     if request.method == "POST":

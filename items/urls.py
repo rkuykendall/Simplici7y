@@ -1,6 +1,5 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework.urlpatterns import format_suffix_patterns
 from .views import (
     DownloadViewSet,
     ItemViewSet,
@@ -8,7 +7,6 @@ from .views import (
     ScreenshotViewSet,
     TagViewSet,
     VersionViewSet,
-    about,
     item_detail,
     items,
     login_view,
@@ -32,7 +30,6 @@ router.register(r"tags", TagViewSet)
 
 urlpatterns = [
     path("", items, name="home"),
-    path("about/", about, name="about"),
     path("api/", include(router.urls)),
     path("items/", items, name="items"),
     path("items/<str:item_permalink>/", item_detail, name="item_detail"),

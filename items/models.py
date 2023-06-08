@@ -44,9 +44,12 @@ class Item(TimeStampMixin):
     permalink = models.SlugField(max_length=255, unique=True)
     tags = models.ManyToManyField(Tag)
 
+    # Cached / calculated fields
     downloads_count = models.PositiveIntegerField(default=0)
     reviews_count = models.PositiveIntegerField(default=0)
     screenshots_count = models.PositiveIntegerField(default=0)
+    rating_average = models.FloatField(default=0.0)
+    rating_weighted = models.FloatField(default=0.0)
 
     # class Meta:
     #     ordering = ['version_created_at']

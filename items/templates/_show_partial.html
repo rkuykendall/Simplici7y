@@ -20,8 +20,9 @@
 		<h4>
 			{{ show.downloads_count }} download{{ show.downloads_count|pluralize }},
 			{{ show.reviews_count }} review{{ show.reviews_count|pluralize }},
-			{{ show.screenshots_count }} screenshot{{ show.screenshots_count|pluralize }},
-			<span class="wip">{{ show.ratings_count|stringformat:".1f" }} rating</span>
+			{{ show.screenshots_count }} screenshot{{ show.screenshots_count|pluralize }}{% if show.reviews_count > 0 %},
+				{{ show.rating_average|stringformat:".1f" }} rating
+			{% endif %}
 		</h4>
 	</div>
 </div>

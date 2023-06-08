@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load markdownify %}
+{% load static %}
 
 {% block content %}
 
@@ -83,7 +84,7 @@
 
         <h3></h3>
         {% if screenshots.count < 1 %}
-        <img src="\{% static 'images/no-screenshots.png' %\}">
+        <img src="{% static 'images/no-screenshots.png' %}">
         {% endif %}
 
         <hr/>

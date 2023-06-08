@@ -44,6 +44,10 @@ class Item(TimeStampMixin):
     permalink = models.SlugField(max_length=255, unique=True)
     tags = models.ManyToManyField(Tag)
 
+    downloads_count = models.PositiveIntegerField(default=0)
+    reviews_count = models.PositiveIntegerField(default=0)
+    screenshots_count = models.PositiveIntegerField(default=0)
+
     # class Meta:
     #     ordering = ['version_created_at']
 
@@ -98,6 +102,17 @@ class Download(TimeStampMixin):
 
         return f"Download of version {self.version.name}"
 
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        super().save(*args, **kwargs)
+
+        if created:
+            Item.objects.filter(pk=self.version.item.pk).update(downloads_count=models.F('downloads_count') + 1)
+
+    def delete(self, *args, **kwargs):
+        Item.objects.filter(pk=self.version.item.pk).update(downloads_count=models.F('downloads_count') - 1)
+        super().delete(*args, **kwargs)
+
 
 class Review(TimeStampMixin):
     version = models.ForeignKey(Version, on_delete=models.CASCADE)
@@ -111,6 +126,17 @@ class Review(TimeStampMixin):
 
     def can_be_edited_by(self, user):
         return self.user == user or user.is_superuser
+
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        super().save(*args, **kwargs)
+
+        if created:
+            Item.objects.filter(pk=self.version.item.pk).update(reviews_count=models.F('reviews_count') + 1)
+
+    def delete(self, *args, **kwargs):
+        Item.objects.filter(pk=self.version.item.pk).update(reviews_count=models.F('reviews_count') - 1)
+        super().delete(*args, **kwargs)
 
 
 class Screenshot(TimeStampMixin):
@@ -132,3 +158,14 @@ class Screenshot(TimeStampMixin):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        super().save(*args, **kwargs)
+
+        if created:
+            Item.objects.filter(pk=self.item.pk).update(screenshots_count=models.F('screenshots_count') + 1)
+
+    def delete(self, *args, **kwargs):
+        Item.objects.filter(pk=self.item.pk).update(screenshots_count=models.F('screenshots_count') - 1)
+        super().delete(*args, **kwargs)

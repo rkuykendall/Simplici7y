@@ -17,12 +17,12 @@
 
 		{{ version.body|markdownify }}
 
-		<h4 class="wip">
-			{{ show.downloads.count }} download{{ show.downloads.count|pluralize }},
-			{{ show.reviews.count }} review{{ show.reviews.count|pluralize }},
-			{{ show.screenshots.count }} screenshot{{ show.screenshots.count|pluralize }},
-			{{ show.ratings_count|stringformat:".1f" }} rating
-			</h4>
+		<h4>
+			{{ show.downloads_count }} download{{ show.downloads_count|pluralize }},
+			{{ show.reviews_count }} review{{ show.reviews_count|pluralize }},
+			{{ show.screenshots_count }} screenshot{{ show.screenshots_count|pluralize }},
+			<span class="wip">{{ show.ratings_count|stringformat:".1f" }} rating</span>
+		</h4>
 	</div>
 </div>
 <hr />

@@ -103,8 +103,8 @@ def item_detail(request, item_permalink):
     )
     # item.prefetch_related('version_set', 'screenshot_set', 'review_set')
     item_version = item.find_version()
-    item_screenshots = Screenshot.objects.filter(item=item).all()
-    item_reviews = Review.objects.filter(version__item=item).all()
+    item_screenshots = Screenshot.objects.filter(item=item).order_by('-created_at').all()
+    item_reviews = Review.objects.filter(version__item=item).order_by('-created_at').all()
 
     return render(
         request,

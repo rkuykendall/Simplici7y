@@ -29,12 +29,12 @@
             </li>
             <li>{{ item.total_downloads }} download{{ item.total_downloads|pluralize }} of this item</li>
             <li>{{ version.download_set.count }} download{{ version.download_set.count|pluralize }} of latest version</li>
+            <li>{{ item.rating_average|stringformat:".1f" }} rating ( {{ item.rating_weighted|stringformat:".2f" }} weighted for sorting )</li>
 
             <span class="wip">
             <li>{{ item.downloads_day_count }} download{{ item.downloads_day_count|pluralize }} in the last 24 hours</li>
             <li>{{ item.downloads_week_count }} download{{ item.downloads_week_count|pluralize }} in the last 7 days</li>
             <li>{{ item.downloads_month_count }} download{{ item.downloads_month_count|pluralize }} in the last month</li>
-            <li>{{ item.ratings_count|stringformat:".1f" }} rating ( {{ item.ratings_weighted_count|stringformat:".2f" }} weighted for sorting )</li>
             </span>
         </ul>
 

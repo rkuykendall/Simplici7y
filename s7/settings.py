@@ -217,3 +217,5 @@ LOGGING = {
         }
     },
 }
+
+USE_THOUSAND_SEPARATOR = True

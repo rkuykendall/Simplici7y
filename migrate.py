@@ -218,7 +218,10 @@ for table, Model in tables:
 
         if "body" in row_dict and row_dict["body"] is not None:
             row_dict["body"] = (
-                row_dict["body"].replace("\\r\\n", "\\r").replace("\\r", "\r").replace("\\n", "\n")
+                row_dict["body"]
+                .replace("\\r\\n", "\\r")
+                .replace("\\r", "\r")
+                .replace("\\n", "\n")
             )
 
         row_dict = {

@@ -1,4 +1,5 @@
 {% load static %}
+{% load helpers %}
 
 <!DOCTYPE HTML>
 <html>
@@ -6,7 +7,7 @@
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 	<meta name="description" content="File sharing downloads for the Marathon Aleph One community. Download community created maps, scenarios, mods, scripts, and applications." />
 	<meta name="keywords" content="bungie, marathon, downloads, maps, multiplayer, aleph one, scenarios, simplicity, pfhorums" />
-	<title>Simplici7y - {{ page_title|default:'' }}</title>
+    <title>Simplici7y - {% pagetitle page_title|default:'' %}</title>
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
 	<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
 </head>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -37,7 +38,7 @@ class Tag(models.Model):
 
 
 class Item(TimeStampMixin):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, db_index=True)
     body = models.TextField()
     tc = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -45,11 +46,12 @@ class Item(TimeStampMixin):
     tags = models.ManyToManyField(Tag)
 
     # Cached / calculated fields
-    downloads_count = models.PositiveIntegerField(default=0)
-    reviews_count = models.PositiveIntegerField(default=0)
+    downloads_count = models.PositiveIntegerField(default=0, db_index=True)
+    reviews_count = models.PositiveIntegerField(default=0, db_index=True)
     screenshots_count = models.PositiveIntegerField(default=0)
-    rating_average = models.FloatField(default=0.0)
-    rating_weighted = models.FloatField(default=0.0)
+    rating_average = models.FloatField(default=0.0, db_index=True)
+    rating_weighted = models.FloatField(default=0.0, db_index=True)
+    version_created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     # class Meta:
     #     ordering = ['version_created_at']
@@ -94,6 +96,15 @@ class Version(TimeStampMixin):
 
         return mark_safe('<div class="sidenote">{}</div>'.format(url))
 
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        super().save(*args, **kwargs)
+
+        if created:
+            Item.objects.filter(pk=self.item.pk).update(
+                version_created_at=F("created_at")
+            )
+
 
 class Download(TimeStampMixin):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -110,10 +121,14 @@ class Download(TimeStampMixin):
         super().save(*args, **kwargs)
 
         if created:
-            Item.objects.filter(pk=self.version.item.pk).update(downloads_count=models.F('downloads_count') + 1)
+            Item.objects.filter(pk=self.version.item.pk).update(
+                downloads_count=models.F("downloads_count") + 1
+            )
 
     def delete(self, *args, **kwargs):
-        Item.objects.filter(pk=self.version.item.pk).update(downloads_count=models.F('downloads_count') - 1)
+        Item.objects.filter(pk=self.version.item.pk).update(
+            downloads_count=models.F("downloads_count") - 1
+        )
         super().delete(*args, **kwargs)
 
 
@@ -135,10 +150,14 @@ class Review(TimeStampMixin):
         super().save(*args, **kwargs)
 
         if created:
-            Item.objects.filter(pk=self.version.item.pk).update(reviews_count=models.F('reviews_count') + 1)
+            Item.objects.filter(pk=self.version.item.pk).update(
+                reviews_count=models.F("reviews_count") + 1
+            )
 
     def delete(self, *args, **kwargs):
-        Item.objects.filter(pk=self.version.item.pk).update(reviews_count=models.F('reviews_count') - 1)
+        Item.objects.filter(pk=self.version.item.pk).update(
+            reviews_count=models.F("reviews_count") - 1
+        )
         super().delete(*args, **kwargs)
 
 
@@ -167,8 +186,12 @@ class Screenshot(TimeStampMixin):
         super().save(*args, **kwargs)
 
         if created:
-            Item.objects.filter(pk=self.item.pk).update(screenshots_count=models.F('screenshots_count') + 1)
+            Item.objects.filter(pk=self.item.pk).update(
+                screenshots_count=models.F("screenshots_count") + 1
+            )
 
     def delete(self, *args, **kwargs):
-        Item.objects.filter(pk=self.item.pk).update(screenshots_count=models.F('screenshots_count') - 1)
+        Item.objects.filter(pk=self.item.pk).update(
+            screenshots_count=models.F("screenshots_count") - 1
+        )
         super().delete(*args, **kwargs)

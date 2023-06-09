@@ -1,24 +1,26 @@
 {% extends "base.html" %}
 {% load markdownify %}
+{% load helpers %}
+
 
 {% block content %}
 <div class="sidebar">
   <h2>Search &amp; Sort</h2>
 
     {% include "_sort.html" %}
-<!--	<%= render :partial => "layouts/site" %>-->
 	<hr />
 </div>
 
 
 <div class="content">
+  <h2>{% subtitle %}</h2>
 
     {% for item in page_obj %}
         {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
             {% include "_show_partial.html" %}
         {% endwith %}
     {% empty %}
-        <div>No items available.</div>
+        <div>There are no results to display.</div>
     {% endfor %}
 
     <div class="pagination">

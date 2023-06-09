@@ -33,7 +33,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # else:
 SECRET_KEY = json.load(open("test_config.json"))["SECRET_KEY"]
 
-ALLOWED_HOSTS = ["simplici7y.herokuapp.com", "www.simplici7y.com", "simplici7y.com", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "simplici7y.herokuapp.com",
+    "www.simplici7y.com",
+    "simplici7y.com",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -50,6 +55,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "storages",
     "markdownify",
+    "django.contrib.postgres",
 ]
 
 MIDDLEWARE = (
@@ -58,7 +64,7 @@ MIDDLEWARE = (
     ]
     + (["whitenoise.middleware.WhiteNoiseMiddleware"] if not DEBUG else [])
     + [
-        's7.middleware.RemoveWwwMiddleware',
+        "s7.middleware.RemoveWwwMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",

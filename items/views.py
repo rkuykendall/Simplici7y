@@ -1,6 +1,19 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Prefetch, Sum, Count, Q, ExpressionWrapper, F, FloatField, Avg, Exists, OuterRef
+from django.db.models import (
+    Prefetch,
+    Sum,
+    Count,
+    Q,
+    ExpressionWrapper,
+    F,
+    FloatField,
+    Avg,
+    Exists,
+    OuterRef,
+    CharField,
+)
+from django.db.models.functions import Lower
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -18,6 +31,8 @@ from .serializers import (
     TagSerializer,
 )
 
+CharField.register_lookup(Lower)
+
 
 def page_not_found_view(request, exception):
     return render(request, "404.html", status=404)
@@ -25,7 +40,6 @@ def page_not_found_view(request, exception):
 
 # @login_required  # Remove after go-live
 def items(request):
-
     latest_version = Prefetch(
         "version_set",
         queryset=Version.objects.order_by("-created_at"),
@@ -37,31 +51,35 @@ def items(request):
         to_attr="random_screenshot",
     )
 
-    items = Item.objects.annotate(has_version=Exists(Version.objects.filter(item=OuterRef('pk'))))
+    items = Item.objects.annotate(
+        has_version=Exists(Version.objects.filter(item=OuterRef("pk")))
+    )
 
     items = items.filter(has_version=True).prefetch_related(
         latest_version, random_screenshots, "user"
     )
 
-    order = request.GET.get('order')
-    search = request.GET.get('search', None)
+    order = request.GET.get("order")
+    search = request.GET.get("search", None)
 
     if search:
-        items = items.filter(Q(name__icontains=search) | Q(body__icontains=search))
+        items = items.filter(Q(name__unaccent__lower__trigram_similar=search))
 
     # apply filters and ordering
-    elif order == 'old':
-        items = items.order_by('created_at')
-    elif order == 'reviews':
-        items = items.order_by('-rating_average')
-    elif order == 'best':
-        items = items.order_by('-rating_weighted')
-    elif order == 'popular':
-        items = items.order_by('-downloads_count')
-    elif order == 'loud':
-        items = items.filter(reviews_count__gt=0).order_by('-reviews_count')
+    elif order == "old":
+        items = items.order_by("version_created_at")
+    elif order == "reviews":
+        items = items.order_by("-rating_average")
+    elif order == "best":
+        items = items.order_by("-rating_weighted")
+    elif order == "worst":
+        items = items.order_by("rating_weighted")
+    elif order == "popular":
+        items = items.order_by("-downloads_count")
+    elif order == "loud":
+        items = items.filter(reviews_count__gt=0).order_by("-reviews_count")
     else:
-        items = items.order_by('-created_at')
+        items = items.order_by("-version_created_at")
 
     paginator = Paginator(items, 20)
 
@@ -78,8 +96,10 @@ def item_detail(request, item_permalink):
     )
     # item.prefetch_related('version_set', 'screenshot_set', 'review_set')
     item_version = item.find_version()
-    item_screenshots = Screenshot.objects.filter(item=item).order_by('created_at').all()
-    item_reviews = Review.objects.filter(version__item=item).order_by('-created_at').all()
+    item_screenshots = Screenshot.objects.filter(item=item).order_by("created_at").all()
+    item_reviews = (
+        Review.objects.filter(version__item=item).order_by("-created_at").all()
+    )
     item_tags = Tag.objects.filter(item=item).all()
 
     return render(

@@ -64,7 +64,7 @@ MIDDLEWARE = (
     ]
     + (["whitenoise.middleware.WhiteNoiseMiddleware"] if not DEBUG else [])
     + [
-        "s7.middleware.RemoveWwwMiddleware",
+        "s7.middleware.RemoveWwwAndHttpsRedirectMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",

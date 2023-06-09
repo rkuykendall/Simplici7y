@@ -1,13 +1,8 @@
 from django.core.paginator import Paginator
 from django.db.models import (
     Prefetch,
-    Sum,
     Count,
     Q,
-    ExpressionWrapper,
-    F,
-    FloatField,
-    Avg,
     Exists,
     OuterRef,
     CharField,
@@ -31,6 +26,9 @@ from .serializers import (
 )
 
 CharField.register_lookup(Lower)
+
+
+page_size = 20
 
 
 def page_not_found_view(request, exception):
@@ -84,7 +82,7 @@ def get_filtered_items(request, tc=None, tag=None):
     else:
         items = items.order_by("-version_created_at")
 
-    paginator = Paginator(items, 20)
+    paginator = Paginator(items, page_size)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -109,7 +107,6 @@ def tag(request, name):
     return render(request, "items.html", {"page_obj": page_obj, "tag": tag})
 
 
-# @login_required  # Remove after go-live
 def item_detail(request, item_permalink):
     legacy_tc_slugs = ['marathon', 'marathon-2-durandal', 'marathon-infinity']
 
@@ -176,9 +173,21 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
 
 
-# @login_required  # Remove after go-live
 def reviews(request):
-    return render(request, "reviews.html")
+    reviews = Review.objects.order_by('-created_at')
+    paginator = Paginator(reviews, page_size)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    base_url = request.path
+    query_params = request.GET.copy()
+
+    def get_url(page_number):
+        query_params["page"] = page_number
+        return f"{base_url}?{query_params.urlencode()}"
+
+    return render(request, 'reviews.html', {'page_obj': page_obj, 'get_url': get_url})
 
 
 def users(request):

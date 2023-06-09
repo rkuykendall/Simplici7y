@@ -1,0 +1,25 @@
+{% load helpers %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?{% url_replace page=1 %}">&laquo; first</a>
+            <a href="?{% url_replace page=page_obj.previous_page_number %}">previous</a>
+        {% else %}
+            <span class="disabled">&laquo; First</span>
+            <span class="disabled">Previous</span>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?{% url_replace page=page_obj.next_page_number %}">Next</a>
+            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">Last &raquo;</a>
+        {% else %}
+            <span class="disabled">Next</span>
+            <span class="disabled">Last &raquo;</span>
+        {% endif %}
+    </span>
+</div>

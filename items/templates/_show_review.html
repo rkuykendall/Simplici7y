@@ -5,7 +5,7 @@
     <div class="review relevancy-{{ show.relevancy }}">
         {{ show.rating|stars|safe }}
         <h3>{{ show.title|escape }} {% if not controller.name == 'items' and not controller.action == 'show' %}<span>{{ show.item.name|escape }}</span>{% endif %}</h3>
-        <h4><a href="{% url 'user' show.user.id %}">{{ show.user.username }}</a> on {{ show.created_at|date:"M jS, Y" }}, Version {{ show.version.name|escape }}</h4>
+        <h4><a href="{% url 'user' show.user.username %}">{{ show.user.first_name }}</a> on {{ show.created_at|date:"M jS, Y" }}, Version {{ show.version.name|escape }}</h4>
 
         {% if 'permission' == True %}
             <a href="{% url 'review_edit' show.item.id show.id %}" class="button change edit-txt">Edit</a>
@@ -22,7 +22,7 @@
     <div class="review relevancy-{{ show.relevancy }}">
         {{ show.rating|stars|safe }}
         <h3>{{ show.title|escape }}</h3>
-        <h4><a href="{% url 'user_detail' show.user.id %}">{{ show.user.username }}</a> on {{ show.created_at|date:"M jS, Y" }}</h4>
+        <h4><a href="{% url 'user_detail' show.user.username %}">{{ show.user.first_name }}</a> on {{ show.created_at|date:"M jS, Y" }}</h4>
 
         <div class="indent markdown">
             {{ show.body|markdownify|linebreaks }}

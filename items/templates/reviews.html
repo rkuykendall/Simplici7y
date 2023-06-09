@@ -1,5 +1,23 @@
 {% extends "base.html" %}
+{% load helpers %}
 
 {% block content %}
-<h1>Reviews</h1>
+<h1><a href="{% url 'reviews' %}">{% pagetitle 'Reviews' %}</a></h1>
+
+<div class="sidebar">
+    <h2>Filter by Tags</h2>
+    In development
+    <hr />
+</div>
+
+<div class="content">
+    <h2>Newest Reviews</h2>
+    {% for review in page_obj %}
+        {% include '_show_review.html' with show=review %}  <!-- assuming you have review.html for each review -->
+    {% endfor %}
+    <hr />
+</div>
+
+{% include "_pagination.html" %}
+
 {% endblock content %}

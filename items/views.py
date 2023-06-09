@@ -69,15 +69,15 @@ def items(request):
     elif order == "old":
         items = items.order_by("version_created_at")
     elif order == "reviews":
-        items = items.order_by("-rating_average")
+        items = items.filter(reviews_count__gt=0).order_by("-rating_average")
     elif order == "best":
-        items = items.order_by("-rating_weighted")
+        items = items.filter(reviews_count__gt=0).order_by("-rating_weighted")
     elif order == "worst":
-        items = items.order_by("rating_weighted")
-    elif order == "popular":
-        items = items.order_by("-downloads_count")
+        items = items.filter(reviews_count__gt=0).order_by("rating_weighted")
     elif order == "loud":
         items = items.filter(reviews_count__gt=0).order_by("-reviews_count")
+    elif order == "popular":
+        items = items.order_by("-downloads_count")
     else:
         items = items.order_by("-version_created_at")
 

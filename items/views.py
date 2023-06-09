@@ -105,6 +105,7 @@ def item_detail(request, item_permalink):
     item_version = item.find_version()
     item_screenshots = Screenshot.objects.filter(item=item).order_by('created_at').all()
     item_reviews = Review.objects.filter(version__item=item).order_by('-created_at').all()
+    item_tags = Tag.objects.filter(item=item).all()
 
     return render(
         request,
@@ -114,6 +115,7 @@ def item_detail(request, item_permalink):
             "screenshots": item_screenshots,
             "version": item_version,
             "reviews": item_reviews,
+            "tags": item_tags,
         },
     )
 
@@ -202,10 +204,14 @@ def login_view(request):
     pass
 
 
-# @login_required  # Remove after go-live
 def user(request, username):
     user = User.objects.get(username=username)
     return render(request, "user.html", {"user": user})
+
+
+def tag(request, name):
+    tag = Tag.objects.get(name=name)
+    return render(request, "tag.html", {"tag": tag})
 
 
 def view_404(request):

@@ -18,6 +18,7 @@ from .views import (
     user,
     users,
     view_404,
+    tag,
 )
 
 router = DefaultRouter()
@@ -42,4 +43,5 @@ urlpatterns = [
     path("submit/", submit, name="submit"),
     path("users/", users, name="users"),
     path("users/<str:username>/", user, name="user"),
+    path("tags/<str:name>/", tag, name="tag"),
 ]

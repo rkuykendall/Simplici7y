@@ -23,8 +23,8 @@
 
         <ul class="details">
             <li>Uploaded {{ version.created_at|date:"F j, Y" }}</li>
-            <li class="wip">tags:
-                {% for tag in item.tag_set %}
+            <li>tags:
+                {% for tag in tags %}
                 <a href="{% url 'tag' tag %}">{{ tag }}</a>
                 {% endfor %}
             </li>

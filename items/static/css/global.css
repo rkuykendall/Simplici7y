@@ -1014,7 +1014,6 @@ div.relevancy-3 .star-rating li.current-rating {
    ============================== */
 
 .pagination {
-  width: 960px;
   clear: both;
 	padding: 3px;
 	margin: 3px;
@@ -1050,4 +1049,5 @@ div.relevancy-3 .star-rating li.current-rating {
 		margin: 2px;
 		border: 1px solid #eee;
 		color: #ddd;
+		cursor: not-allowed;
 }

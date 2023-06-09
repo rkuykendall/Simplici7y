@@ -19,6 +19,7 @@ from .views import (
     users,
     view_404,
     tag,
+    scenario,
 )
 
 router = DefaultRouter()
@@ -34,6 +35,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("items/", items, name="items"),
     path("items/<str:item_permalink>/", item_detail, name="item_detail"),
+    path("scenarios/<str:item_permalink>/", scenario, name="scenario"),
     path("login/", login_view, name="login"),
     path("404/", view_404, name="view_404"),
     path("logout/", logout_view, name="logout"),

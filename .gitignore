@@ -1,5 +1,6 @@
 .idea
 venv
+media
 **/*.pyc
 **/*.sqlite3
 **/*.db

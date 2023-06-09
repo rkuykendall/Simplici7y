@@ -38,8 +38,7 @@ def page_not_found_view(request, exception):
     return render(request, "404.html", status=404)
 
 
-# @login_required  # Remove after go-live
-def items(request):
+def get_filtered_items(request, tc=None, tag=None):
     latest_version = Prefetch(
         "version_set",
         queryset=Version.objects.order_by("-created_at"),
@@ -55,6 +54,12 @@ def items(request):
         has_version=Exists(Version.objects.filter(item=OuterRef("pk")))
     )
 
+    if tc:
+        items = items.filter(tc=tc)
+
+    if tag:
+        items = items.filter(tags=tag)
+
     items = items.filter(has_version=True).prefetch_related(
         latest_version, random_screenshots, "user"
     )
@@ -65,8 +70,7 @@ def items(request):
     if search:
         items = items.filter(Q(name__unaccent__lower__trigram_similar=search))
 
-    # apply filters and ordering
-    elif order == "old":
+    if order == "old":
         items = items.order_by("version_created_at")
     elif order == "reviews":
         items = items.filter(reviews_count__gt=0).order_by("-rating_average")
@@ -85,11 +89,34 @@ def items(request):
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+
+    return page_obj
+
+
+def items(request):
+    page_obj = get_filtered_items(request)
     return render(request, "items.html", {"page_obj": page_obj})
+
+
+def scenario(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+    page_obj = get_filtered_items(request, tc=item.id)
+    return render(request, "items.html", {"page_obj": page_obj, "scenario": item})
+
+
+def tag(request, name):
+    tag = get_object_or_404(Tag, name=name)
+    page_obj = get_filtered_items(request, tag=tag)
+    return render(request, "items.html", {"page_obj": page_obj, "tag": tag})
 
 
 # @login_required  # Remove after go-live
 def item_detail(request, item_permalink):
+    legacy_tc_slugs = ['marathon', 'marathon-2-durandal', 'marathon-infinity']
+
+    if item_permalink in legacy_tc_slugs:
+        return redirect('scenario', item_permalink, permanent=True)
+
     item = get_object_or_404(
         Item.objects.annotate(total_downloads=Count("version__download")),
         permalink=item_permalink,
@@ -155,7 +182,6 @@ def reviews(request):
     return render(request, "reviews.html")
 
 
-# @login_required  # Remove after go-live
 def users(request):
     return render(request, "users.html")
 
@@ -202,11 +228,6 @@ def login_view(request):
 def user(request, username):
     user = User.objects.get(username=username)
     return render(request, "user.html", {"user": user})
-
-
-def tag(request, name):
-    tag = Tag.objects.get(name=name)
-    return render(request, "tag.html", {"tag": tag})
 
 
 def view_404(request):

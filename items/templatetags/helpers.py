@@ -1,26 +1,7 @@
 from django import template
 from django.urls import resolve
-from django.utils.safestring import mark_safe
-from markdown import markdown
-
-from items.models import Item
 
 register = template.Library()
-
-
-# @register.filter
-# def format(text):
-#     if text:
-#         text = text.replace("<", "&lt;").replace(">", "&gt;")
-#         return mark_safe(markdown(text))
-#     return text
-
-
-# @register.filter
-# def clean(text):
-#     if text:
-#         text = text.replace("<", "&lt;").replace(">", "&gt;")
-#     return text
 
 
 @register.simple_tag(takes_context=True)
@@ -36,7 +17,7 @@ def pagetitle(context, text):
 
 @register.simple_tag(takes_context=True)
 def subtitle(context):
-    subtitle = ""  # Initialize subtitle
+    subtitle = ""
     view = resolve(context["request"].path_info)
     order = context["request"].GET.get("order")
 
@@ -44,11 +25,10 @@ def subtitle(context):
         subtitle = "Items"
         if not order:
             subtitle = "Latest Updates and Submissions"
-    elif view.view_name == "item":
-        # assuming permalink is a slug
-        subtitle = Item.objects.get(permalink=context["id"]).name
+    elif view.view_name == "scenario":
+        subtitle = context["scenario"].name
     elif view.view_name == "tag":
-        subtitle = f"Tagged '{context['id'].capitalize()}'"
+        subtitle = f"Tagged '{context['tag'].name.capitalize()}'"
     if order:
         subtitle += order_name(order)
 

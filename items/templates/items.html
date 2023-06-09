@@ -27,8 +27,8 @@
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="?{% url_replace page=1 %}">&laquo; first</a>
+                <a href="?{% url_replace page=page_obj.previous_page_number %}">previous</a>
             {% else %}
                 <span class="disabled">&laquo; First</span>
                 <span class="disabled">Previous</span>
@@ -39,8 +39,8 @@
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                <a href="?{% url_replace page=page_obj.next_page_number %}">Next</a>
+                <a href="?{% url_replace page=page_obj.paginator.num_pages %}">Last &raquo;</a>
             {% else %}
                 <span class="disabled">Next</span>
                 <span class="disabled">Last &raquo;</span>

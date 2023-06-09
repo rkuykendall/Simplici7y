@@ -5,6 +5,13 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
+def url_replace(context, **kwargs):
+    query = context['request'].GET.copy()
+    query.update(kwargs)
+    return query.urlencode()
+
+
+@register.simple_tag(takes_context=True)
 def pagetitle(context, text):
     view = resolve(context["request"].path_info)
     if view.view_name == "items":

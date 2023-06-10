@@ -4,12 +4,6 @@
 {% block content %}
 <h1><a href="{% url 'reviews' %}">{% pagetitle 'Reviews' %}</a></h1>
 
-<div class="sidebar">
-    <h2>Filter by Tags</h2>
-    In development
-    <hr />
-</div>
-
 <div class="content">
     <h2>Newest Reviews</h2>
     {% for review in page_obj %}

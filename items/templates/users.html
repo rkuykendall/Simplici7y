@@ -1,5 +1,25 @@
 {% extends "base.html" %}
+{% load helpers %}
 
 {% block content %}
-<h1>Users</h1>
+<h1><a href="{% url 'users' %}">{% pagetitle 'Active Users' %}</a></h1>
+
+<div class="full">
+	{% for user in users %}
+        <a href="{% url 'user' user.username %}">
+		    <div class="user">
+                <h3>{{ user.first_name|truncatechars:15 }}</h3>
+			    <h4>
+                    {{user.items_count}} {{ user.items_count|pluralize:'item,items' }},
+                    {{user.reviews_count}} {{ user.reviews_count|pluralize:'review,reviews' }}
+                </h4>
+		    </div>
+        </a>
+	{% empty %}
+        <p>No active users found.</p>
+    {% endfor %}
+
+</div>
+
+<hr />
 {% endblock content %}

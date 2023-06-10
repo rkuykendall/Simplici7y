@@ -25,6 +25,10 @@ class TimeStampMixin(models.Model):
 
 
 class User(AbstractUser):
+    # Cached / calculated fields
+    items_count = models.PositiveIntegerField(default=0)
+    reviews_count = models.PositiveIntegerField(default=0)
+
     def get_absolute_url(self):
         return reverse("user", kwargs={"username": self.username})
 
@@ -53,8 +57,8 @@ class Item(TimeStampMixin):
     rating_weighted = models.FloatField(default=0.0, db_index=True)
     version_created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
-    # class Meta:
-    #     ordering = ['version_created_at']
+    class Meta:
+        ordering = ["-version_created_at"]
 
     def __str__(self):
         return self.name
@@ -63,6 +67,24 @@ class Item(TimeStampMixin):
         if not self.pk:
             self.permalink = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        if created:
+            self.permalink = slugify(self.name)
+
+        super().save(*args, **kwargs)
+
+        if created:
+            User.objects.filter(pk=self.user.pk).update(
+                items_count=models.F("items_count") + 1
+            )
+
+    def delete(self, *args, **kwargs):
+        User.objects.filter(pk=self.user.pk).update(
+            items_count=models.F("items_count") - 1
+        )
+        super().delete(*args, **kwargs)
 
     def find_version(self):
         return Version.objects.filter(item=self).latest("created_at")
@@ -153,9 +175,15 @@ class Review(TimeStampMixin):
             Item.objects.filter(pk=self.version.item.pk).update(
                 reviews_count=models.F("reviews_count") + 1
             )
+            User.objects.filter(pk=self.user.pk).update(
+                reviews_count=models.F("reviews_count") + 1
+            )
 
     def delete(self, *args, **kwargs):
         Item.objects.filter(pk=self.version.item.pk).update(
+            reviews_count=models.F("reviews_count") - 1
+        )
+        User.objects.filter(pk=self.user.pk).update(
             reviews_count=models.F("reviews_count") - 1
         )
         super().delete(*args, **kwargs)

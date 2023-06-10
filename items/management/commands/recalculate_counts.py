@@ -9,10 +9,15 @@ from django.db.models import (
     ExpressionWrapper,
     F,
     Max,
+    Q,
 )
 from django.db.models.functions import Coalesce
 
 from items.models import Item, Download, Review, Screenshot
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Command(BaseCommand):
@@ -87,4 +92,26 @@ class Command(BaseCommand):
 
             Item.objects.filter(pk=item.pk).update(**updates)
 
-        self.stdout.write(self.style.SUCCESS("Successfully recalculated counts"))
+        self.stdout.write(self.style.SUCCESS("Successfully recalculated item counts"))
+
+        # Calculate User items and reviews counts
+        User.objects.update(items_count=0, reviews_count=0)
+
+        users = (
+            User.objects.all()
+            .annotate(
+                new_items_count=Count("item", distinct=True),
+                new_reviews_count=Count("review", distinct=True),
+            )
+            .filter(Q(new_items_count__gt=0) | Q(new_reviews_count__gt=0))
+        )
+
+        for user in users:
+            updates = {
+                "items_count": user.new_items_count,
+                "reviews_count": user.new_reviews_count,
+            }
+
+            User.objects.filter(pk=user.pk).update(**updates)
+
+        self.stdout.write(self.style.SUCCESS("Successfully recalculated user counts"))

@@ -5,7 +5,7 @@ from django.db.models import (
     Q,
     Exists,
     OuterRef,
-    CharField,
+    CharField, F,
 )
 from django.db.models.functions import Lower
 from django.shortcuts import render, redirect, get_object_or_404
@@ -108,10 +108,10 @@ def tag(request, name):
 
 
 def item_detail(request, item_permalink):
-    legacy_tc_slugs = ['marathon', 'marathon-2-durandal', 'marathon-infinity']
+    legacy_tc_slugs = ["marathon", "marathon-2-durandal", "marathon-infinity"]
 
     if item_permalink in legacy_tc_slugs:
-        return redirect('scenario', item_permalink, permanent=True)
+        return redirect("scenario", item_permalink, permanent=True)
 
     item = get_object_or_404(
         Item.objects.annotate(total_downloads=Count("version__download")),
@@ -174,10 +174,10 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 def reviews(request):
-    reviews = Review.objects.order_by('-created_at')
+    reviews = Review.objects.order_by("-created_at")
     paginator = Paginator(reviews, page_size)
 
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     base_url = request.path
@@ -187,11 +187,15 @@ def reviews(request):
         query_params["page"] = page_number
         return f"{base_url}?{query_params.urlencode()}"
 
-    return render(request, 'reviews.html', {'page_obj': page_obj, 'get_url': get_url})
+    return render(request, "reviews.html", {"page_obj": page_obj, "get_url": get_url})
 
 
 def users(request):
-    return render(request, "users.html")
+    active_users = User.objects.filter(Q(items_count__gt=0) | Q(reviews_count__gt=0))\
+        .annotate(total_contributions = F('items_count') + F('reviews_count'))\
+        .order_by('-total_contributions')
+
+    return render(request, "users.html", {"users": active_users})
 
 
 # @login_required

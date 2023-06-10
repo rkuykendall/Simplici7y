@@ -5,7 +5,8 @@ from django.db.models import (
     Q,
     Exists,
     OuterRef,
-    CharField, F,
+    CharField,
+    F,
 )
 from django.db.models.functions import Lower
 from django.shortcuts import render, redirect, get_object_or_404
@@ -24,6 +25,9 @@ from .serializers import (
     ScreenshotSerializer,
     TagSerializer,
 )
+from django.contrib.auth import get_user_model
+from items.models import Item, Review
+
 
 CharField.register_lookup(Lower)
 
@@ -191,9 +195,11 @@ def reviews(request):
 
 
 def users(request):
-    active_users = User.objects.filter(Q(items_count__gt=0) | Q(reviews_count__gt=0))\
-        .annotate(total_contributions = F('items_count') + F('reviews_count'))\
-        .order_by('-total_contributions')
+    active_users = (
+        User.objects.filter(Q(items_count__gt=0) | Q(reviews_count__gt=0))
+        .annotate(total_contributions=F("items_count") + F("reviews_count"))
+        .order_by("-total_contributions")
+    )
 
     return render(request, "users.html", {"users": active_users})
 
@@ -238,8 +244,21 @@ def login_view(request):
 
 
 def user(request, username):
-    user = User.objects.get(username=username)
-    return render(request, "user.html", {"user": user})
+    User = get_user_model()
+    user = get_object_or_404(User, username=username)
+
+    items_with_versions = Item.objects.annotate(
+        has_version=Exists(Version.objects.filter(item=OuterRef("pk")))
+    )
+    items = items_with_versions.filter(user=user, has_version=True).order_by(
+        "-version_created_at"
+    )
+
+    reviews = Review.objects.filter(user=user).order_by("-created_at")
+
+    return render(
+        request, "user.html", {"user": user, "items": items, "reviews": reviews}
+    )
 
 
 def view_404(request):

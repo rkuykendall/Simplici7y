@@ -2,22 +2,24 @@
 
 {% block content %}
 <h1>
-  <a href="{% url 'user' username=user.username %}">{{ user.first_name }}</a>
+  <a href="{% url 'user' username=show_user.username %}">{{ show_user.first_name }}</a>
 </h1>
 
 <div class="content">
-  <h2>{{ user.items_count }} Submission{{ user.items_count|pluralize }}</h2>
+  <h2>{{ show_user.items_count }} Submission{{ show_user.items_count|pluralize }}</h2>
 
   {% include "_sort.html" %}
   <hr />
 
   {% for item in items %}
-    {% include '_show_partial.html' with show=item %}
+    {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
+      {% include "_show_partial.html" %}
+    {% endwith %}
   {% endfor %}
 </div>
 
 <div class="content">
-  <h2>{{ user.reviews_count }} Review{{ user.reviews_count|pluralize }}</h2>
+  <h2>{{ show_user.reviews_count }} Review{{ show_user.reviews_count|pluralize }}</h2>
 
   {% for review in reviews %}
     {% include '_show_review.html' with show=review %}

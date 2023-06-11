@@ -26,51 +26,19 @@ from .serializers import (
     TagSerializer,
 )
 from django.contrib.auth import get_user_model
-from items.models import Item, Review
-
 
 CharField.register_lookup(Lower)
-
 
 page_size = 20
 
 
-def page_not_found_view(request, exception):
-    return render(request, "404.html", status=404)
-
-
-def get_filtered_items(request, tc=None, tag=None):
-    latest_version = Prefetch(
-        "version_set",
-        queryset=Version.objects.order_by("-created_at"),
-        to_attr="latest_version",
-    )
-    random_screenshots = Prefetch(
-        "screenshot_set",
-        queryset=Screenshot.objects.order_by("?"),
-        to_attr="random_screenshot",
-    )
-
-    items = Item.objects.annotate(
+def get_items_with_versions():
+    return Item.objects.annotate(
         has_version=Exists(Version.objects.filter(item=OuterRef("pk")))
-    )
+    ).filter(has_version=True)
 
-    if tc:
-        items = items.filter(tc=tc)
 
-    if tag:
-        items = items.filter(tags=tag)
-
-    items = items.filter(has_version=True).prefetch_related(
-        latest_version, random_screenshots, "user"
-    )
-
-    order = request.GET.get("order")
-    search = request.GET.get("search", None)
-
-    if search:
-        items = items.filter(Q(name__unaccent__lower__trigram_similar=search))
-
+def order_items(items, order):
     if order == "old":
         items = items.order_by("version_created_at")
     elif order == "reviews":
@@ -85,6 +53,46 @@ def get_filtered_items(request, tc=None, tag=None):
         items = items.order_by("-downloads_count")
     else:
         items = items.order_by("-version_created_at")
+    return items
+
+
+def page_not_found_view(request, exception):
+    return render(request, "404.html", status=404)
+
+
+def get_filtered_items(request, items=None, tc=None, tag=None, user=None):
+    items = items or get_items_with_versions()
+
+    if tc:
+        items = items.filter(tc=tc)
+
+    if tag:
+        items = items.filter(tags=tag)
+
+    if user:
+        items = items.filter(user=user)
+
+    latest_version = Prefetch(
+        "version_set",
+        queryset=Version.objects.order_by("-created_at"),
+        to_attr="latest_version",
+    )
+
+    random_screenshots = Prefetch(
+        "screenshot_set",
+        queryset=Screenshot.objects.order_by("?"),
+        to_attr="random_screenshot",
+    )
+
+    items = items.prefetch_related(latest_version, random_screenshots, "user")
+
+    order = request.GET.get("order")
+    search = request.GET.get("search", None)
+
+    if search:
+        items = items.filter(Q(name__unaccent__lower__trigram_similar=search))
+
+    items = order_items(items, order)
 
     paginator = Paginator(items, page_size)
 
@@ -126,6 +134,9 @@ def item_detail(request, item_permalink):
     item_screenshots = Screenshot.objects.filter(item=item).order_by("created_at").all()
     item_reviews = (
         Review.objects.filter(version__item=item).order_by("-created_at").all()
+    ).prefetch_related(
+        "version",
+        "user",
     )
     item_tags = Tag.objects.filter(item=item).all()
 
@@ -142,39 +153,52 @@ def item_detail(request, item_permalink):
     )
 
 
+# def item_edit(request, item_permalink):
+#     item = get_object_or_404(Item, permalink=item_permalink)
+#     if request.method == "POST":
+#         form = ItemForm(request.POST, instance=item)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("item", item_permalink=item.permalink)
+#     else:
+#         form = ItemForm(instance=item)
+#     return render(request, "item_form.html", {"form": form, "item": item})
+
+
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 class VersionViewSet(viewsets.ModelViewSet):
     queryset = Version.objects.all()
     serializer_class = VersionSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 class DownloadViewSet(viewsets.ModelViewSet):
     queryset = Download.objects.all()
     serializer_class = DownloadSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 class ScreenshotViewSet(viewsets.ModelViewSet):
     queryset = Screenshot.objects.all()
     serializer_class = ScreenshotSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 def reviews(request):
@@ -214,8 +238,7 @@ def settings(request):
     return render(request, "settings.html")
 
 
-@login_required
-def logout_view(request):
+def log_out(request):
     logout(request)
     return redirect("home")
 
@@ -230,10 +253,9 @@ def signup(request):
             raw_password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect("items")
+            return redirect("home")
     else:
         form = UserForm()
-
     return render(request, "signup.html", {"form": form})
 
 
@@ -245,19 +267,16 @@ def login_view(request):
 
 def user(request, username):
     User = get_user_model()
-    user = get_object_or_404(User, username=username)
+    show_user = get_object_or_404(User, username=username)
+    items = get_filtered_items(request, user=show_user)
 
-    items_with_versions = Item.objects.annotate(
-        has_version=Exists(Version.objects.filter(item=OuterRef("pk")))
+    reviews = Review.objects.filter(user=show_user).order_by("-created_at").prefetch_related(
+        "version",
+        "user",
     )
-    items = items_with_versions.filter(user=user, has_version=True).order_by(
-        "-version_created_at"
-    )
-
-    reviews = Review.objects.filter(user=user).order_by("-created_at")
 
     return render(
-        request, "user.html", {"user": user, "items": items, "reviews": reviews}
+        request, "user.html", {"show_user": show_user, "items": items, "reviews": reviews}
     )
 
 

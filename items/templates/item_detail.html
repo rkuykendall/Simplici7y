@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1>{{ item.name|escape }} <span>by {{ item.user.first_name|escape }}</span></h1>
+<h1>{{ item.name|escape }} <span>by <a href="{% url 'user' username=item.user %}">{{ item.user.first_name|escape }}</a></span></h1>
 
 <div>
     <div class="content">

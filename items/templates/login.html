@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "_under_construction.html" %}
+<hr />
+
+<div class="simple">
+<h2>Login</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ login_form.as_p }}
+    <button type="submit">Login</button>
+</form>
+</div>
+{% endblock %}

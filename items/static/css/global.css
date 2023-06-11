@@ -79,8 +79,8 @@ html, body {
   	display: inline; /* floats are handled as block elements, this is to fix
   					          	a margin collapsing bug in IE */
   }
-  .simple, form.cmxform { /* Center of the page */
-  	width: 560px;
+  .simple { /* Center of the page */
+    width: max-content;
   	padding: 30px 200px 0 200px;
   }
   .full {

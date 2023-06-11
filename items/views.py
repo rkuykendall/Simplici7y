@@ -1,3 +1,8 @@
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    BaseUserCreationForm,
+    AuthenticationForm,
+)
 from django.core.paginator import Paginator
 from django.db.models import (
     Prefetch,
@@ -9,6 +14,7 @@ from django.db.models import (
     F,
 )
 from django.db.models.functions import Lower
+from django import forms
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -26,6 +32,7 @@ from .serializers import (
     TagSerializer,
 )
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 
 CharField.register_lookup(Lower)
 
@@ -240,6 +247,7 @@ def settings(request):
 
 def log_out(request):
     logout(request)
+    messages.info(request, "You have successfully logged out.")
     return redirect("home")
 
 
@@ -259,10 +267,41 @@ def signup(request):
     return render(request, "signup.html", {"form": form})
 
 
-@login_required  # Remove after go-live
+class NewUserForm(BaseUserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super(NewUserForm, self).save(commit=False)
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user
+
+
 def login_view(request):
-    # You would generally use Django's built-in views for this.
-    pass
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("home")
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+
+    form = AuthenticationForm()
+    return render(
+        request=request, template_name="login.html", context={"login_form": form}
+    )
 
 
 def user(request, username):
@@ -270,13 +309,24 @@ def user(request, username):
     show_user = get_object_or_404(User, username=username)
     items = get_filtered_items(request, user=show_user)
 
-    reviews = Review.objects.filter(user=show_user).order_by("-created_at").prefetch_related(
-        "version",
-        "user",
+    reviews = (
+        Review.objects.filter(user=show_user)
+        .order_by("-created_at")
+        .prefetch_related(
+            "version",
+            "user",
+        )
     )
 
     return render(
-        request, "user.html", {"show_user": show_user, "items": items, "reviews": reviews}
+        request,
+        "user.html",
+        {
+            "show_item_link": True,
+            "show_user": show_user,
+            "items": items,
+            "reviews": reviews,
+        },
     )
 
 

@@ -56,9 +56,7 @@
 
         <div id="map_reviews">
             {% for review in reviews %}
-            {% with show=review %}
-            {% include "_show_review.html" %}
-            {% endwith %}
+            {% include "_show_review.html" with show=review %}
             {% endfor %}
 <!--            <a href="{\% url 'new_item_review' item.pk %}" class="button positive add">Write a review</a>-->
         </div>

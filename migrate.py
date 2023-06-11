@@ -2,6 +2,8 @@ import os
 import django
 from datetime import datetime
 
+from django.db import connections
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "s7.settings")
 django.setup()
 
@@ -17,6 +19,18 @@ def has_field(model, field_name):
         return False
 
     return field_name in [field.name for field in model._meta.get_fields()]
+
+
+def synchronize_last_sequence(model):
+    #  Postgresql aut-increments (called sequences) don't update the 'last_id' value if you manually specify an ID.
+    #  This sets the last incremented number to the last id
+    sequence_name = model._meta.db_table+"_"+model._meta.pk.name+"_seq"
+    with connections['default'].cursor() as cursor:
+        cursor.execute(
+            "SELECT setval('" + sequence_name + "', (SELECT max(" + model._meta.pk.name + ") FROM " +
+            model._meta.db_table + "))"
+        )
+    print("Last auto-incremental number for sequence "+sequence_name+" synchronized.")
 
 
 @contextmanager
@@ -66,6 +80,7 @@ tables = [
 taggings_dict = {}
 version_ids = set()
 item_ids = set()
+item_created_at = {}
 user_ids = set()
 
 # Clear all tables
@@ -213,8 +228,17 @@ for table, Model in tables:
             and "updated_at" in row_dict
             and row_dict["updated_at"] is None
         ):
-            print("Skipping record with no created_at or updated_at")
-            continue
+            # get item created_at
+            item_id = row_dict.get("item_id")
+            if item_id is not None and item_id in item_created_at:
+                row_dict["created_at"] = item_created_at[item_id]
+                row_dict["updated_at"] = item_created_at[item_id]
+            else:
+                # Downloads is full of junk data, so we don't care about it
+                if table != "downloads":
+                    print("Skipping record with no created_at or updated_at:")
+                    print(row_dict)
+                continue
 
         if "body" in row_dict and row_dict["body"] is not None:
             row_dict["body"] = (
@@ -250,6 +274,9 @@ for table, Model in tables:
 
     if table == "items":
         item_ids = set(Item.objects.values_list("id", flat=True))
+        item_created_at = dict(
+            Item.objects.values_list("id", "created_at").distinct().all()
+        )
 
     if table == "versions":
         version_ids = set(Version.objects.values_list("id", flat=True))
@@ -275,6 +302,11 @@ with suppress_auto_now(Item, ["created_at", "updated_at"]):
         item.tags.set(tags)
         # Save the item
         item.save()
+
+
+for table, Model in tables:
+    if Model:
+        synchronize_last_sequence(Model)
 
 
 # Close the SQLite database connection

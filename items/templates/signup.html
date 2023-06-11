@@ -36,7 +36,9 @@ form button[type="submit"]:hover {
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Sign up</button>
+    <div class="button-bar">
+        <button type="submit" class="button positive add">Sign up</button>
+    </div>
 </form>
 </div>
 {% endblock content %}

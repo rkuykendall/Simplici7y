@@ -254,7 +254,7 @@ def log_out(request):
 @login_required  # Remove after go-live
 def signup(request):
     if request.method == "POST":
-        form = UserForm(request.POST)
+        form = NewUserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
@@ -263,7 +263,7 @@ def signup(request):
             login(request, user)
             return redirect("home")
     else:
-        form = UserForm()
+        form = NewUserForm()
     return render(request, "signup.html", {"form": form})
 
 
@@ -272,7 +272,10 @@ class NewUserForm(BaseUserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username", "first_name", "email", "password1", "password2")
+        labels = {
+            'first_name': 'Display name',
+        }
 
     def save(self, commit=True):
         user = super(NewUserForm, self).save(commit=False)

@@ -109,10 +109,14 @@ hr {
       Buttons
    ============================== */
 
+.button-bar {
+    text-align: right;
+}
+
 .button,
 input[type=submit],
 button[type=submit],
-form.cmxform input[type=submit] {
+form input[type=submit] {
 	cursor: pointer;
 	display: inline-block;
 	width: auto;
@@ -130,7 +134,7 @@ form.cmxform input[type=submit] {
 	text-decoration: none;
 }
 
-form.cmxform input[type=submit] {
+form input[type=submit] {
   margin-left: 150px;
   margin-top: -20px;
 
@@ -682,75 +686,75 @@ div.quote img {
       CMX Form
    ============================== */
 
-form.cmxform em {
+form em {
 	font-style: normal;
 	color: #f00;
 }
 
-form.cmxform fieldset {
+form fieldset {
 	margin-bottom: 10px;
 	}
-	form.cmxform fieldset, form.cmxform fieldset fieldset {
+	form fieldset, form fieldset fieldset {
 		border: none;
 	}
-	form.cmxform fieldset ol {
+	form fieldset ol {
 		margin: 0;
 		margin-bottom: 20px;
 		padding: 0;
 		}
-		form.cmxform fieldset li {
+		form fieldset li {
 			padding: 0px 10px 10px 0px;
 			list-style: none;
 			margin: 0;
 }
 
-form.cmxform div.form_sidenote ol li {
+form div.form_sidenote ol li {
 	list-style: decimal inside;
 	margin: 0;
 	padding: 0;
 }
-form.cmxform div.form_sidenote ol {
+form div.form_sidenote ol {
 	padding: 0;
 	margin: 5px 0 10px 10px;
 }
 
 
-form.cmxform label {
+form label {
 	display: inline-block;
 	vertical-align: top;
 	width: 145px; /* Width of labels */
 }
 
-form.cmxform label small {
+form label small {
 	display: block;
 }
 
-form.cmxform fieldset fieldset {
+form fieldset fieldset {
 	border: none;
 	margin: 3px 0 0;
 	}
-	form.cmxform fieldset fieldset legend {
+	form fieldset fieldset legend {
 		padding: 0 0 5px;
 		font-weight: normal;
 	}
-	form.cmxform fieldset fieldset label {
+	form fieldset fieldset label {
 		display: block;
 		width: auto;
 		margin-left: 123px; /* Width plus 3 (html space) */
 }
 
-form.cmxform input,
-form.cmxform select,
-form.cmxform textarea {
+form input,
+form select,
+form textarea {
 	border: solid 1px #ddd;
 	padding: 2px;
 	color: #666;
 	width: 210px;
 	background-color: #fff;
 	}
-	form.cmxform div.fieldWithErrors input,
-	form.cmxform div.fieldWithErrors select,
-	form.cmxform div.fieldWithErrors textarea {
+	form div.fieldWithErrors input,
+	form div.fieldWithErrors select,
+	form div.fieldWithErrors textarea {
 		border: solid 2px #c00;
 		background-color: #f0f0f0;
 		width: 208px;
@@ -758,17 +762,17 @@ form.cmxform textarea {
 	input[type=checkbox] {
 	  margin: 0;
 	}
-	form.cmxform textarea.summary {
+	form textarea.summary {
 		height: 200px;
 }
 
-form.cmxform input.file {
+form input.file {
 	width: 202px;
 	padding: 6px;
 	border: solid 1px #ddd;
 }
 
-form.cmxform div.form_sidenote {
+form div.form_sidenote {
 	clear: right;
 	float: right;
 	padding: 0;
@@ -776,7 +780,7 @@ form.cmxform div.form_sidenote {
 	margin-bottom: 15px;
 }
 
-form.cmxform div.fieldWithErrors {
+form div.fieldWithErrors {
 	display: inline;
 }
 

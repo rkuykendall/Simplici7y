@@ -5,11 +5,11 @@
 <hr />
 
 <div class="simple">
-<h2>Login</h2>
+<h2>Log in</h2>
 <form method="POST">
     {% csrf_token %}
     {{ login_form.as_p }}
-    <button type="submit">Login</button>
+    <button type="submit" class="button positive accept">Log in</button>
 </form>
 </div>
 {% endblock %}

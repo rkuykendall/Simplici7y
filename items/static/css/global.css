@@ -517,7 +517,9 @@ div#footer div#community {
       Notices
    ============================== */
 
-div.notice {
+.messages li {
+    color: #333;
+
 	padding: 7px 10px 7px 42px;
 	margin: 0 auto;
 	max-width: 908px;
@@ -526,15 +528,38 @@ div.notice {
 
 	background-position: 20px center;
 	background-repeat: no-repeat;
-	background-color: #F5F5F5;
-	background-image: url('../images/silk/information.png') ;
 
-	border: 1px solid #DEDEDE;
-	border-top: 1px solid #EEE;
-	border-left: 1px solid #EEE;
+	border-width: 1px;
+	border-style: solid;
 
 	line-height: 22px;
 	text-decoration: none;
+
+	border-radius: 2px;
+}
+
+.messages li.info {
+    background-image: url('../images/silk/information.png') ;
+	background-color: #F5F5F5;
+    border-color: #DEDEDE;
+}
+
+.messages li.error {
+    background-image: url('../images/silk/exclamation.png');
+    background-color: #fbe3e4;
+    border-color: #fbc2c4;
+}
+
+.messages li.success {
+    background-image: url('../images/silk/accept.png');
+    background-color: #e6efc2;
+    border-color: #c6d880;
+}
+
+.messages li.warning {
+    background-image: url('../images/silk/error.png');
+    background-color: #fbf5d3;
+    border-color: #f1d576;
 }
 
 div.subnav {

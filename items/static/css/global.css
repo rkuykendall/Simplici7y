@@ -80,7 +80,7 @@ html, body {
   					          	a margin collapsing bug in IE */
   }
   .simple { /* Center of the page */
-    width: max-content;
+  	max-width: 560px;
   	padding: 30px 200px 0 200px;
   }
   .full {
@@ -111,6 +111,7 @@ hr {
 
 .button,
 input[type=submit],
+button[type=submit],
 form.cmxform input[type=submit] {
 	cursor: pointer;
 	display: inline-block;

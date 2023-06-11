@@ -2,11 +2,41 @@
 
 {% block content %}
 {% include "_under_construction.html" %}
+<style>
+form {
+    padding: 20px;
+}
 
-<h1>Sign Up</h1>
+form input[type="text"], form input[type="password"], form input[type="email"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+form button[type="submit"]:hover {
+    opacity: 0.8;
+}
+
+.help-text {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.errorlist {
+    color: red;
+    font-size: 0.8em;
+}
+
+</style>
+<div class="simple">
+<h2>Sign Up</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Sign up</button>
 </form>
+</div>
 {% endblock content %}

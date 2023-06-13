@@ -27,19 +27,19 @@ class UserForm(BaseUserCreationForm):
         return user
 
 
-class AddItemForm(forms.ModelForm):
+class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ("name", "permalink", "body", "tc")
 
 
-class AddVersionForm(forms.ModelForm):
+class VersionForm(forms.ModelForm):
     class Meta:
         model = Version
         fields = "__all__"
 
 
-class AddScreenshotForm(forms.ModelForm):
+class ScreenshotForm(forms.ModelForm):
     class Meta:
         model = Screenshot
         fields = "__all__"

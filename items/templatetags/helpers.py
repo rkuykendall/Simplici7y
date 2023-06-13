@@ -12,14 +12,27 @@ def url_replace(context, **kwargs):
 
 
 @register.simple_tag(takes_context=True)
-def pagetitle(context, text):
+def pagetitle(context, default):
+    print("pagetitle")
+    print("context: ", context)
     view = resolve(context["request"].path_info)
-    if view.view_name == "items":
-        if text == "Marathon":
-            text = f"Marathon {text}"
+    print("view: ", view)
+    print([key for key in context])
+    print("^^^")
+
     if context["request"].path == "/":
-        text = "Marathon Aleph One community downloads."
-    return text
+        return "Marathon Aleph One community downloads."
+
+    if "item" in context:
+        return context["item"].name
+
+    if view.view_name == "user" and "user" in context:
+        return context["user"].first_name
+
+    if default:
+        return default
+
+    return view.view_name.capitalize()
 
 
 @register.simple_tag(takes_context=True)

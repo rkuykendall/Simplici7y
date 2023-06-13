@@ -23,6 +23,10 @@ from .views import (
     add_item,
     add_version,
     add_screenshot,
+    version_edit,
+    item_edit,
+    item_delete,
+    items_redirect,
 )
 
 router = DefaultRouter()
@@ -36,8 +40,8 @@ router.register(r"tags", TagViewSet)
 urlpatterns = [
     path("", items, name="home"),
     path("api/", include(router.urls)),
-    path("items/", items, name="items"),
     path("items/<str:item_permalink>/", item_detail, name="item_detail"),
+    path("items/", items_redirect, name="items_redirect"),
     path("scenarios/<str:item_permalink>/", scenario, name="scenario"),
     path("login/", login_view, name="login"),
     path("404/", view_404, name="view_404"),
@@ -56,4 +60,11 @@ urlpatterns = [
         add_screenshot,
         name="add_screenshot",
     ),
+    path(
+        "items/<str:item_permalink>/versions/<str:id>/edit",
+        version_edit,
+        name="edit_version",
+    ),
+    path("items/<str:item_permalink>/edit", item_edit, name="item_edit"),
+    path("items/<str:item_permalink>/delete", item_delete, name="item_delete"),
 ]

@@ -20,9 +20,9 @@ from .models import User
 from rest_framework import viewsets, permissions
 from .forms import (
     UserForm,
-    AddVersionForm,
-    AddScreenshotForm,
-    AddItemForm,
+    VersionForm,
+    ScreenshotForm,
+    ItemForm,
 )
 from .models import Item, Version, Download, Review, Screenshot, Tag
 from .permissions import IsOwnerOrReadOnly
@@ -101,9 +101,13 @@ def get_filtered_items(request, items=None, tc=None, tag=None, user=None):
         if len(search) < 4:
             items = items.filter(Q(name__icontains=search))
         else:
-            items = items.annotate(
-                similarity=TrigramSimilarity('name', search),
-            ).filter(similarity__gt=0.1).order_by('-similarity')
+            items = (
+                items.annotate(
+                    similarity=TrigramSimilarity("name", search),
+                )
+                .filter(similarity__gt=0.1)
+                .order_by("-similarity")
+            )
 
     if order or not search:
         items = order_items(items, order)
@@ -338,42 +342,102 @@ def settings(request):
 @login_required
 def add_item(request):
     if request.method == "POST":
-        form = AddItemForm(request.POST)
+        form = ItemForm(request.POST)
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
             item.save()
             return redirect("item_detail", item_permalink=item.permalink)
     else:
-        form = AddItemForm()
-    return render(request, "add_item.html", {"form": form})
+        form = ItemForm()
+    return render(request, "simple_form.html", {"form": form, "title": "Add Item"})
 
 
 @login_required
 def add_version(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     if request.method == "POST":
-        form = AddVersionForm(request.POST)
+        form = VersionForm(request.POST)
         if form.is_valid():
             version = form.save(commit=False)
             version.item = item
             version.save()
             return redirect("item_detail", item_permalink=item.permalink)
     else:
-        form = AddVersionForm()
-    return render(request, "add_version.html", {"form": form})
+        form = VersionForm()
+    return render(request, "simple_form.html", {"form": form, "title": "Add Version"})
 
 
 @login_required
 def add_screenshot(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     if request.method == "POST":
-        form = AddScreenshotForm(request.POST, request.FILES)
+        form = ScreenshotForm(request.POST, request.FILES)
         if form.is_valid():
             screenshot = form.save(commit=False)
             screenshot.item = item
             screenshot.save()
             return redirect("item_detail", item_permalink=item.permalink)
     else:
-        form = AddScreenshotForm()
-    return render(request, "add_screenshot.html", {"form": form})
+        form = ScreenshotForm()
+    return render(
+        request, "simple_form.html", {"form": form, "title": "Add Screenshot"}
+    )
+
+
+@login_required
+def version_edit(request, version_id):
+    version = get_object_or_404(Version, id=version_id)
+
+    # Check if the user is the owner of the version
+    if request.user != version.item.user:
+        return redirect("item_detail", item_permalink=version.item.permalink)
+
+    if request.method == "POST":
+        form = VersionForm(request.POST, instance=version)
+        if form.is_valid():
+            form.save()
+            return redirect("item_detail", item_permalink=version.item.permalink)
+    else:
+        form = VersionForm(instance=version)
+    return render(request, "simple_form.html", {"form": form, "title": "Edit Version"})
+
+
+@login_required
+def item_edit(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+
+    # Check if the user is the owner of the item
+    if request.user != item.user:
+        return redirect("item_detail", item_permalink=item.permalink)
+
+    if request.method == "POST":
+        form = ItemForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect("item_detail", item_permalink=item.permalink)
+    else:
+        form = ItemForm(instance=item)
+    return render(request, "simple_form.html", {"form": form, "title": "Edit Item"})
+
+
+@login_required
+def item_delete(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+
+    # Check if the user is the owner of the item
+    if request.user != item.user:
+        return redirect("item_detail", item_permalink=item.permalink)
+
+    if request.method == "POST":
+        item.delete()
+        return redirect("items")
+    return render(request, "item_confirm_delete.html", {"item": item})
+
+
+def items_redirect(request):
+    query_string = request.META["QUERY_STRING"]
+    if query_string:
+        return redirect(f"/?{query_string}")
+    else:
+        return redirect("/")

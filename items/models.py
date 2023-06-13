@@ -1,5 +1,6 @@
 from django.db import models
-from django.db.models import F
+from django.db.models import F, Max
+from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -126,6 +127,12 @@ class Version(TimeStampMixin):
             Item.objects.filter(pk=self.item.pk).update(
                 version_created_at=F("created_at")
             )
+
+    def delete(self, *args, **kwargs):
+        Item.objects.filter(pk=self.item.pk).update(
+            version_created_at=Coalesce(Max("version__created_at"), None)
+        )
+        super().delete(*args, **kwargs)
 
 
 class Download(TimeStampMixin):

@@ -85,10 +85,8 @@ class Command(BaseCommand):
                 "screenshots_count": item.new_screenshots_count,
                 "rating_average": item.new_rating_average,
                 "rating_weighted": item.new_rating_weighted,
+                "version_created_at": item.new_version_created_at,
             }
-
-            if item.new_version_created_at is not None:
-                updates["version_created_at"] = item.new_version_created_at
 
             Item.objects.filter(pk=item.pk).update(**updates)
 

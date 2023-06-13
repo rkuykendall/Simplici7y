@@ -4,6 +4,7 @@ media
 **/*.pyc
 **/*.sqlite3
 **/*.db
+*.db-journal
 **/*.sql
 test_config.py
 .env

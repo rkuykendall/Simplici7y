@@ -1,8 +1,7 @@
 from django.contrib.auth.forms import (
-    UserCreationForm,
-    BaseUserCreationForm,
     AuthenticationForm,
 )
+from django.contrib.postgres.search import TrigramSimilarity
 from django.core.paginator import Paginator
 from django.db.models import (
     Prefetch,
@@ -14,13 +13,17 @@ from django.db.models import (
     F,
 )
 from django.db.models.functions import Lower
-from django import forms
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import User
 from rest_framework import viewsets, permissions
-from .forms import UserForm
+from .forms import (
+    UserForm,
+    AddVersionForm,
+    AddScreenshotForm,
+    AddItemForm,
+)
 from .models import Item, Version, Download, Review, Screenshot, Tag
 from .permissions import IsOwnerOrReadOnly
 from .serializers import (
@@ -40,9 +43,7 @@ page_size = 20
 
 
 def get_items_with_versions():
-    return Item.objects.annotate(
-        has_version=Exists(Version.objects.filter(item=OuterRef("pk")))
-    ).filter(has_version=True)
+    return Item.objects.exclude(version_created_at__isnull=True)
 
 
 def order_items(items, order):
@@ -97,9 +98,15 @@ def get_filtered_items(request, items=None, tc=None, tag=None, user=None):
     search = request.GET.get("search", None)
 
     if search:
-        items = items.filter(Q(name__unaccent__lower__trigram_similar=search))
+        if len(search) < 4:
+            items = items.filter(Q(name__icontains=search))
+        else:
+            items = items.annotate(
+                similarity=TrigramSimilarity('name', search),
+            ).filter(similarity__gt=0.1).order_by('-similarity')
 
-    items = order_items(items, order)
+    if order or not search:
+        items = order_items(items, order)
 
     paginator = Paginator(items, page_size)
 
@@ -240,11 +247,6 @@ def submit(request):
     return render(request, "submit.html")
 
 
-@login_required
-def settings(request):
-    return render(request, "settings.html")
-
-
 def log_out(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
@@ -254,7 +256,7 @@ def log_out(request):
 @login_required  # Remove after go-live
 def signup(request):
     if request.method == "POST":
-        form = NewUserForm(request.POST)
+        form = UserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
@@ -263,30 +265,8 @@ def signup(request):
             login(request, user)
             return redirect("home")
     else:
-        form = NewUserForm()
+        form = UserForm()
     return render(request, "signup.html", {"form": form})
-
-
-class NewUserForm(BaseUserCreationForm):
-    email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User
-        fields = ("username", "first_name", "email", "password1", "password2")
-        labels = {
-            'first_name': 'Display name',
-        }
-
-    def save(self, commit=True):
-        user = super(NewUserForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-
-        if not user.first_name:
-            user.first_name = self.cleaned_data["username"]
-
-        if commit:
-            user.save()
-        return user
 
 
 def login_view(request):
@@ -339,3 +319,61 @@ def user(request, username):
 
 def view_404(request):
     return render(request, "404.html")
+
+
+@login_required
+def settings(request):
+    user = request.user
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully")
+    else:
+        form = UserForm(instance=user)
+
+    return render(request, "settings.html", {"form": form})
+
+
+@login_required
+def add_item(request):
+    if request.method == "POST":
+        form = AddItemForm(request.POST)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.user = request.user
+            item.save()
+            return redirect("item_detail", item_permalink=item.permalink)
+    else:
+        form = AddItemForm()
+    return render(request, "add_item.html", {"form": form})
+
+
+@login_required
+def add_version(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+    if request.method == "POST":
+        form = AddVersionForm(request.POST)
+        if form.is_valid():
+            version = form.save(commit=False)
+            version.item = item
+            version.save()
+            return redirect("item_detail", item_permalink=item.permalink)
+    else:
+        form = AddVersionForm()
+    return render(request, "add_version.html", {"form": form})
+
+
+@login_required
+def add_screenshot(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+    if request.method == "POST":
+        form = AddScreenshotForm(request.POST, request.FILES)
+        if form.is_valid():
+            screenshot = form.save(commit=False)
+            screenshot.item = item
+            screenshot.save()
+            return redirect("item_detail", item_permalink=item.permalink)
+    else:
+        form = AddScreenshotForm()
+    return render(request, "add_screenshot.html", {"form": form})

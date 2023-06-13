@@ -55,7 +55,7 @@ class Item(TimeStampMixin):
     screenshots_count = models.PositiveIntegerField(default=0)
     rating_average = models.FloatField(default=0.0, db_index=True)
     rating_weighted = models.FloatField(default=0.0, db_index=True)
-    version_created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    version_created_at = models.DateTimeField(null=True, db_index=True)
 
     class Meta:
         ordering = ["-version_created_at"]

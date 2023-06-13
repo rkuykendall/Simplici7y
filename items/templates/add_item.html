@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p><a href="{% url 'add_item' %}">Add new item</a></p>
-
-<h2>Edit profile</h2>
+<h2>Add Item</h2>
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}

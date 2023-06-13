@@ -20,6 +20,9 @@ from .views import (
     view_404,
     tag,
     scenario,
+    add_item,
+    add_version,
+    add_screenshot,
 )
 
 router = DefaultRouter()
@@ -46,4 +49,11 @@ urlpatterns = [
     path("users/", users, name="users"),
     path("users/<str:username>/", user, name="user"),
     path("tags/<str:name>/", tag, name="tag"),
+    path("items/new", add_item, name="add_item"),
+    path("items/<str:item_permalink>/versions/new", add_version, name="add_version"),
+    path(
+        "items/<str:item_permalink>/screenshots/new",
+        add_screenshot,
+        name="add_screenshot",
+    ),
 ]

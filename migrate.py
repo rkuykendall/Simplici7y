@@ -24,13 +24,20 @@ def has_field(model, field_name):
 def synchronize_last_sequence(model):
     #  Postgresql aut-increments (called sequences) don't update the 'last_id' value if you manually specify an ID.
     #  This sets the last incremented number to the last id
-    sequence_name = model._meta.db_table+"_"+model._meta.pk.name+"_seq"
-    with connections['default'].cursor() as cursor:
+    sequence_name = model._meta.db_table + "_" + model._meta.pk.name + "_seq"
+    with connections["default"].cursor() as cursor:
         cursor.execute(
-            "SELECT setval('" + sequence_name + "', (SELECT max(" + model._meta.pk.name + ") FROM " +
-            model._meta.db_table + "))"
+            "SELECT setval('"
+            + sequence_name
+            + "', (SELECT max("
+            + model._meta.pk.name
+            + ") FROM "
+            + model._meta.db_table
+            + "))"
         )
-    print("Last auto-incremental number for sequence "+sequence_name+" synchronized.")
+    print(
+        "Last auto-incremental number for sequence " + sequence_name + " synchronized."
+    )
 
 
 @contextmanager

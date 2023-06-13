@@ -1,3 +1,7 @@
+import re
+import markdown
+
+from django.utils.html import strip_tags
 from django import template
 from django.urls import resolve
 
@@ -28,6 +32,32 @@ def pagetitle(context, default):
         return default
 
     return view.view_name.capitalize()
+
+
+@register.simple_tag(takes_context=True)
+def description(context):
+    max_length = 170
+    view = resolve(context["request"].path_info)
+    print("description", view.view_name, context)
+
+    if view.view_name == "item_detail" and "item" in context:
+        body = re.sub("\s+", " ", strip_tags(markdown.markdown(context["item"].body)))
+        if len(body) > max_length + 20:
+            body = body[: max_length - 3] + "..."
+
+        return body
+
+    if view.view_name == "user" and "show_user" in context:
+        show_user = context["show_user"]
+        return (
+            f"{show_user.first_name} is a member of the Marathon Aleph One community with "
+            + f"{show_user.items_count} uploads and {show_user.reviews_count} reviews."
+        )
+
+    return (
+        "File sharing downloads for the Marathon Aleph One community."
+        + " Download community created maps, scenarios, mods, scripts, and applications."
+    )
 
 
 @register.simple_tag(takes_context=True)

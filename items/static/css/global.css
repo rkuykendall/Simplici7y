@@ -750,7 +750,7 @@ form label {
 	width: 145px; /* Width of labels */
 }
 
-form label small {
+form .helptext {
 	display: block;
 }
 

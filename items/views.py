@@ -247,10 +247,6 @@ def users(request):
 
 
 # @login_required
-def submit(request):
-    return render(request, "submit.html")
-
-
 def log_out(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
@@ -336,7 +332,7 @@ def settings(request):
     else:
         form = UserForm(instance=user)
 
-    return render(request, "settings.html", {"form": form})
+    return render(request, "simple_form.html", {"form": form, "title": "User Settings"})
 
 
 @login_required
@@ -386,7 +382,7 @@ def add_screenshot(request, item_permalink):
 
 
 @login_required
-def version_edit(request, version_id):
+def version_edit(request, item_permalink, version_id):
     version = get_object_or_404(Version, id=version_id)
 
     # Check if the user is the owner of the version

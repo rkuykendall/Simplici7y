@@ -36,10 +36,10 @@ class ItemForm(forms.ModelForm):
 class VersionForm(forms.ModelForm):
     class Meta:
         model = Version
-        fields = "__all__"
+        fields = ("name", "body", "file", "link")
 
 
 class ScreenshotForm(forms.ModelForm):
     class Meta:
         model = Screenshot
-        fields = "__all__"
+        fields = ("title", "file")

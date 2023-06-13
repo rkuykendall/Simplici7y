@@ -31,7 +31,7 @@
 
 			{% if user.is_authenticated %}
 				<li><a href="{% url 'user' user.username %}" class="username">{{ user.username }}</a></li>
-				<li><a href="{% url 'submit' %}" class="control">Submit</a></li>
+				<li><a href="{% url 'add_item' %}" class="control">Submit</a></li>
 				<li><a href="{% url 'settings' %}" class="control">Settings</a></li>
 				<li><a href="{% url 'logout' %}" class="control">Log out</a></li>
 			{% else %}

@@ -2,14 +2,16 @@
 
 {% block content %}
 <div class="simple">
-{% if screenshot %}
+{% if title %}
 <h2>{{ title }}</h2>
 {% endif %}
 
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
+    <div class="button-bar">
     <button type="submit" class="button positive accept">Save</button>
+    </div>
 </form>
 </div>
 {% endblock content %}

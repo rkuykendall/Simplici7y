@@ -16,7 +16,27 @@ def url_replace(context, **kwargs):
 
 
 @register.simple_tag(takes_context=True)
-def pagetitle(context, default):
+def subtitle(context):
+    subtitle = ""
+    view = resolve(context["request"].path_info)
+    order = context["request"].GET.get("order")
+
+    if view.view_name in ["home", "items"]:
+        subtitle = "Items"
+        if not order:
+            subtitle = "Latest Updates and Submissions"
+    elif view.view_name == "scenario":
+        subtitle = context["scenario"].name
+    elif view.view_name == "tag":
+        subtitle = f"Tagged '{context['tag'].name.capitalize()}'"
+    if order:
+        subtitle += order_name(order)
+
+    return subtitle
+
+
+@register.simple_tag(takes_context=True)
+def pagetitle(context):
     view = resolve(context["request"].path_info)
 
     if context["request"].path == "/":
@@ -28,8 +48,9 @@ def pagetitle(context, default):
     if view.view_name == "user" and "show_user" in context:
         return context["show_user"].first_name
 
-    if default:
-        return default
+    items_subtitle = subtitle(context)
+    if items_subtitle:
+        return items_subtitle
 
     return view.view_name.capitalize()
 
@@ -58,26 +79,6 @@ def description(context):
         "File sharing downloads for the Marathon Aleph One community."
         + " Download community created maps, scenarios, mods, scripts, and applications."
     )
-
-
-@register.simple_tag(takes_context=True)
-def subtitle(context):
-    subtitle = ""
-    view = resolve(context["request"].path_info)
-    order = context["request"].GET.get("order")
-
-    if view.view_name in ["home", "items"]:
-        subtitle = "Items"
-        if not order:
-            subtitle = "Latest Updates and Submissions"
-    elif view.view_name == "scenario":
-        subtitle = context["scenario"].name
-    elif view.view_name == "tag":
-        subtitle = f"Tagged '{context['tag'].name.capitalize()}'"
-    if order:
-        subtitle += order_name(order)
-
-    return subtitle
 
 
 def order_name(txt):

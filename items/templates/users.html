@@ -2,7 +2,7 @@
 {% load helpers %}
 
 {% block content %}
-<h1><a href="{% url 'users' %}">{% pagetitle 'Active Users' %}</a></h1>
+<h1><a href="{% url 'users' %}">Active Users</a></h1>
 
 <div class="full">
 	{% for user in users %}

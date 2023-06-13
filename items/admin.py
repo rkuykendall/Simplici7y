@@ -3,6 +3,8 @@ from .models import Item, Version, Download, Review, Screenshot, Tag
 
 
 class ItemAdmin(admin.ModelAdmin):
+    ordering = ["-created_at"]
+
     list_display = [
         "name",
         "body",
@@ -15,6 +17,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 class VersionAdmin(admin.ModelAdmin):
+    ordering = ["-created_at"]
     list_display = ["item", "name", "body", "link", "created_at", "updated_at"]
 
 

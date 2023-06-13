@@ -129,10 +129,11 @@ class Version(TimeStampMixin):
             )
 
     def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+
         Item.objects.filter(pk=self.item.pk).update(
             version_created_at=Coalesce(Max("version__created_at"), None)
         )
-        super().delete(*args, **kwargs)
 
 
 class Download(TimeStampMixin):
@@ -167,6 +168,11 @@ class Review(TimeStampMixin):
     title = models.CharField(max_length=255)
     body = models.TextField()
     rating = models.IntegerField()
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=models.Q(rating__gte=1, rating__lte=5), name='rating_range'),
+        ]
 
     def __str__(self):
         return f"Review by {self.user.username} - {self.title}"

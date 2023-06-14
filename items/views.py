@@ -81,13 +81,13 @@ def get_filtered_items(request, items=None, tc=None, tag=None, user=None):
         items = items.filter(user=user)
 
     latest_version = Prefetch(
-        "version_set",
+        "versions",
         queryset=Version.objects.order_by("-created_at"),
         to_attr="latest_version",
     )
 
     random_screenshots = Prefetch(
-        "screenshot_set",
+        "screenshots",
         queryset=Screenshot.objects.order_by("?"),
         to_attr="random_screenshot",
     )
@@ -144,10 +144,10 @@ def item_detail(request, item_permalink):
         return redirect("scenario", item_permalink, permanent=True)
 
     item = get_object_or_404(
-        Item.objects.annotate(total_downloads=Count("version__download")),
+        Item,
         permalink=item_permalink,
     )
-    # item.prefetch_related('version_set', 'screenshot_set', 'review_set')
+
     item_version = item.find_version()
     item_screenshots = Screenshot.objects.filter(item=item).order_by("created_at").all()
     item_reviews = (
@@ -233,7 +233,15 @@ def reviews(request):
         query_params["page"] = page_number
         return f"{base_url}?{query_params.urlencode()}"
 
-    return render(request, "reviews.html", {"page_obj": page_obj, "get_url": get_url})
+    return render(
+        request,
+        "reviews.html",
+        {
+            "page_obj": page_obj,
+            "get_url": get_url,
+            "show_item_link": True,
+        },
+    )
 
 
 def users(request):

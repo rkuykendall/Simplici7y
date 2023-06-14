@@ -37,6 +37,7 @@ class User(AbstractUser):
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     permalink = models.CharField(max_length=255)
+    count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -45,8 +46,10 @@ class Tag(models.Model):
 class Item(TimeStampMixin):
     name = models.CharField(max_length=255, db_index=True)
     body = models.TextField()
-    tc = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tc = models.ForeignKey(
+        "self", null=True, blank=True, on_delete=models.PROTECT, related_name="items"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items")
     permalink = models.SlugField(max_length=255, unique=True)
     tags = models.ManyToManyField(Tag)
 
@@ -98,7 +101,9 @@ class Item(TimeStampMixin):
 
 
 class Version(TimeStampMixin):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, related_name="versions", db_index=True
+    )
     name = models.CharField(max_length=255)
     body = models.TextField()
     file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
@@ -132,13 +137,17 @@ class Version(TimeStampMixin):
         super().delete(*args, **kwargs)
 
         Item.objects.filter(pk=self.item.pk).update(
-            version_created_at=Coalesce(Max("version__created_at"), None)
+            version_created_at=Coalesce(Max("versions__created_at"), None)
         )
 
 
 class Download(TimeStampMixin):
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    version = models.ForeignKey(Version, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.CASCADE, related_name="downloads"
+    )
+    version = models.ForeignKey(
+        Version, on_delete=models.CASCADE, related_name="downloads"
+    )
 
     def __str__(self):
         if self.user is not None:
@@ -163,15 +172,21 @@ class Download(TimeStampMixin):
 
 
 class Review(TimeStampMixin):
-    version = models.ForeignKey(Version, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    version = models.ForeignKey(
+        Version, on_delete=models.CASCADE, related_name="reviews", db_index=True
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reviews", db_index=True
+    )
     title = models.CharField(max_length=255)
     body = models.TextField()
     rating = models.IntegerField()
 
     class Meta:
         constraints = [
-            models.CheckConstraint(check=models.Q(rating__gte=1, rating__lte=5), name='rating_range'),
+            models.CheckConstraint(
+                check=models.Q(rating__gte=1, rating__lte=5), name="rating_range"
+            ),
         ]
 
     def __str__(self):
@@ -203,7 +218,9 @@ class Review(TimeStampMixin):
 
 
 class Screenshot(TimeStampMixin):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, related_name="screenshots", db_index=True
+    )
     title = models.CharField(max_length=255, blank=True)
     file = models.ImageField(upload_to=get_upload_path)
     file_thumb = ImageSpecField(

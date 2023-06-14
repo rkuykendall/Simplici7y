@@ -74,7 +74,7 @@ class Command(BaseCommand):
                     + (F("new_rating_average") - 2.5) * (F("new_reviews_count") / 10.0),
                     output_field=FloatField(),
                 ),
-                new_version_created_at=Coalesce(Max("version__created_at"), None),
+                new_version_created_at=Coalesce(Max("versions__created_at"), None),
             )
         )
 
@@ -98,8 +98,8 @@ class Command(BaseCommand):
         users = (
             User.objects.all()
             .annotate(
-                new_items_count=Count("item", distinct=True),
-                new_reviews_count=Count("review", distinct=True),
+                new_items_count=Count("items", distinct=True),
+                new_reviews_count=Count("reviews", distinct=True),
             )
             .filter(Q(new_items_count__gt=0) | Q(new_reviews_count__gt=0))
         )

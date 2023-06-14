@@ -7,7 +7,7 @@
 <div class="content">
     <h2>Newest Reviews</h2>
     {% for review in page_obj %}
-        {% include '_show_review.html' with show=review %}  <!-- assuming you have review.html for each review -->
+        {% include '_show_review.html' with show=review %}
     {% endfor %}
     <hr />
 </div>

@@ -5,3 +5,4 @@ heroku pg:reset --app simplici7y --confirm simplici7y
 python ./migrate.py
 python manage.py changepassword appleswitch
 python manage.py recalculate_counts
+python manage.py empty_trash

@@ -22,8 +22,8 @@ def has_field(model, field_name):
 
 
 def synchronize_last_sequence(model):
-    #  Postgresql aut-increments (called sequences) don't update the 'last_id' value if you manually specify an ID.
-    #  This sets the last incremented number to the last id
+    # Postgresql aut-increments (called sequences) don't update the 'last_id' value if you manually specify an ID.
+    # This sets the last incremented number to the last id
     sequence_name = model._meta.db_table + "_" + model._meta.pk.name + "_seq"
     with connections["default"].cursor() as cursor:
         cursor.execute(
@@ -103,6 +103,9 @@ for table, Model in tables[::-1]:
 
 
 def clean_date(dt):
+    if isinstance(dt, datetime):
+        return dt
+
     if dt is None:
         return dt
 
@@ -195,11 +198,14 @@ for table, Model in tables:
             for field in unnecessary_fields:
                 row_dict.pop(field, None)
 
+            # Adjust review rating if it's outside the desired range
+            rating = row_dict.get("rating")
+            if rating is not None:
+                row_dict["rating"] = max(1, min(5, rating))
+
             # if version doesn't exist, skip the row
             version_id = row_dict.get("version_id")
             if version_id is None or version_id not in version_ids:
-                print("SKIPPING ROW version_id", version_id, version_ids)
-                print(row_dict)
                 continue
 
         if table == "screenshots":
@@ -247,6 +253,13 @@ for table, Model in tables:
                     print(row_dict)
                 continue
 
+        if "created_at" in row_dict:
+            created_at = clean_date(row_dict["created_at"])
+            updated_at = clean_date(row_dict.get("updated_at"))
+
+            if created_at is not None and created_at > timezone.now():
+                row_dict["created_at"] = updated_at
+
         if "body" in row_dict and row_dict["body"] is not None:
             row_dict["body"] = (
                 row_dict["body"]
@@ -291,30 +304,25 @@ for table, Model in tables:
     if table == "users":
         user_ids = set(User.objects.values_list("id", flat=True))
 
-
 with suppress_auto_now(Item, ["created_at", "updated_at"]):
-    # Iterate over every item id in the taggings_dict
-    for item_id in taggings_dict:
+    tag_instances = []
+    for item_id, tag_ids in taggings_dict.items():
         if item_id not in item_ids:
             print(f"Could not find item_id {item_id} in item_ids")
             continue
 
-        # Fetch the item object for this item_id
         item = Item.objects.get(id=item_id)
-        # Get tag ids for this item from taggings_dict
-        tag_ids = taggings_dict.get(item_id, [])
-        # Fetch Tag instances
         tags = Tag.objects.filter(id__in=tag_ids)
-        # Save tags to the item
         item.tags.set(tags)
-        # Save the item
-        item.save()
+
+    # Bulk create items
+    print(f"Saving {len(tag_instances)} tags to tags table...")
+    Tag.objects.bulk_create(tag_instances)
 
 
 for table, Model in tables:
     if Model:
         synchronize_last_sequence(Model)
-
 
 # Close the SQLite database connection
 conn.close()

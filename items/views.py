@@ -144,7 +144,13 @@ def item_detail(request, item_permalink):
         return redirect("scenario", item_permalink, permanent=True)
 
     item = get_object_or_404(
-        Item,
+        Item.objects.prefetch_related(
+            "versions",
+            "screenshots",
+            "versions__reviews",
+            "tags",
+            "user",
+        ),
         permalink=item_permalink,
     )
 

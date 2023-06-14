@@ -109,6 +109,9 @@ class Version(TimeStampMixin):
     file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
     link = models.CharField(max_length=255, null=True, blank=True)
 
+    # Cached / calculated fields
+    downloads_count = models.PositiveIntegerField(default=0)
+
     def __str__(self):
         return f"{self.item} {self.name} by {self.item.user}"
 

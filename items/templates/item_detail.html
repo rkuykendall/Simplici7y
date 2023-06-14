@@ -28,8 +28,8 @@
                 <a href="{% url 'tag' tag %}">{{ tag }}</a>
                 {% endfor %}
             </li>
-            <li>{{ item.total_downloads }} download{{ item.total_downloads|pluralize }} of this item</li>
-            <li>{{ version.download_set.count }} download{{ version.download_set.count|pluralize }} of latest version</li>
+            <li>{{ item.downloads_count }} download{{ item.downloads_count|pluralize }} of this item</li>
+            <li>{{ version.downloads_count }} download{{ version.downloads_count|pluralize }} of latest version</li>
             <li>{{ item.rating_average|stringformat:".1f" }} rating ( {{ item.rating_weighted|stringformat:".2f" }} weighted for sorting )</li>
 
             <span class="wip">

@@ -59,7 +59,6 @@ def pagetitle(context):
 def description(context):
     max_length = 170
     view = resolve(context["request"].path_info)
-    print("description", view.view_name, context)
 
     if view.view_name == "item_detail" and "item" in context:
         body = re.sub("\s+", " ", strip_tags(markdown.markdown(context["item"].body)))

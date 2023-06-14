@@ -13,7 +13,7 @@ from django.db.models import (
 )
 from django.db.models.functions import Coalesce
 
-from items.models import Item, Download, Review, Screenshot
+from items.models import Item, Download, Review, Screenshot, Version, Tag
 from django.contrib.auth import get_user_model
 
 
@@ -24,6 +24,35 @@ class Command(BaseCommand):
     help = "Recalculate download, review, and screenshot counts for each item"
 
     def handle(self, *args, **options):
+        versions = Version.objects.all().annotate(
+            new_downloads_count=Coalesce(
+                Subquery(
+                    Download.objects.filter(version=OuterRef("pk"))
+                    .values("version")
+                    .annotate(c=Count("id"))
+                    .values("c"),
+                    output_field=IntegerField(),
+                ),
+                0,
+            ),
+        )
+
+        for version in versions:
+            Version.objects.filter(pk=version.pk).update(
+                downloads_count=version.new_downloads_count
+            )
+
+        # Calculate tag counts
+        tags = (
+            Item.tags.through.objects.all()
+            .values("tag")
+            .annotate(c=Count("item"))
+            .values("tag", "c")
+        )
+
+        for tag in tags:
+            Tag.objects.filter(id=tag["tag"]).update(count=tag["c"])
+
         items = (
             Item.objects.all()
             .annotate(

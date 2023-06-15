@@ -30,7 +30,7 @@ class UserForm(BaseUserCreationForm):
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ("name", "permalink", "body", "tc")
+        fields = ("name", "body", "tc")
 
 
 class VersionForm(forms.ModelForm):

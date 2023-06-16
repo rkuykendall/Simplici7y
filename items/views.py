@@ -454,6 +454,7 @@ def item_delete(request, item_permalink):
     return render(request, "item_confirm_delete.html", {"item": item})
 
 
+@login_required
 def new_item_review(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     if request.method == "POST":

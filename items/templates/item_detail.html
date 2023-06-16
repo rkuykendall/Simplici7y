@@ -23,20 +23,21 @@
 
         <ul class="details">
             <li>Uploaded {{ version.created_at|date:"M jS, Y" }}</li>
+
+            {% if tags %}
             <li>tags:
                 {% for tag in tags %}
                 <a href="{% url 'tag' tag %}">{{ tag }}</a>
                 {% endfor %}
             </li>
+            {% endif %}
+
             <li>{{ item.downloads_count }} download{{ item.downloads_count|pluralize }} of this item</li>
             <li>{{ version.downloads_count }} download{{ version.downloads_count|pluralize }} of latest version</li>
-            <li>{{ item.rating_average|stringformat:".1f" }} rating ( {{ item.rating_weighted|stringformat:".2f" }} weighted for sorting )</li>
 
-            <span class="wip">
-            <li>{{ item.downloads_day_count }} download{{ item.downloads_day_count|pluralize }} in the last 24 hours</li>
-            <li>{{ item.downloads_week_count }} download{{ item.downloads_week_count|pluralize }} in the last 7 days</li>
-            <li>{{ item.downloads_month_count }} download{{ item.downloads_month_count|pluralize }} in the last month</li>
-            </span>
+            {% if item.rating_count > 0 %}
+            <li>{{ item.rating_average|stringformat:".1f" }} rating ( {{ item.rating_weighted|stringformat:".2f" }} weighted for sorting )</li>
+            {% endif %}
         </ul>
 
         {% if user == item.user %}
@@ -51,14 +52,16 @@
         <a href="{% url 'add_version' item.permalink %}" class="button positive add">Add version</a>
         {% endif %}
 
-        <h2>{{ reviews.count }} Review{{reviews.count|pluralize}}
+        <h2>{{ item.reviews_count }} Review{{item.reviews_count|pluralize}}
         </h2>
 
         <div id="map_reviews">
             {% for review in reviews %}
             {% include "_show_review.html" with show=review %}
             {% endfor %}
-<!--            <a href="{\% url 'new_item_review' item.pk %}" class="button positive add">Write a review</a>-->
+            {% if user %}
+                <a href="{% url 'new_item_review' item_permalink=item.permalink %}" class="button positive add">Write a review</a>
+            {% endif %}
         </div>
 
     </div>

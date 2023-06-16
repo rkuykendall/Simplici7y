@@ -5,10 +5,7 @@ from django.contrib.postgres.search import TrigramSimilarity
 from django.core.paginator import Paginator
 from django.db.models import (
     Prefetch,
-    Count,
     Q,
-    Exists,
-    OuterRef,
     CharField,
     F,
 )
@@ -23,6 +20,7 @@ from .forms import (
     VersionForm,
     ScreenshotForm,
     ItemForm,
+    ReviewForm,
 )
 from .models import Item, Version, Download, Review, Screenshot, Tag
 from .permissions import IsOwnerOrReadOnly
@@ -153,8 +151,14 @@ def item_detail(request, item_permalink):
         ),
         permalink=item_permalink,
     )
-
     item_version = item.find_version()
+
+    if item_version is None:
+        if item.user is user:
+            return redirect("add_version", item_permalink)
+        else:
+            return redirect("home")
+
     item_screenshots = Screenshot.objects.filter(item=item).order_by("created_at").all()
     item_reviews = (
         Review.objects.filter(version__item=item).order_by("-created_at").all()
@@ -310,6 +314,10 @@ def user(request, username):
     show_user = get_object_or_404(User, username=username)
     items = get_filtered_items(request, user=show_user)
 
+    if request.user.is_authenticated:
+        if request.user == show_user:
+            items = get_filtered_items(request, items=Item.objects, user=show_user)
+
     reviews = (
         Review.objects.filter(user=show_user)
         .order_by("-created_at")
@@ -357,7 +365,7 @@ def add_item(request):
             item = form.save(commit=False)
             item.user = request.user
             item.save()
-            return redirect("item_detail", item_permalink=item.permalink)
+            return redirect("add_version", item_permalink=item.permalink)
     else:
         form = ItemForm()
     return render(request, "simple_form.html", {"form": form, "title": "Add Item"})
@@ -441,8 +449,24 @@ def item_delete(request, item_permalink):
 
     if request.method == "POST":
         item.delete()
-        return redirect("items")
+        messages.success(request, "Item deleted successfully")
+        return redirect("home")
     return render(request, "item_confirm_delete.html", {"item": item})
+
+
+def new_item_review(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            item.user = request.user
+            review.item = item
+            review.save()
+            return redirect("item_detail", item_permalink=item.permalink)
+    else:
+        form = ReviewForm()
+    return render(request, "simple_form.html", {"form": form, "title": "Add Review"})
 
 
 def items_redirect(request):

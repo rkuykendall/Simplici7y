@@ -230,15 +230,7 @@ LOGGING = {
 
 USE_THOUSAND_SEPARATOR = True
 
-# Fetch SendGrid credentials from environment variables
-SENDGRID_USERNAME = os.environ.get('SENDGRID_USERNAME')
-SENDGRID_PASSWORD = os.environ.get('SENDGRID_PASSWORD')
-
-# Update the email backend to use SendGrid
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = SENDGRID_USERNAME
-EMAIL_HOST_PASSWORD = SENDGRID_PASSWORD
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'youremail@example.com' # Replace this with the email you want to send from
+EMAIL_BACKEND = "django_ses.SESBackend"
+AWS_SES_REGION_NAME = "us-east-1"
+AWS_SES_REGION_ENDPOINT = "email.us-east-1.amazonaws.com"
+DEFAULT_FROM_EMAIL = "leela@simplici7y.com"

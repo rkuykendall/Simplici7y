@@ -27,6 +27,7 @@ from .views import (
     item_edit,
     item_delete,
     items_redirect,
+    new_item_review,
 )
 
 router = DefaultRouter()
@@ -66,13 +67,31 @@ urlpatterns = [
     ),
     path("items/<str:item_permalink>/edit", item_edit, name="item_edit"),
     path("items/<str:item_permalink>/delete", item_delete, name="item_delete"),
-    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='simple_form.html'),
-         name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),
-         name='password_reset_done'),
-    path('reset/<uidb64>/<token>/',
-         auth_views.PasswordResetConfirmView.as_view(template_name='simple_form.html'),
-         name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='simple_form.html'),
-         name='password_reset_complete'),
+    path(
+        "password_reset/",
+        auth_views.PasswordResetView.as_view(template_name="simple_form.html"),
+        name="password_reset",
+    ),
+    path(
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="password_reset_done.html"
+        ),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(template_name="simple_form.html"),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(template_name="simple_form.html"),
+        name="password_reset_complete",
+    ),
+    path(
+        "items/<str:item_permalink>/reviews/new",
+        new_item_review,
+        name="new_item_review",
+    ),
 ]

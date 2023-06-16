@@ -1,4 +1,6 @@
 import os
+import re
+
 import django
 from datetime import datetime
 
@@ -19,6 +21,17 @@ def has_field(model, field_name):
         return False
 
     return field_name in [field.name for field in model._meta.get_fields()]
+
+
+def correct_encoding(original_string):
+    try:
+        correct_string = original_string.encode("latin1").decode("utf8")
+        # Strip out HTML tags
+        correct_string = re.sub("<.*?>", "", correct_string)
+        return correct_string
+    except (UnicodeEncodeError, UnicodeDecodeError, AttributeError):
+        # If encoding or decoding fails, return the original string
+        return original_string
 
 
 def synchronize_last_sequence(model):
@@ -261,7 +274,7 @@ for table, Model in tables:
                 row_dict["created_at"] = updated_at
 
         if "body" in row_dict and row_dict["body"] is not None:
-            row_dict["body"] = (
+            row_dict["body"] = correct_encoding(
                 row_dict["body"]
                 .replace("\\r\\n", "\\r")
                 .replace("\\r", "\r")

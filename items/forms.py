@@ -1,8 +1,10 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import BaseUserCreationForm
 
-from items.models import Item, Version, Screenshot
+from items.models import Item, Version, Screenshot, Review
+
+User = get_user_model()
 
 
 class UserForm(BaseUserCreationForm):
@@ -30,7 +32,13 @@ class UserForm(BaseUserCreationForm):
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ("name", "body", "tc")
+        fields = ("name", "body", "tc", "tags")
+        labels = {
+            "tc": "Total conversion",
+        }
+        help_texts = {
+            "tc": "if n/a leave blank",
+        }
 
 
 class VersionForm(forms.ModelForm):
@@ -43,3 +51,11 @@ class ScreenshotForm(forms.ModelForm):
     class Meta:
         model = Screenshot
         fields = ("title", "file")
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ("title", "rating", "body")
+
+    rating = forms.IntegerField(min_value=1, max_value=5)

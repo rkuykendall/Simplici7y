@@ -12,9 +12,24 @@
   <hr />
 
   {% for item in items %}
-    {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
-      {% include "_show_partial.html" %}
-    {% endwith %}
+    {% if item.latest_version %}
+      {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
+        {% include "_show_partial.html" %}
+      {% endwith %}
+    {% else %}
+	<ul class="messages">
+      <li class="warning">
+        <div style="display: flex; gap: 1rem; flex-direction: row; justify-content: space-between">
+          <div style="flex-shrink: 1">"{{ item.name }}" has no versions.</div>
+          <div style="flex-shrink: 0">
+            <a href="{% url 'add_version' item_permalink=item.permalink %}">Add version</a><br />
+            <a href="{% url 'item_delete' item_permalink=item.permalink %}">Delete item</a>
+          </div>
+        </div>
+      </li>
+	</ul>
+    {% endif %}
+
   {% endfor %}
 </div>
 

@@ -173,6 +173,9 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
+    "mediafiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },

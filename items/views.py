@@ -373,6 +373,9 @@ def add_item(request):
 
 
 def get_add_item_child(request, item_permalink, model_name, form_class):
+    from django.conf import settings
+    print('settings.DEFAULT_FILE_STORAGE', settings.DEFAULT_FILE_STORAGE)
+
     item = get_object_or_404(Item, permalink=item_permalink)
 
     if request.method == "POST":

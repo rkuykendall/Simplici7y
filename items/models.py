@@ -1,12 +1,15 @@
+from uuid import uuid4
+
 from django.db import models
 from django.db.models import F, Max
 from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+from django.contrib.auth.models import AbstractUser
+
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
-from django.contrib.auth.models import AbstractUser
 
 
 def get_model_name(instance):
@@ -14,7 +17,7 @@ def get_model_name(instance):
 
 
 def get_upload_path(instance, filename):
-    return f"{get_model_name(instance)}/{instance.id}/{filename}"
+    return f"{get_model_name(instance)}s/item-{instance.item.id}/{uuid4()}/{filename}"
 
 
 class TimeStampMixin(models.Model):
@@ -244,6 +247,8 @@ class Screenshot(TimeStampMixin):
 
     def save(self, *args, **kwargs):
         created = self.pk is None
+        print('save save save save save save')
+        print(*args, **kwargs)
         super().save(*args, **kwargs)
 
         if created:

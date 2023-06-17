@@ -34,6 +34,7 @@ from .serializers import (
 )
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from imagekit.cachefiles import generate
 
 CharField.register_lookup(Lower)
 
@@ -371,37 +372,37 @@ def add_item(request):
     return render(request, "simple_form.html", {"form": form, "title": "Add Item"})
 
 
-@login_required
-def add_version(request, item_permalink):
+def get_add_item_child(request, item_permalink, model_name, form_class):
     item = get_object_or_404(Item, permalink=item_permalink)
+
     if request.method == "POST":
-        form = VersionForm(request.POST)
+        form = form_class(request.POST, request.FILES)
+        form.instance.item = item
+        form.instance.user = request.user
+
         if form.is_valid():
-            version = form.save(commit=False)
-            version.item = item
-            version.save()
+            obj = form.save()
+
+            # Generate thumbnails
+            if isinstance(obj, Screenshot):
+                generate(obj.file_thumb)
+                generate(obj.file_content)
+
             return redirect("item_detail", item_permalink=item.permalink)
     else:
-        form = VersionForm()
-    return render(request, "simple_form.html", {"form": form, "title": "Add Version"})
+        form = form_class()
+
+    return render(request, 'simple_form.html', {"form": form, "title": f"Add {model_name}"})
+
+
+@login_required
+def add_version(request, item_permalink):
+    return get_add_item_child(request, item_permalink, "Version", VersionForm)
 
 
 @login_required
 def add_screenshot(request, item_permalink):
-    item = get_object_or_404(Item, permalink=item_permalink)
-    if request.method == "POST":
-        form = ScreenshotForm(request.POST, request.FILES)
-        if form.is_valid():
-            screenshot = form.save(commit=False)
-            screenshot.item = item
-            screenshot.save()
-            return redirect("item_detail", item_permalink=item.permalink)
-    else:
-        form = ScreenshotForm()
-    return render(
-        request, "simple_form.html", {"form": form, "title": "Add Screenshot"}
-    )
-
+    return get_add_item_child(request, item_permalink, "Screenshot", ScreenshotForm)
 
 @login_required
 def version_edit(request, item_permalink, version_id):

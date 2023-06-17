@@ -32,7 +32,7 @@ class UserForm(BaseUserCreationForm):
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ("name", "body", "tc", "tags")
+        fields = ("name", "body", "tc")  # , "tags")
         labels = {
             "tc": "Total conversion",
         }

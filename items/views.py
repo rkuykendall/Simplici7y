@@ -381,13 +381,7 @@ def get_add_item_child(request, item_permalink, model_name, form_class):
         form.instance.user = request.user
 
         if form.is_valid():
-            obj = form.save()
-
-            # Generate thumbnails
-            if isinstance(obj, Screenshot):
-                generate(obj.file_thumb)
-                generate(obj.file_content)
-
+            form.save()
             return redirect("item_detail", item_permalink=item.permalink)
     else:
         form = form_class()

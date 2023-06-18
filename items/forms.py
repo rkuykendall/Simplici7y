@@ -9,7 +9,7 @@ User = get_user_model()
 
 
 def validate_passphrase(value):
-    if value != 'test':
+    if value != 'escapewillmakemegod':
         raise ValidationError(
             "Incorrect passphrase.",
             params={"value": value},

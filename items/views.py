@@ -1,10 +1,8 @@
 from django.contrib.auth.forms import (
     AuthenticationForm,
 )
-from django.contrib.postgres.search import TrigramSimilarity
 from django.core.paginator import Paginator
 from django.db.models import (
-    Prefetch,
     Q,
     CharField,
     F,
@@ -34,105 +32,30 @@ from .serializers import (
 )
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from imagekit.cachefiles import generate
+
+from .utils import get_filtered_items
 
 CharField.register_lookup(Lower)
-
-page_size = 20
-
-
-def get_items_with_versions():
-    return Item.objects.exclude(version_created_at__isnull=True)
-
-
-def order_items(items, order):
-    if order == "old":
-        items = items.order_by("version_created_at")
-    elif order == "reviews":
-        items = items.filter(reviews_count__gt=0).order_by("-rating_average")
-    elif order == "best":
-        items = items.filter(reviews_count__gt=0).order_by("-rating_weighted")
-    elif order == "worst":
-        items = items.filter(reviews_count__gt=0).order_by("rating_weighted")
-    elif order == "loud":
-        items = items.filter(reviews_count__gt=0).order_by("-reviews_count")
-    elif order == "popular":
-        items = items.order_by("-downloads_count")
-    else:
-        items = items.order_by("-version_created_at")
-    return items
 
 
 def page_not_found_view(request, exception):
     return render(request, "404.html", status=404)
 
 
-def get_filtered_items(request, items=None, tc=None, tag=None, user=None):
-    items = items or get_items_with_versions()
-
-    if tc:
-        items = items.filter(tc=tc)
-
-    if tag:
-        items = items.filter(tags=tag)
-
-    if user:
-        items = items.filter(user=user)
-
-    latest_version = Prefetch(
-        "versions",
-        queryset=Version.objects.order_by("-created_at"),
-        to_attr="latest_version",
-    )
-
-    random_screenshots = Prefetch(
-        "screenshots",
-        queryset=Screenshot.objects.order_by("?"),
-        to_attr="random_screenshot",
-    )
-
-    items = items.prefetch_related(latest_version, random_screenshots, "user")
-
-    order = request.GET.get("order")
-    search = request.GET.get("search", None)
-
-    if search:
-        if len(search) < 4:
-            items = items.filter(Q(name__icontains=search))
-        else:
-            items = (
-                items.annotate(
-                    similarity=TrigramSimilarity("name", search),
-                )
-                .filter(similarity__gt=0.1)
-                .order_by("-similarity")
-            )
-
-    if order or not search:
-        items = order_items(items, order)
-
-    paginator = Paginator(items, page_size)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return page_obj
-
-
 def items(request):
-    page_obj = get_filtered_items(request)
+    page_obj = get_filtered_items(request=request)
     return render(request, "items.html", {"page_obj": page_obj})
 
 
 def scenario(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
-    page_obj = get_filtered_items(request, tc=item.id)
+    page_obj = get_filtered_items(request=request, tc=item.id)
     return render(request, "items.html", {"page_obj": page_obj, "scenario": item})
 
 
 def tag(request, name):
     tag = get_object_or_404(Tag, name=name)
-    page_obj = get_filtered_items(request, tag=tag)
+    page_obj = get_filtered_items(request=request, tag=tag)
     return render(request, "items.html", {"page_obj": page_obj, "tag": tag})
 
 
@@ -180,18 +103,6 @@ def item_detail(request, item_permalink):
             "tags": item_tags,
         },
     )
-
-
-# def item_edit(request, item_permalink):
-#     item = get_object_or_404(Item, permalink=item_permalink)
-#     if request.method == "POST":
-#         form = ItemForm(request.POST, instance=item)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("item", item_permalink=item.permalink)
-#     else:
-#         form = ItemForm(instance=item)
-#     return render(request, "item_form.html", {"form": form, "item": item})
 
 
 class ItemViewSet(viewsets.ModelViewSet):
@@ -313,11 +224,11 @@ def login_view(request):
 def user(request, username):
     User = get_user_model()
     show_user = get_object_or_404(User, username=username)
-    items = get_filtered_items(request, user=show_user)
+    items = get_filtered_items(request=request, user=show_user)
 
     if request.user.is_authenticated:
         if request.user == show_user:
-            items = get_filtered_items(request, items=Item.objects, user=show_user)
+            items = get_filtered_items(request=request, items=Item.objects, user=show_user)
 
     reviews = (
         Review.objects.filter(user=show_user)
@@ -373,9 +284,6 @@ def add_item(request):
 
 
 def add_item_child(request, item_permalink, model_name, form_class):
-    from django.conf import settings
-    print('settings.DEFAULT_FILE_STORAGE', settings.DEFAULT_FILE_STORAGE)
-
     item = get_object_or_404(Item, permalink=item_permalink)
 
     if (item.user != request.user) and (not request.user.is_staff):

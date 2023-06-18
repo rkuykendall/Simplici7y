@@ -9,7 +9,7 @@ class RemoveWwwAndHttpsRedirectMiddleware:
         official_domain = "simplici7y.com"
         host = request.get_host().split(":")[0]
         scheme = request.scheme
-        print(host)
+
         if host.endswith(official_domain):
             if host and host.startswith("www.") or scheme != "https":
                 new_host = host[4:] if host.startswith("www.") else host
@@ -18,4 +18,5 @@ class RemoveWwwAndHttpsRedirectMiddleware:
                     new_scheme, new_host, request.get_full_path()
                 )
                 return HttpResponsePermanentRedirect(new_url)
+
         return self.get_response(request)

@@ -1,6 +1,8 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from rest_framework.routers import DefaultRouter
+
+from .feeds import ItemsFeed, ReviewsFeed
 from .views import (
     DownloadViewSet,
     ItemViewSet,
@@ -95,4 +97,7 @@ urlpatterns = [
         new_item_review,
         name="new_item_review",
     ),
+    path("items.rss", ItemsFeed()),
+    path("reviews.rss", ReviewsFeed()),
+
 ]

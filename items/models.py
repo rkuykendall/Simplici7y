@@ -198,6 +198,9 @@ class Review(TimeStampMixin):
     def __str__(self):
         return f"Review by {self.user.username} - {self.title}"
 
+    def get_absolute_url(self):
+        return self.version.item.get_absolute_url()
+
     def can_be_edited_by(self, user):
         return self.user == user or user.is_superuser
 
@@ -247,8 +250,6 @@ class Screenshot(TimeStampMixin):
 
     def save(self, *args, **kwargs):
         created = self.pk is None
-        print('save save save save save save')
-        print(*args, **kwargs)
         super().save(*args, **kwargs)
 
         if created:

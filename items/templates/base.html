@@ -19,6 +19,8 @@
     <title>Simplici7y - {% pagetitle %}</title>
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
 	<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+	<link rel="alternate" type="application/rss+xml" title="New Uploads" href="/items.rss"/>
+	<link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss"/>
 </head>
 
 <body class="{{ view_name }}">
@@ -52,8 +54,6 @@
 		{% endfor %}
 	</ul>
 	{% endif %}
-
-	<span class="wip">{\% messages %}</span>
 
 	<div id="container">
 		{% block content %}{% endblock %}

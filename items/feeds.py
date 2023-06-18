@@ -14,6 +14,9 @@ class ItemsFeed(Feed):
     def items(self):
         return get_filtered_items()
 
+    def item_guid(self, obj):
+        return obj.id
+
     def item_title(self, item):
         return item.name
 
@@ -28,6 +31,9 @@ class ReviewsFeed(Feed):
 
     def items(self):
         return Review.objects.order_by("-created_at")[:page_size]
+
+    def item_guid(self, obj):
+        return obj.id
 
     def item_title(self, item):
         return item.title

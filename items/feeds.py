@@ -11,6 +11,8 @@ class ItemsFeed(Feed):
     link = "http://simplici7y.com"
     description = "Latest updates and submissions to S7."
 
+    item_guid_is_permalink = False
+
     def items(self):
         return get_filtered_items()
 
@@ -28,6 +30,8 @@ class ReviewsFeed(Feed):
     title = "Simplici7y Reviews"
     link = "https://simplici7y.com/reviews/"
     description = "Latest reviews on S7."
+
+    item_guid_is_permalink = False
 
     def items(self):
         return Review.objects.order_by("-created_at")[:page_size]

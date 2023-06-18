@@ -477,7 +477,8 @@ div#footer {
 	background-color: #343434;
 	text-align: center;
 	background-image: url("../images/bg_footer.png");
-	background-repeat: repeat-x;
+    background-size: 1px 204px;
+    background-repeat: repeat-x;
 	position: absolute;
 	right: 0;
 	left: 0;
@@ -1069,10 +1070,6 @@ div.relevancy-3 .star-rating li.current-rating {
 		border: 1px solid #eee;
 		color: #ddd;
 		cursor: not-allowed;
-}
-
-form {
-    padding: 20px;
 }
 
 form input[type="text"], form input[type="password"], form input[type="email"] {

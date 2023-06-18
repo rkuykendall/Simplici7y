@@ -372,11 +372,15 @@ def add_item(request):
     return render(request, "simple_form.html", {"form": form, "title": "Add Item"})
 
 
-def get_add_item_child(request, item_permalink, model_name, form_class):
+def add_item_child(request, item_permalink, model_name, form_class):
     from django.conf import settings
     print('settings.DEFAULT_FILE_STORAGE', settings.DEFAULT_FILE_STORAGE)
 
     item = get_object_or_404(Item, permalink=item_permalink)
+
+    if (item.user != request.user) and (not request.user.is_staff):
+        messages.error(request, "You do not have permission to add a version to this item.")
+        return redirect("item_detail", item_permalink=item.permalink)
 
     if request.method == "POST":
         form = form_class(request.POST, request.FILES)
@@ -384,13 +388,7 @@ def get_add_item_child(request, item_permalink, model_name, form_class):
         form.instance.user = request.user
 
         if form.is_valid():
-            obj = form.save()
-
-            # Generate thumbnails
-            if isinstance(obj, Screenshot):
-                obj.file_thumb.generate()
-                obj.file_content.generate()
-
+            form.save()
             return redirect("item_detail", item_permalink=item.permalink)
     else:
         form = form_class()
@@ -400,12 +398,12 @@ def get_add_item_child(request, item_permalink, model_name, form_class):
 
 @login_required
 def add_version(request, item_permalink):
-    return get_add_item_child(request, item_permalink, "Version", VersionForm)
+    return add_item_child(request, item_permalink, "Version", VersionForm)
 
 
 @login_required
 def add_screenshot(request, item_permalink):
-    return get_add_item_child(request, item_permalink, "Screenshot", ScreenshotForm)
+    return add_item_child(request, item_permalink, "Screenshot", ScreenshotForm)
 
 @login_required
 def version_edit(request, item_permalink, version_id):
@@ -441,6 +439,27 @@ def item_edit(request, item_permalink):
     else:
         form = ItemForm(instance=item)
     return render(request, "simple_form.html", {"form": form, "title": "Edit Item"})
+
+
+def item_download(request, item_permalink):
+    item = get_object_or_404(Item, permalink=item_permalink)
+    version = Version.objects.filter(item=item).order_by("-created_at").first()
+
+    if version is None:
+        messages.error(request, "No version available for download")
+        return redirect("home")
+
+    Version.objects.filter(id=version.id).update(downloads_count=F("downloads_count") + 1)
+    Item.objects.filter(id=item.id).update(downloads_count=F("downloads_count") + 1)
+
+    if version.file:
+        return redirect(version.file.url)
+
+    if version.link:
+        return redirect(version.link)
+
+    messages.error(request, "No file or URL found")
+    return redirect("home")
 
 
 @login_required

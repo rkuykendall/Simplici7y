@@ -119,12 +119,12 @@ class Version(TimeStampMixin):
         return f"{self.item} {self.name} by {self.item.user}"
 
     def download_button(self):
+        url = reverse("item_download", kwargs={"item_permalink": self.item.permalink})
+
         if self.file:
-            url = '<a href="{}" class="button down">Download</a>'.format(self.file.url)
+            url = '<a href="{}" class="button down">Download</a>'.format(url)
         elif self.link:
-            url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(
-                self.link
-            )
+            url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(url)
         else:
             url = ""
 

@@ -27,7 +27,7 @@ from .views import (
     item_edit,
     item_delete,
     items_redirect,
-    new_item_review,
+    new_item_review, item_download,
 )
 
 router = DefaultRouter()
@@ -67,6 +67,7 @@ urlpatterns = [
     ),
     path("items/<str:item_permalink>/edit", item_edit, name="item_edit"),
     path("items/<str:item_permalink>/delete", item_delete, name="item_delete"),
+    path("items/<str:item_permalink>/downloads/new", item_download, name="item_download"),
     path(
         "password_reset/",
         auth_views.PasswordResetView.as_view(template_name="simple_form.html"),
@@ -86,7 +87,7 @@ urlpatterns = [
     ),
     path(
         "reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(template_name="simple_form.html"),
+        auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_complete.html"),
         name="password_reset_complete",
     ),
     path(

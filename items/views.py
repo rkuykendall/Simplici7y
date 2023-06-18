@@ -33,7 +33,7 @@ from .serializers import (
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
-from .utils import get_filtered_items
+from .utils import get_filtered_items, page_size
 
 CharField.register_lookup(Lower)
 
@@ -183,7 +183,6 @@ def log_out(request):
     return redirect("home")
 
 
-@login_required  # Remove after go-live
 def signup(request):
     if request.method == "POST":
         form = UserForm(request.POST)

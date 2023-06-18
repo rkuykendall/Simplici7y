@@ -1,18 +1,32 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import BaseUserCreationForm
+from django.core.exceptions import ValidationError
 
 from items.models import Item, Version, Screenshot, Review
 
 User = get_user_model()
 
 
+def validate_passphrase(value):
+    if value != 'test':
+        raise ValidationError(
+            "Incorrect passphrase.",
+            params={"value": value},
+        )
+
+
 class UserForm(BaseUserCreationForm):
     email = forms.EmailField(required=True)
+    passphrase = forms.CharField(
+        label="Passphrase",
+        help_text="Ask on the <a href=\"https://discord.gg/ZuJRd8xJ\">Discord</a> for the passphrase.",
+        validators=[validate_passphrase],
+    )
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "email", "password1", "password2")
+        fields = ("username", "first_name", "email", "password1", "password2", "passphrase")
         labels = {
             "first_name": "Display name",
         }

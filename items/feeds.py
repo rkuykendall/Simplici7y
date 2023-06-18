@@ -1,5 +1,4 @@
 from django.contrib.syndication.views import Feed
-from django.urls import reverse
 from markdownify.templatetags.markdownify import markdownify
 
 from items.models import Review

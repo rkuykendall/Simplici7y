@@ -449,7 +449,7 @@ div#menu a.logo {
 		color: #6C98CC;
 }
 div#menu a.control {
-	color: #ccc;
+	color: #bbb;
 }
 div#menu a.username {
 	max-width: 125px;
@@ -741,13 +741,6 @@ form div.form_sidenote ol li {
 form div.form_sidenote ol {
 	padding: 0;
 	margin: 5px 0 10px 10px;
-}
-
-
-form label {
-	display: inline-block;
-	vertical-align: top;
-	width: 145px; /* Width of labels */
 }
 
 form .helptext {
@@ -1076,4 +1069,31 @@ div.relevancy-3 .star-rating li.current-rating {
 		border: 1px solid #eee;
 		color: #ddd;
 		cursor: not-allowed;
+}
+
+form {
+    padding: 20px;
+}
+
+form input[type="text"], form input[type="password"], form input[type="email"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+form button[type="submit"]:hover {
+    opacity: 0.8;
+}
+
+.help-text {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.errorlist {
+    color: red;
+    font-size: 0.8em;
 }

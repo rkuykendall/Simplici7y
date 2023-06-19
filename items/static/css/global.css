@@ -113,114 +113,74 @@ hr {
     text-align: right;
 }
 
+:root {
+  --color-primary: #7198c8;
+  --color-success: #5ec269;
+  --color-warn: #d87437;
+  --color-danger: #e83631;
+}
+
+
 .button,
 input[type=submit],
 button[type=submit],
 form input[type=submit] {
 	cursor: pointer;
 	display: inline-block;
-	width: auto;
-	padding: 5px 10px 5px 32px;
-	margin: 2px;
-	background-position: 10px center;
-	background-repeat: no-repeat;
-	background-color: #F5F5F5;
+	min-width: 100px;
+	padding: 7px 14px 7px 49px;
+	background-color: var(--color-primary);
+	color: white;
+	border: none;
+	cursor: pointer;
 
-	border: 1px solid #DEDEDE;
-	border-top: 1px solid #EEE;
-	border-left: 1px solid #EEE;
+    -webkit-mask-image: url("../images/icons/generic.svg"), linear-gradient(#fff 0 0);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-composite: destination-out;
+    -webkit-mask-position: left;
 
 	line-height: 22px;
 	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 400;
+	letter-spacing: 2px;
 }
 
-form input[type=submit] {
-  margin-left: 150px;
-  margin-top: -20px;
-
-}
-
-h1 .button {
-  position: relative;
-  top: -10px;
-}
-
+a.button:hover,
 .button:hover {
-	/* Colors: Standard */
-    background-color: #dff4ff;
-    border:1px solid #c2e1ef;
-    color: #336699;
+	opacity: 0.8;
+	color: white;
 	}
 	.button:active {
-    background-color: #6299c5;
-    border:1px solid #6299c5;
-    color: #fff;
+    position: relative;
+    top: 1px;
 }
 
 .button.positive {
-	/* Colors: Positive */
-    color: #529214;
-	}
-	.button.positive:hover {
-    background-color: #E6EFC2;
-    border: 1px solid #C6D880;
-    color: #529214;
-	}
-	.button.positive:active {
-    background-color: #529214;
-    border: 1px solid #529214;
-    color: #fff;
+    background-color: var(--color-success);
 }
 
 .button.negative {
-	/* Colors: Negative */
-    color: #d12f19;
-	}
-	.button.negative:hover {
-    background-color: #fbe3e4;
-    border: 1px solid #fbc2c4;
-    color: #d12f19;
-	}
-	.button.negative:active {
-    background-color: #d12f19;
-    border: 1px solid #d12f19;
-    color: #fff;
+    background-color: var(--color-danger);
 }
 
 .button.change {
-	/* Colors: Change */
-    color: #563D11;
-	}
-	.button.change:hover {
-    background-color: #FBF5D3;
-    border: 1px solid #F1D576;
-    color: #000;
-	}
-	.button.change:active {
-    background-color: #563D11;
-    border: 1px solid #563D11;
-    color: #fff;
+    background-color: var(--color-warn);
 }
 
 
 /* Icons */
-.button.skip       { background-image: url('../images/silk/control_fastforward.png'); }
-.button.skip:hover { background-image: url('../images/silk/control_fastforward_blue.png'); }
-.button.next       { background-image: url('../images/silk/control_play.png'); }
-.button.next:hover { background-image: url('../images/silk/control_play_blue.png'); }
-.button.down       { background-image: url('../images/silklike/control_download.png'); }
-.button.down:hover { background-image: url('../images/silklike/control_download_blue.png'); }
+.button.skip       { -webkit-mask-image: url('../images/icons/chevron-right.svg'), linear-gradient(#fff 0 0); }
+.button.next       { -webkit-mask-image: url('../images/icons/chevron-right.svg'), linear-gradient(#fff 0 0); }
+.button.down       { -webkit-mask-image: url('../images/icons/chevron-down.svg'), linear-gradient(#fff 0 0); }
 
-.button.accept     { background-image: url('../images/silk/accept.png'); }
-.button.add        { background-image: url('../images/silk/add.png');    }
-.button.add-image  { background-image: url('../images/silk/image_add.png'); }
+.button.accept     { -webkit-mask-image: url('../images/icons/add.svg'), linear-gradient(#fff 0 0); }
+.button.add        { -webkit-mask-image: url('../images/icons/add.svg'), linear-gradient(#fff 0 0); }
 
-.button.cancel     { background-image: url('../images/silk/cross.png'); }
-.button.delete     { background-image: url('../images/silk/delete.png'); }
+.button.cancel     { -webkit-mask-image: url('../images/icons/delete.svg'), linear-gradient(#fff 0 0); }
+.button.delete     { -webkit-mask-image: url('../images/icons/delete.svg'), linear-gradient(#fff 0 0); }
 
-.button.edit-txt   { background-image: url('../images/silk/page_white_edit.png'); }
-.button.edit-imge  { background-image: url('../images/silk/image_edit.png'); }
-
+.button.edit-txt   { -webkit-mask-image: url('../images/icons/edit.svg'), linear-gradient(#fff 0 0); }
 
 
 /* ==============================
@@ -298,8 +258,7 @@ h5 {
 label,
 input,
 select,
-textarea,
-a.button {
+textarea {
 	font-size: 18px;
 	color: #666;
 	}
@@ -308,16 +267,6 @@ a.button {
 	}
 	input.file {
 		font-size: 14px;
-}
-
-.form_sidenote {
-	font-size: 12px;
-}
-label small,
-label small a {
-	color: #999;
-	font-size: 12px;
-	font-style: italic;
 }
 
 p {
@@ -737,16 +686,6 @@ form fieldset {
 			margin: 0;
 }
 
-form div.form_sidenote ol li {
-	list-style: decimal inside;
-	margin: 0;
-	padding: 0;
-}
-form div.form_sidenote ol {
-	padding: 0;
-	margin: 5px 0 10px 10px;
-}
-
 form .helptext {
 	display: block;
 }
@@ -769,10 +708,15 @@ form input,
 form select,
 form textarea {
 	border: solid 1px #ddd;
-	padding: 2px;
 	color: #666;
-	width: 300px;
 	background-color: #fff;
+
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    box-sizing: border-box;
+
 	}
 	form div.fieldWithErrors input,
 	form div.fieldWithErrors select,
@@ -792,14 +736,6 @@ form input.file {
 	width: 202px;
 	padding: 6px;
 	border: solid 1px #ddd;
-}
-
-form div.form_sidenote {
-	clear: right;
-	float: right;
-	padding: 0;
-	width: 180px;
-	margin-bottom: 15px;
 }
 
 form div.fieldWithErrors {
@@ -1074,19 +1010,6 @@ div.relevancy-3 .star-rating li.current-rating {
 		border: 1px solid #eee;
 		color: #ddd;
 		cursor: not-allowed;
-}
-
-form input[type="text"], form input[type="password"], form input[type="email"] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-form button[type="submit"]:hover {
-    opacity: 0.8;
 }
 
 .help-text {

@@ -52,7 +52,7 @@ def pagetitle(context):
     if items_subtitle:
         return items_subtitle
 
-    return view.view_name.capitalize()
+    return view.view_name.capitalize().replace('_', ' ')
 
 
 @register.simple_tag(takes_context=True)

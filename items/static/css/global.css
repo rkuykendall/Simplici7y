@@ -366,6 +366,9 @@ ol.details {
   }
   .details li a {
     color: #555;
+  }
+  .details li a:active {
+    color: white;
 }
 
 
@@ -984,6 +987,7 @@ body.users.index #container a {
 
 .star-rating li.current-rating{
 	background: url('../images/star_rating.png') left 75px;
+	background-size: 25px;
 	height: 25px;
 	display: block;
 	text-indent: -9000px;

@@ -6,9 +6,17 @@
 <div class="simple">
 <h2>Log in</h2>
 <form method="POST">
+	<ul class="messages">
+      <li class="info">
+        If you joined before the 2022 rewrite you will need to reset your password below.
+      </li>
+	</ul>
     {% csrf_token %}
     {{ login_form.as_p }}
-    <button type="submit" class="button positive accept">Log in</button>
+    <div class="button-bar">
+        <a href="/password_reset" class="button next">Forgot password</a>
+        <button type="submit" class="button positive accept">Log in</button>
+    </div>
 </form>
 </div>
 {% endblock %}

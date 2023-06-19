@@ -1,44 +1,15 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Simplici7y Coming Soon</title>
-	<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
-
-        body {
-            color: #242426;
-            font-weight: 400;
-            font-family: 'Source Sans Pro', sans-serif;
-            padding: 4rem;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .blue,
-        a, a:active, a:link {
-            color: #6299c5;
-        }
-
-        a:hover {
-            color: #00a3e0;
-        }
-
-        .bottom-logo {
-            font-size: 10rem;
-            transform: rotate(-3deg);
-            position: absolute;
-            bottom: -4rem;;
-            left: 20%;
-        }
-    </style>
-</head>
-<body>
-    <h1>Simplici<span class="blue">7</span>y <span class="blue">2.0</span> is being written / migrated.</h1>
-    <p>For now, check out the archive at <a href="https://lochnits.com/s7/">lochnits.com/s7/</a></p>
-    <p>See my progress on Github <a href="https://github.com/rkuykendall/Simplici7y">github.com/rkuykendall/Simplici7y</a> or say Hi to Switch on <a href="https://discord.com/invite/marathonthegame">Discord</a></p>
-    <span class="bottom-logo">Simplici<span class="blue">7</span>y</span>
-</body>
-</html>
+{% block content %}
+<div class="simple">
+  <h2>404: Page Not Found</h2>
+  <p>
+    The page you were looking for does not exist.
+  </p>
+  <p>Unless you were looking for the 404 page.</p>
+  <div class="button-bar">
+    <a class="button cancel" href="/">Go home</a>
+    <a class="button danger add" href="https://github.com/rkuykendall/Simplici7y/issues/new">Report issue</a>
+  </div>
+</div>
+{% endblock %}

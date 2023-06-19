@@ -8,7 +8,7 @@
 
     {% if 'permission' == True %}
         <a href="{% url 'review_edit' show.item.id show.id %}" class="button change edit-txt">Edit</a>
-        <a href="{% url 'review_delete' show.item.id show.id %}" class="button negative delete" data-confirm="Are you sure you want to delete this review?\n'{{ show.title }}' by {{ show.user.first_name }}">Delete</a>
+        <a href="{% url 'review_delete' show.item.id show.id %}" class="button danger delete" data-confirm="Are you sure you want to delete this review?\n'{{ show.title }}' by {{ show.user.first_name }}">Delete</a>
     {% endif %}
 
     <div class="indent markdown">

@@ -46,7 +46,7 @@
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <a href="{% url 'item_edit' item.permalink %}" class="button change edit-txt">Edit information</a>
             <a href="{% url 'edit_version' item.permalink version.pk %}" class="button change edit-txt">Edit version</a>
-            <a href="{% url 'item_delete' item.permalink %}" class="button negative delete">Delete everything</a>
+            <a href="{% url 'item_delete' item.permalink %}" class="button danger delete">Delete everything</a>
             <a href="{% url 'add_version' item.permalink %}" class="button positive add">Add version</a>
             </div>
         {% endif %}

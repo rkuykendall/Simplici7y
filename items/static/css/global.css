@@ -160,7 +160,7 @@ a.button:hover,
     background-color: var(--color-success);
 }
 
-.button.negative {
+.button.danger {
     background-color: var(--color-danger);
 }
 
@@ -177,7 +177,7 @@ a.button:hover,
 .button.accept     { -webkit-mask-image: url('../images/icons/add.svg'), linear-gradient(#fff 0 0); }
 .button.add        { -webkit-mask-image: url('../images/icons/add.svg'), linear-gradient(#fff 0 0); }
 
-.button.cancel     { -webkit-mask-image: url('../images/icons/delete.svg'), linear-gradient(#fff 0 0); }
+.button.cancel     { -webkit-mask-image: url('../images/icons/chevron-left.svg'), linear-gradient(#fff 0 0); }
 .button.delete     { -webkit-mask-image: url('../images/icons/delete.svg'), linear-gradient(#fff 0 0); }
 
 .button.edit-txt   { -webkit-mask-image: url('../images/icons/edit.svg'), linear-gradient(#fff 0 0); }

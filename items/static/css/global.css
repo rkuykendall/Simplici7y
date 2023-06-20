@@ -1024,7 +1024,7 @@ div.relevancy-3 .star-rating li.current-rating {
 
 .errorlist {
     color: red;
-    font-size: 0.8em;
+    padding: 0 0 1rem 0;
 }
 
 .tag-list-tag {

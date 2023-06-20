@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import BaseUserCreationForm
 from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
 
 from items.models import Item, Version, Screenshot, Review, Tag
 
@@ -125,9 +126,25 @@ class ItemForm(forms.ModelForm):
 
 
 class VersionForm(forms.ModelForm):
+    link = forms.CharField(
+        required=False,
+        validators=[URLValidator()],
+        help_text="Only required if no file is uploaded."
+    )
+
     class Meta:
         model = Version
         fields = ("name", "body", "file", "link")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        link = cleaned_data.get('link')
+        file = cleaned_data.get('file')
+
+        if not link and not file:
+            raise forms.ValidationError(
+                "At least one of Link or File must be provided."
+            )
 
 
 class ScreenshotForm(forms.ModelForm):

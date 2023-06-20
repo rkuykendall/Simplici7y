@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from django.db import models
-from django.db.models import F, Max
+from django.db.models import F, Max, Q
 from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -114,6 +114,14 @@ class Version(TimeStampMixin):
 
     # Cached / calculated fields
     downloads_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=Q(link__isnull=False) | Q(file__isnull=False),
+                name='version_must_have_link_or_file'
+            )
+        ]
 
     def __str__(self):
         return f"{self.item} {self.name} by {self.item.user}"

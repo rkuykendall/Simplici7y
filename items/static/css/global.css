@@ -115,9 +115,10 @@ hr {
 
 :root {
   --color-primary: #7198c8;
+  --color-secondary: #2B2D42;
   --color-success: #5ec269;
   --color-warn: #d87437;
-  --color-danger: #e83631;
+  --color-danger: #FB3640;
 
   --text-lighter: #A1A1A1;
 }
@@ -167,7 +168,7 @@ a.button:hover,
 }
 
 .button.change {
-    background-color: var(--color-warn);
+    background-color: var(--color-secondary);
 }
 
 

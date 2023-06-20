@@ -82,6 +82,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGOUT_URL = "/logout/"
 
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

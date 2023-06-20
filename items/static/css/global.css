@@ -707,7 +707,7 @@ form fieldset fieldset {
         margin-left: 123px; /* Width plus 3 (html space) */
 }
 
-form input,
+form input:not([type=checkbox]),
 form select,
 form textarea {
     border: solid 1px #ddd;
@@ -1036,4 +1036,11 @@ div.relevancy-3 .star-rating li.current-rating {
 
 .tag-list-count {
     color: var(--text-lighter);
+}
+
+div#id_popular_tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
 }

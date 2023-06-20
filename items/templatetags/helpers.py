@@ -89,6 +89,8 @@ def order_name(txt):
         name += "Latest Updates"
     elif txt == "old":
         name += "Oldest Updates"
+    elif txt == "reviews":
+        name += "Average Reviews"
     elif txt == "best":
         name += "Best Reviewed"
     elif txt == "worst":

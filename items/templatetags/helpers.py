@@ -3,7 +3,7 @@ import markdown
 
 from django.utils.html import strip_tags
 from django import template
-from django.urls import resolve
+from django.urls import resolve, Resolver404
 
 register = template.Library()
 
@@ -37,7 +37,10 @@ def subtitle(context):
 
 @register.simple_tag(takes_context=True)
 def pagetitle(context):
-    view = resolve(context["request"].path_info)
+    try:
+        view = resolve(context["request"].path_info)
+    except Resolver404:
+        return "Page not found"  # Default title for unmatched paths
 
     if context["request"].path == "/":
         return "Marathon Aleph One community downloads."

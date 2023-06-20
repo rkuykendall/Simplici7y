@@ -34,6 +34,12 @@ class UserForm(BaseUserCreationForm):
             "first_name": "Display name",
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # remove passphrase field when editing an existing user
+        if self.instance and self.instance.pk:
+            self.fields.pop('passphrase')
+
     def save(self, commit=True):
         user = super(UserForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]

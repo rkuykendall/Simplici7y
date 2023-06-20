@@ -803,14 +803,15 @@ div.review {
       Tags
    ============================== */
 
-body.tags #container span {
-    line-height: 1em;
-    padding: 5px;
+.tag-list-tag {
     display: inline-block;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin: 0 1em 1em 0;
 }
 
-body.tags #container span a {
-  text-decoration: none;
+.tag-list-count {
+    color: var(--text-lighter);
 }
 
 
@@ -818,38 +819,38 @@ body.tags #container span a {
       Users
    ============================== */
 
-div.user {
-    width: 198px;
+.users {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.user {
+    text-decoration: none;
     padding: 10px;
-    margin: 5px;
     border-top: 1px solid #eee;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #bbb;
     overflow: hidden;
-    float: left;
+    flex-grow: 1;
+    min-width: 154px;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.46, rgb(252,252,252)),
+        color-stop(0.73, rgb(255,255,255))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(252,252,252) 46%,
+        rgb(255,255,255) 73%
+    );
 }
-
-div.user {
-  background-image: -webkit-gradient(
-      linear,
-      left bottom,
-      left top,
-      color-stop(0.46, rgb(252,252,252)),
-      color-stop(0.73, rgb(255,255,255))
-  );
-  background-image: -moz-linear-gradient(
-      center bottom,
-      rgb(252,252,252) 46%,
-      rgb(255,255,255) 73%
-  );
-}
-div.user:hover {
+.user:hover {
   background-image: none;
-}
-
-body.users.index #container a {
-  text-decoration: none;
 }
 
 
@@ -1027,17 +1028,6 @@ div.relevancy-3 .star-rating li.current-rating {
     }
     .errorlist li {
         padding: 0 0 1rem 0;
-}
-
-.tag-list-tag {
-    display: inline-block;
-    text-decoration: none;
-    font-size: 1.5em;
-    margin: 0 1em 1em 0;
-}
-
-.tag-list-count {
-    color: var(--text-lighter);
 }
 
 div#id_popular_tags {

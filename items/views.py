@@ -53,6 +53,11 @@ def scenario(request, item_permalink):
     return render(request, "items.html", {"page_obj": page_obj, "scenario": item})
 
 
+def tags(request):
+    tags = Tag.objects.all().order_by('-count')
+    return render(request, "tags.html", {"tags": tags})
+
+
 def tag(request, name):
     tag = get_object_or_404(Tag, name=name)
     page_obj = get_filtered_items(request=request, tag=tag)

@@ -118,6 +118,8 @@ hr {
   --color-success: #5ec269;
   --color-warn: #d87437;
   --color-danger: #e83631;
+
+  --text-lighter: #A1A1A1;
 }
 
 
@@ -1022,4 +1024,15 @@ div.relevancy-3 .star-rating li.current-rating {
 .errorlist {
     color: red;
     font-size: 0.8em;
+}
+
+.tag-list-tag {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin: 0 1em 1em 0;
+}
+
+.tag-list-count {
+    color: var(--text-lighter);
 }

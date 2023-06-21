@@ -181,7 +181,6 @@ def users(request):
     return render(request, "users.html", {"users": active_users})
 
 
-# @login_required
 def log_out(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")

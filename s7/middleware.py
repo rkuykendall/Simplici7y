@@ -55,8 +55,6 @@ class ValidateQueryParamsMiddleware:
                     invalid_params.append(param)
                 elif param == "order" and values[0] not in self.ORDER_VALUES:
                     invalid_params.append(param)
-                elif param == "page" and not values[0].isdigit():
-                    invalid_params.append(param)
 
             # Remove invalid parameters and redirect
             if invalid_params:

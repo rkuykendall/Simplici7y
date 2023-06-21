@@ -11,6 +11,8 @@ from django.db.models.functions import Lower
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+
 from .models import User
 from rest_framework import viewsets, permissions
 from .forms import (
@@ -68,7 +70,12 @@ def item_detail(request, item_permalink):
     legacy_tc_slugs = ["marathon", "marathon-2-durandal", "marathon-infinity"]
 
     if item_permalink in legacy_tc_slugs:
-        return redirect("scenario", item_permalink, permanent=True)
+        url = reverse("scenario", args=[item_permalink])
+        query_string = request.META.get('QUERY_STRING', '')
+        print('query_string', query_string)
+        if query_string:
+            url = f"{url}?{query_string}"
+        return redirect(url, permanent=True)
 
     item = get_object_or_404(
         Item.objects.prefetch_related(

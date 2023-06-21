@@ -12,7 +12,7 @@ User = get_user_model()
 
 
 def validate_passphrase(value):
-    if value != 'escapewillmakemegod':
+    if value != "escapewillmakemegod":
         raise ValidationError(
             "Incorrect passphrase.",
             params={"value": value},
@@ -23,13 +23,20 @@ class UserForm(BaseUserCreationForm):
     email = forms.EmailField(required=True)
     passphrase = forms.CharField(
         label="Passphrase",
-        help_text="Ask on the <a href=\"https://discord.gg/ZuJRd8xJ\">Discord</a> for the passphrase.",
+        help_text='Ask on the <a href="https://discord.gg/ZuJRd8xJ">Discord</a> for the passphrase.',
         validators=[validate_passphrase],
     )
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "email", "password1", "password2", "passphrase")
+        fields = (
+            "username",
+            "first_name",
+            "email",
+            "password1",
+            "password2",
+            "passphrase",
+        )
         labels = {
             "first_name": "Display name",
         }
@@ -38,7 +45,7 @@ class UserForm(BaseUserCreationForm):
         super().__init__(*args, **kwargs)
         # remove passphrase field when editing an existing user
         if self.instance and self.instance.pk:
-            self.fields.pop('passphrase')
+            self.fields.pop("passphrase")
 
     def save(self, commit=True):
         user = super(UserForm, self).save(commit=False)
@@ -54,10 +61,26 @@ class UserForm(BaseUserCreationForm):
 
 class ItemForm(forms.ModelForm):
     popular_tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.filter(name__in=[
-            'ctf', 'emfh', 'enhancement', 'koth', 'ktmwtb', 'lua', 'map', 'multiplayer',
-            'physics', 'plugin', 'scenario', 'script', 'solo', 'solocoop', 'survival', 'utility'
-        ]),
+        queryset=Tag.objects.filter(
+            name__in=[
+                "ctf",
+                "emfh",
+                "enhancement",
+                "koth",
+                "ktmwtb",
+                "lua",
+                "map",
+                "multiplayer",
+                "physics",
+                "plugin",
+                "scenario",
+                "script",
+                "solo",
+                "solocoop",
+                "survival",
+                "utility",
+            ]
+        ),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
@@ -65,7 +88,7 @@ class ItemForm(forms.ModelForm):
     additional_tags = forms.CharField(
         max_length=255,
         required=False,
-        help_text="Enter additional tags separated by commas or spaces."
+        help_text="Enter additional tags separated by commas or spaces.",
     )
 
     class Meta:
@@ -76,34 +99,63 @@ class ItemForm(forms.ModelForm):
         }
         help_texts = {
             "tc": "If n/a leave blank",
-            "body": "Formatted with <a href=\"https://www.markdownguide.org/cheat-sheet/\" target=\"_blank\">Markdown</a>."
+            "body": 'Formatted with <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown</a>.',
         }
 
     def __init__(self, *args, **kwargs):
         super(ItemForm, self).__init__(*args, **kwargs)
-        scenario_tag = Tag.objects.get(name='scenario')
-        self.fields['tc'].queryset = Item.objects.filter(tags=scenario_tag)
+        scenario_tag = Tag.objects.get(name="scenario")
+        self.fields["tc"].queryset = Item.objects.filter(tags=scenario_tag)
 
         if self.instance and self.instance.pk:
-            self.fields['popular_tags'].initial = self.instance.tags.filter(
+            self.fields["popular_tags"].initial = self.instance.tags.filter(
                 name__in=[
-                    'ctf', 'emfh', 'enhancement', 'koth', 'ktmwtb', 'lua', 'map', 'multiplayer',
-                    'physics', 'plugin', 'scenario', 'script', 'solo', 'solocoop', 'survival', 'utility'
+                    "ctf",
+                    "emfh",
+                    "enhancement",
+                    "koth",
+                    "ktmwtb",
+                    "lua",
+                    "map",
+                    "multiplayer",
+                    "physics",
+                    "plugin",
+                    "scenario",
+                    "script",
+                    "solo",
+                    "solocoop",
+                    "survival",
+                    "utility",
                 ]
             )
-            self.fields['additional_tags'].initial = ", ".join(
-                tag.name for tag in self.instance.tags.exclude(
+            self.fields["additional_tags"].initial = ", ".join(
+                tag.name
+                for tag in self.instance.tags.exclude(
                     name__in=[
-                        'ctf', 'emfh', 'enhancement', 'koth', 'ktmwtb', 'lua', 'map', 'multiplayer',
-                        'physics', 'plugin', 'scenario', 'script', 'solo', 'solocoop', 'survival', 'utility'
+                        "ctf",
+                        "emfh",
+                        "enhancement",
+                        "koth",
+                        "ktmwtb",
+                        "lua",
+                        "map",
+                        "multiplayer",
+                        "physics",
+                        "plugin",
+                        "scenario",
+                        "script",
+                        "solo",
+                        "solocoop",
+                        "survival",
+                        "utility",
                     ]
                 )
             )
 
     def clean_additional_tags(self):
-        data = self.cleaned_data['additional_tags']
+        data = self.cleaned_data["additional_tags"]
         # split by commas or spaces
-        tag_list = re.findall(r'[\w-]+', data)
+        tag_list = re.findall(r"[\w-]+", data)
         return tag_list
 
     def save(self, commit=True):
@@ -116,16 +168,19 @@ class ItemForm(forms.ModelForm):
             instance.tags.clear()
 
             # add popular tags
-            for tag in self.cleaned_data['popular_tags']:
+            for tag in self.cleaned_data["popular_tags"]:
                 instance.tags.add(tag)
 
             # create and add additional tags
-            for tag_name in self.cleaned_data['additional_tags']:
+            for tag_name in self.cleaned_data["additional_tags"]:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
                 instance.tags.add(tag)
 
             # Only save instance if there are tags to avoid unnecessary database writes.
-            if self.cleaned_data['popular_tags'] or self.cleaned_data['additional_tags']:
+            if (
+                self.cleaned_data["popular_tags"]
+                or self.cleaned_data["additional_tags"]
+            ):
                 instance.save()
 
         return instance
@@ -135,7 +190,7 @@ class VersionForm(forms.ModelForm):
     link = forms.CharField(
         required=False,
         validators=[URLValidator()],
-        help_text="Only required if no file is uploaded."
+        help_text="Only required if no file is uploaded.",
     )
 
     class Meta:
@@ -144,8 +199,8 @@ class VersionForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        link = cleaned_data.get('link')
-        file = cleaned_data.get('file')
+        link = cleaned_data.get("link")
+        file = cleaned_data.get("file")
 
         if not link and not file:
             raise forms.ValidationError(

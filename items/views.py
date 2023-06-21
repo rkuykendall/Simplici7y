@@ -54,7 +54,7 @@ def scenario(request, item_permalink):
 
 
 def tags(request):
-    tags = Tag.objects.all().order_by('-count')
+    tags = Tag.objects.all().order_by("-count")
     return render(request, "tags.html", {"tags": tags})
 
 
@@ -232,7 +232,9 @@ def user(request, username):
 
     if request.user.is_authenticated:
         if request.user == show_user:
-            items = get_filtered_items(request=request, items=Item.objects, user=show_user)
+            items = get_filtered_items(
+                request=request, items=Item.objects, user=show_user
+            )
 
     reviews = (
         Review.objects.filter(user=show_user)
@@ -291,7 +293,9 @@ def add_item_child(request, item_permalink, model_name, form_class):
     item = get_object_or_404(Item, permalink=item_permalink)
 
     if (item.user != request.user) and (not request.user.is_staff):
-        messages.error(request, "You do not have permission to add a version to this item.")
+        messages.error(
+            request, "You do not have permission to add a version to this item."
+        )
         return redirect("item_detail", item_permalink=item.permalink)
 
     if request.method == "POST":
@@ -305,7 +309,9 @@ def add_item_child(request, item_permalink, model_name, form_class):
     else:
         form = form_class()
 
-    return render(request, 'simple_form.html', {"form": form, "title": f"Add {model_name}"})
+    return render(
+        request, "simple_form.html", {"form": form, "title": f"Add {model_name}"}
+    )
 
 
 @login_required
@@ -316,6 +322,7 @@ def add_version(request, item_permalink):
 @login_required
 def add_screenshot(request, item_permalink):
     return add_item_child(request, item_permalink, "Screenshot", ScreenshotForm)
+
 
 @login_required
 def version_edit(request, item_permalink, version_id):
@@ -361,7 +368,9 @@ def item_download(request, item_permalink):
         messages.error(request, "No version available for download")
         return redirect("home")
 
-    Version.objects.filter(id=version.id).update(downloads_count=F("downloads_count") + 1)
+    Version.objects.filter(id=version.id).update(
+        downloads_count=F("downloads_count") + 1
+    )
     Item.objects.filter(id=item.id).update(downloads_count=F("downloads_count") + 1)
 
     if version.file:

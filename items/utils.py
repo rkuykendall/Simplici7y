@@ -28,7 +28,9 @@ def order_items(items, order):
     elif order == "popular":
         items = items.order_by("-downloads_count")
     else:
+        # default to new
         items = items.order_by("-version_created_at")
+
     return items
 
 

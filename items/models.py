@@ -119,7 +119,7 @@ class Version(TimeStampMixin):
         constraints = [
             models.CheckConstraint(
                 check=Q(link__isnull=False) | Q(file__isnull=False),
-                name='version_must_have_link_or_file'
+                name="version_must_have_link_or_file",
             )
         ]
 
@@ -132,7 +132,9 @@ class Version(TimeStampMixin):
         if self.file:
             url = '<a href="{}" class="button down">Download</a>'.format(url)
         elif self.link:
-            url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(url)
+            url = '<a href="{}" class="button next" target="_blank">Webpage</a>'.format(
+                url
+            )
         else:
             url = ""
 

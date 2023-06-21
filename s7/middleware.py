@@ -46,23 +46,31 @@ class ValidateQueryParamsMiddleware:
 
         if view_name in self.VALID_QUERY_PARAMS:
             params = request.GET.copy()
-            valid_params = self.VALID_QUERY_PARAMS[view_name]
-            invalid_params = []
 
-            # Check for invalid parameters
-            for param, values in params.lists():
-                if param not in valid_params or len(values) > 1 or not any(values):
-                    invalid_params.append(param)
-                elif param == "order" and values[0] not in self.ORDER_VALUES:
-                    invalid_params.append(param)
+            for param in list(params):  # we use list() to create a copy of the keys, because we will modify the dict
+                values = params.getlist(param)
+                if self._is_valid_param(view_name, param, values):
+                    # If there are multiple values, only keep the last one
+                    if len(values) > 1:
+                        params.setlist(param, [values[-1]])
+                else:
+                    params.pop(param)
 
-            # Remove invalid parameters and redirect
-            if invalid_params:
-                for param in invalid_params:
-                    del params[param]
-
+            if request.GET != params:
                 url = f"{request.path}?{urlencode(params, doseq=True)}"
                 return redirect(url)
 
         response = self.get_response(request)
         return response
+
+    def _is_valid_param(self, view_name, param, values):
+        if param not in self.VALID_QUERY_PARAMS[view_name]:
+            return False
+
+        if param == "order" and values[-1] not in self.ORDER_VALUES:
+            return False
+
+        if param == "page" and not values[-1].isdigit():
+            return False
+
+        return True

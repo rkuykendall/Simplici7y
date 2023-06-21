@@ -219,7 +219,10 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("home")
+
+                next_url = request.GET.get('next', 'home')
+                return redirect(next_url)
+
             else:
                 messages.error(request, "Invalid username or password.")
         else:

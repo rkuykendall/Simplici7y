@@ -17,7 +17,7 @@
         {% include "_show_partial.html" %}
       {% endwith %}
     {% else %}
-	<ul class="messages">
+    <ul class="messages">
       <li class="warning">
         <div style="display: flex; gap: 1rem; flex-direction: row; justify-content: space-between">
           <div style="flex-shrink: 1">"{{ item.name }}" has no versions.</div>
@@ -27,7 +27,7 @@
           </div>
         </div>
       </li>
-	</ul>
+    </ul>
     {% endif %}
 
   {% endfor %}

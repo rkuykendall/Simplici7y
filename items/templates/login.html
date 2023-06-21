@@ -6,11 +6,11 @@
 <div class="simple">
 <h2>Log in</h2>
 <form method="POST">
-	<ul class="messages">
+    <ul class="messages">
       <li class="info">
           If you joined before the 2023 rewrite you will need to <a href="/password_reset">reset your password</a>.
       </li>
-	</ul>
+    </ul>
     {% csrf_token %}
     {{ login_form.as_p }}
     <div class="button-bar">

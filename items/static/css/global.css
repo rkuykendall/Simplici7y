@@ -1,3 +1,36 @@
+:root {
+  --text-xs-size: 0.75rem; /* 12px */
+  --text-xs-lh: 1rem; /* 16px */
+
+  --text-sm-size: 0.875rem; /* 14px */
+  --text-sm-lh: 1.25rem; /* 20px */
+
+  --text-base-size: 1rem; /* 16px */
+  --text-base-lh: 1.5rem; /* 24px */
+
+  --text-lg-size: 1.125rem; /* 18px */
+  --text-lg-lh: 1.75rem; /* 28px */
+
+  --text-xl-size: 1.25rem; /* 20px */
+  --text-xl-lh: 1.75rem; /* 28px */
+
+  --text-2xl-size: 1.5rem; /* 24px */
+  --text-2xl-lh: 2rem; /* 32px */
+
+  --text-3xl-size: 1.875rem; /* 30px */
+  --text-3xl-lh: 2.25rem; /* 36px */
+
+  --text-4xl-size: 2.25rem; /* 36px */
+  --text-4xl-lh: 2.5rem; /* 40px */
+
+  --color-primary: #7198c8;
+  --color-secondary: #2B2D42;
+  --color-success: #5ec269;
+  --color-warn: #d87437;
+  --color-danger: #FB3640;
+
+  --text-lighter: #A1A1A1;
+}
 
 /* ==============================
       Meyer CSS Reset
@@ -113,17 +146,6 @@ hr {
     text-align: right;
 }
 
-:root {
-  --color-primary: #7198c8;
-  --color-secondary: #2B2D42;
-  --color-success: #5ec269;
-  --color-warn: #d87437;
-  --color-danger: #FB3640;
-
-  --text-lighter: #A1A1A1;
-}
-
-
 .button,
 input[type=submit],
 button[type=submit],
@@ -193,8 +215,8 @@ a.button:hover,
 html, body, h4, h5, input  {
     color: #666;
     font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.2em;
+    font-size: var(--text-base-size);
+    line-height: var(--text-base-lh);
 }
 
 h1, h2, h3, legend {
@@ -204,7 +226,8 @@ h1, h2, h3, legend {
 
 h1 {
   /* Header for a whole page */
-    font-size: 35px;
+  font-size: var(--text-4xl-size);
+  line-height: var(--text-4xl-lh);
   width: 920px;
   clear: both;
   margin: 20px 20px 0 20px;
@@ -219,7 +242,8 @@ h1 span a {
 
 h2 {
   /* Header for a section */
-  font-size: 25px;
+  font-size: var(--text-2xl-size);
+  line-height: var(--text-2xl-lh);
   margin: 25px 0 20px 0;
   border-bottom: 5px solid #eee;
   font-weight: 400;
@@ -229,7 +253,8 @@ h2 {
 h3, legend, .search {
   /* Header for a item */
     margin: 0;
-    font-size: 20px;
+    font-size: var(--text-xl-size);
+    line-height: var(--text-xl-lh);
     padding-bottom: 10px;
     }
     h3 span,
@@ -254,7 +279,8 @@ h5 {
 
 
 .sidebar {
-    font-size: 14px;
+    font-size: var(--text-base-size);
+    line-height: var(--text-base-lh);
     color: #333;
 }
 
@@ -262,14 +288,17 @@ label,
 input,
 select,
 textarea {
-    font-size: 18px;
+    font-size: var(--text-lg-size);
+    line-height: var(--text-lg-lh);
     color: #666;
     }
     textarea {
-        font-size: 14px;
+    font-size: var(--text-base-size);
+    line-height: var(--text-base-lh);
     }
     input.file {
-        font-size: 14px;
+        font-size: var(--text-base-size);
+        line-height: var(--text-base-lh);
 }
 
 p {
@@ -303,7 +332,7 @@ a, a img {
 }
 
 li {
-    padding: 0 0 4px 20px;
+    padding: 0 0 0 20px;
 }
 
 ol.details {
@@ -313,7 +342,7 @@ ol.details {
       list-style: circle outside;
   }
   .details li {
-      margin: 0 0 5px 20px;
+      margin: 0 0 5 20px;
       padding: 0 0 0 0;
   }
   .details li a {
@@ -330,7 +359,7 @@ ol.details {
    ============================== */
 
     .markdown li {
-        margin: 0 0 10px 20px;
+        margin: 0 0 0 20px;
         padding: 0 0 0 0;
     }
 
@@ -381,7 +410,7 @@ div#menu #navigation {
 div#menu a {
     display: block;
     margin: 5px;
-    padding: 5px 15px;
+    padding: 5px 10px;
     letter-spacing: 1px;
     text-transform: uppercase;
     }
@@ -441,10 +470,8 @@ div#footer {
 div#footer .community_box {
     text-decoration: none;
     text-align: left;
-    width: 201px;
     border: 2px solid #222;
     float: left;
-    margin: 10px;
     background-color: #272727;
     padding: 10px;
     color: #666;
@@ -454,7 +481,8 @@ div#footer .community_box span {
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 14px;
+    font-size: var(--text-base-size);
+    line-height: var(--text-base-lh);
     text-decoration: none;
 }
 div#footer .community_box:hover {
@@ -463,8 +491,11 @@ div#footer .community_box:hover {
     background-color: #222;
 }
 div#footer div#community {
-    width: 980px;
-    margin: 0 auto;
+width: 980px;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 10px;
 }
 
 
@@ -476,14 +507,12 @@ div#footer div#community {
 .messages li {
     color: #333;
 
-    padding: 7px 10px 7px 42px;
+    padding: 7px 10px;
     margin: 0 auto;
-    max-width: 908px;
+    max-width: 900px;
     margin-bottom: 15px;
-    font-size: 16px;
-
-    background-position: 15px 11px;
-    background-repeat: no-repeat;
+    font-size: var(--text-base-size);
+    line-height: var(--text-base-lh);
 
     border-width: 1px;
     border-style: solid;
@@ -495,25 +524,21 @@ div#footer div#community {
 }
 
 .messages li.info {
-    background-image: url('../images/silk/information.png') ;
     background-color: #F5F5F5;
     border-color: #DEDEDE;
 }
 
 .messages li.error {
-    background-image: url('../images/silk/exclamation.png');
     background-color: #fbe3e4;
     border-color: #fbc2c4;
 }
 
 .messages li.success {
-    background-image: url('../images/silk/accept.png');
     background-color: #e6efc2;
     border-color: #c6d880;
 }
 
 .messages li.warning {
-    background-image: url('../images/silk/error.png');
     background-color: #fbf5d3;
     border-color: #f1d576;
 }
@@ -538,7 +563,8 @@ div.subnav div.notice {
 
     #errorExplanation h2 {
         text-align: left;
-        font-size: 20px;
+        font-size: var(--text-xl-size);
+        line-height: var(--text-xl-lh);
         letter-spacing: 1px;
         padding: 5px 15px;
         margin: -10px -15px;

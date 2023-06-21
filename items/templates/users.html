@@ -5,7 +5,7 @@
 <h1><a href="{% url 'users' %}">Active Users</a></h1>
 
 <div class="full users">
-	{% for user in users %}
+    {% for user in users %}
         <a href="{% url 'user' user.username %}" class="user">
             <h3>{{ user.first_name }}</h3>
             <h4>
@@ -13,7 +13,7 @@
                 {{user.reviews_count}} {{ user.reviews_count|pluralize:'review,reviews' }}
             </h4>
         </a>
-	{% empty %}
+    {% empty %}
         <p>No active users found.</p>
     {% endfor %}
 

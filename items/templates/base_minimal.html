@@ -3,42 +3,42 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-R1B7GLGNXW"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R1B7GLGNXW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-	  gtag('config', 'G-R1B7GLGNXW');
-	</script>
-	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-	<meta name="viewport">
+      gtag('config', 'G-R1B7GLGNXW');
+    </script>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport">
     <meta name="description" content="Error Page" />
     <title>Simplici7y - Error Page</title>
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
-	<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
-	<link rel="alternate" type="application/rss+xml" title="New Uploads" href="/items.rss"/>
-	<link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss"/>
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+    <link rel="alternate" type="application/rss+xml" title="New Uploads" href="/items.rss"/>
+    <link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss"/>
 </head>
 
 <body>
-	<div id="menu">
-		<ul id="navigation">
-			<li><a href="/" class="logo">Simplici<span>7</span>y</a></li>
-			<li><a href="{% url 'home' %}">New</a></li>
-			<li><a href="/?order=best">Best</a></li>
-			<li><a href="{% url 'reviews' %}">Reviews</a></li>
-			<li><a href="{% url 'users' %}">Users</a></li>
-		</ul>
-		<hr />
-	</div>
-
-	<div id="container">
-		{% block content %}{% endblock %}
+    <div id="menu">
+        <ul id="navigation">
+            <li><a href="/" class="logo">Simplici<span>7</span>y</a></li>
+            <li><a href="{% url 'home' %}">New</a></li>
+            <li><a href="/?order=best">Best</a></li>
+            <li><a href="{% url 'reviews' %}">Reviews</a></li>
+            <li><a href="{% url 'users' %}">Users</a></li>
+        </ul>
         <hr />
-	</div>
+    </div>
 
-	{% include '_footer.html' %}
+    <div id="container">
+        {% block content %}{% endblock %}
+        <hr />
+    </div>
+
+    {% include '_footer.html' %}
 </body>
 </html>

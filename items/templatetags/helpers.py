@@ -10,8 +10,12 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def url_replace(context, **kwargs):
-    query = context["request"].GET.copy()
-    query.update(kwargs)
+    query = context['request'].GET.copy()
+
+    # Here we ensure that we replace existing values instead of adding to them
+    for key, value in kwargs.items():
+        query[key] = value
+
     return query.urlencode()
 
 

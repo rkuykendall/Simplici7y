@@ -27,7 +27,7 @@ class RemoveWwwAndHttpsRedirectMiddleware:
 
 class ValidateQueryParamsMiddleware:
     VALID_QUERY_PARAMS = {
-        "items": ["order", "search", "page"],
+        "home": ["order", "search", "page"],
         "user": ["order", "search", "page"],
         "tag": ["order", "search", "page"],
         "scenario": ["order", "search", "page"],
@@ -46,17 +46,16 @@ class ValidateQueryParamsMiddleware:
 
         if view_name in self.VALID_QUERY_PARAMS:
             params = request.GET.copy()
-            print("params", params)
             valid_params = self.VALID_QUERY_PARAMS[view_name]
             invalid_params = []
 
             # Check for invalid parameters
-            for param in params:
-                if param not in valid_params:
+            for param, values in params.lists():
+                if param not in valid_params or len(values) > 1 or not any(values):
                     invalid_params.append(param)
-                elif param == "order" and params[param] not in self.ORDER_VALUES:
+                elif param == "order" and values[0] not in self.ORDER_VALUES:
                     invalid_params.append(param)
-                elif param == "page" and not params[param].isdigit():
+                elif param == "page" and not values[0].isdigit():
                     invalid_params.append(param)
 
             # Remove invalid parameters and redirect
@@ -64,7 +63,7 @@ class ValidateQueryParamsMiddleware:
                 for param in invalid_params:
                     del params[param]
 
-                url = f"{request.path}?{urlencode(params)}"
+                url = f"{request.path}?{urlencode(params, doseq=True)}"
                 return redirect(url)
 
         response = self.get_response(request)

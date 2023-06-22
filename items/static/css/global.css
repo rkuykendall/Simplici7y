@@ -23,13 +23,19 @@
   --text-4xl-size: 2.25rem; /* 36px */
   --text-4xl-lh: 2.5rem; /* 40px */
 
-  --color-primary: #7198c8;
+  --color-primary-darker: #336699;
+  --color-primary: #6699cc;
+
   --color-secondary: #2B2D42;
   --color-success: #5ec269;
   --color-warn: #d87437;
   --color-danger: #FB3640;
 
-  --text-lighter: #A1A1A1;
+
+  --color-darkest: #1A1A1A;
+  --color-light: #A1A1A1;
+  --color-lighter: #bbb;
+  --color-lightest: #eee;
 }
 
 /* ==============================
@@ -121,7 +127,7 @@ html, body {
 }
 
 hr {
-    border: 0px;
+    border: 0;
     height: 1px;
     margin-bottom: -1px;
     width: 970px;
@@ -157,7 +163,6 @@ form input[type=submit] {
     background-color: var(--color-primary);
     color: white;
     border: none;
-    cursor: pointer;
 
     -webkit-mask-image: url("../images/icons/generic.svg"), linear-gradient(#fff 0 0);
     -webkit-mask-repeat: no-repeat;
@@ -237,7 +242,7 @@ h1 a {
 }
 h1 span,
 h1 span a {
-  color: #999;
+  color: var(--color-light);
 }
 
 h2 {
@@ -245,7 +250,7 @@ h2 {
   font-size: var(--text-2xl-size);
   line-height: var(--text-2xl-lh);
   margin: 25px 0 20px 0;
-  border-bottom: 5px solid #eee;
+  border-bottom: 5px solid var(--color-lightest);
   font-weight: 400;
   letter-spacing: 0.03em;
 }
@@ -266,8 +271,7 @@ h3, legend, .search {
 
 h4, h4 a {
   /* Subheader for a item */
-    margin: 0;
-    margin-top: -10px;
+    margin: -10px 0 0;
     color: #aaa;
 }
 
@@ -328,7 +332,7 @@ a, a img {
     }
     a:active {
         color: #fff;
-        background-color: #6299c5;
+        background-color: var(--color-primary);
 }
 
 li {
@@ -342,7 +346,7 @@ ol.details {
       list-style: circle outside;
   }
   .details li {
-      margin: 0 0 5 20px;
+      margin: 0 0 5px 20px;
       padding: 0 0 0 0;
   }
   .details li a {
@@ -391,9 +395,9 @@ ol.details {
    ============================== */
 
 div#menu {
-    background-color: #1A1A1A;
+    background-color: var(--color-darkest);
     border-bottom: 1px solid #000;
-    border-top: 2px solid #7197CC;
+    border-top: 2px solid var(--color-primary);
     margin-bottom: 30px;
 }
 div#menu ul li {
@@ -430,10 +434,10 @@ div#menu a.logo {
     font-size: 1.1em;
     }
     a.logo span {
-        color: #6C98CC;
+        color: var(--color-primary);
 }
 div#menu a.control {
-    color: #bbb;
+    color: var(--color-lighter);
 }
 div#menu a.username {
     max-width: 125px;
@@ -508,16 +512,14 @@ width: 980px;
     color: #333;
 
     padding: 7px 10px;
-    margin: 0 auto;
     max-width: 900px;
-    margin-bottom: 15px;
+    margin: 0 auto 15px;
     font-size: var(--text-base-size);
     line-height: var(--text-base-lh);
 
     border-width: 1px;
     border-style: solid;
 
-    line-height: 22px;
     text-decoration: none;
 
     border-radius: 2px;
@@ -554,8 +556,7 @@ div.subnav div.notice {
 
 #errorExplanation {
     border: 3px solid #c00;
-    padding: 10px 15px;
-    padding-bottom: 0px;
+    padding: 10px 15px 0;
     margin-bottom: 20px;
     background-color: #f9e5e5;
     border-radius: 4px;
@@ -567,8 +568,7 @@ div.subnav div.notice {
         line-height: var(--text-xl-lh);
         letter-spacing: 1px;
         padding: 5px 15px;
-        margin: -10px -15px;
-        margin-bottom: 10px;
+        margin: -10px -15px 10px;
         background-color: #c00;
         color: #fff;
     }
@@ -578,9 +578,8 @@ div.subnav div.notice {
     }
 
     #errorExplanation ul {
-        list-style: square;
-        list-style-position: inside;
-}
+        list-style: square inside;
+    }
 
 
 
@@ -637,14 +636,13 @@ div.subnav div.notice {
 #search {
     width: 200px;
     padding: 2px;
-    margin: 0;
-    margin-bottom: 15px;
+    margin: 0 0 15px;
 
     font-size: inherit;
-    border: solid 3px #eee;
+    border: solid 3px var(--color-lightest);
 }
 #search:hover {
-    border-color: #6299C5;
+    border-color: var(--color-primary);
 }
 
 
@@ -695,7 +693,7 @@ div.quote img {
 
 form em {
     font-style: normal;
-    color: #f00;
+    color: var(--color-danger);
 }
 
 form fieldset {
@@ -705,8 +703,7 @@ form fieldset {
         border: none;
     }
     form fieldset ol {
-        margin: 0;
-        margin-bottom: 20px;
+        margin: 0 0 20px;
         padding: 0;
         }
         form fieldset li {
@@ -736,7 +733,7 @@ form fieldset fieldset {
 form input:not([type=checkbox]),
 form select,
 form textarea {
-    border: solid 1px #ddd;
+    border: solid 1px var(--color-lighter);
     color: #666;
     background-color: #fff;
 
@@ -764,7 +761,7 @@ form textarea {
 form input.file {
     width: 202px;
     padding: 6px;
-    border: solid 1px #ddd;
+    border: solid 1px var(--color-lighter);
 }
 
 form div.fieldWithErrors {
@@ -837,7 +834,7 @@ div.review {
 }
 
 .tag-list-count {
-    color: var(--text-lighter);
+    color: var(--color-light);
 }
 
 
@@ -855,10 +852,10 @@ div.review {
 .user {
     text-decoration: none;
     padding: 10px;
-    border-top: 1px solid #eee;
-    border-left: 1px solid #ddd;
+    border-top: 1px solid var(--color-lightest);
+    border-left: 1px solid var(--color-lighter);
     border-right: 1px solid #ccc;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid var(--color-lighter);
     overflow: hidden;
     flex-grow: 1;
     min-width: 154px;
@@ -917,10 +914,9 @@ div.review {
 
 .star-rating{
     float: right;
-    margin-right: 0.167px;
-    list-style:none;
-    margin: 0px;
-    padding:0px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
     width: 125px;
     height: 25px;
     position: relative;
@@ -929,28 +925,28 @@ div.review {
 }
 
 .star-rating li{
-    padding:0px;
-    margin:0px;
+    padding: 0;
+    margin: 0;
     /*\*/
     float: left;
     /* */
     }
     .star-rating li a{
-        display:block;
-        width:25px;
+        display: block;
+        width: 25px;
         height: 25px;
         text-decoration: none;
         text-indent: -9000px;
         z-index: 20;
         position: absolute;
-        padding: 0px;
+        padding: 0;
         }
         .star-rating li a:hover{
             background: url('../images/star_rating.png') left 75px;
             background-size: 25px;
             z-index: 2;
-            left: 0px;
-            border:none;
+            left: 0;
+            border: none;
 }
 
 .star-rating li.current-rating{
@@ -969,13 +965,13 @@ div.relevancy-3 .star-rating li.current-rating {
 .stat-rating a {
     }
     .star-rating a.one-star{
-        left: 0px;
+        left: 0;
         }
         .star-rating a.one-star:hover{
-            width:25px;
+            width: 25px;
     }
     .star-rating a.two-stars{
-        left:25px;
+        left: 25px;
         }
         .star-rating a.two-stars:hover{
             width: 50px;
@@ -1016,46 +1012,47 @@ div.relevancy-3 .star-rating li.current-rating {
         padding: 2px 5px;
         margin: 2px;
         border: 1px solid #DEDEDE;
-        border-top: 1px solid #EEE;
-        border-left: 1px solid #EEE;
+        border-top: 1px solid var(--color-lightest);
+        border-left: 1px solid var(--color-lightest);
         text-decoration: none;
         line-height: 22px;
         }
         .pagination a:hover {
             background-color: #dff4ff;
             border: 1px solid #c2e1ef;
-            color: #336699;
+            color: var(--color-primary-darker)
         }
         .pagination a:active {
-            background-color: #6299c5;
-            border:1px solid #6299c5;
+            background-color: var(--color-primary);
+            border: 1px solid var(--color-primary);
             color: #fff;
     }
     .pagination span.current {
-        background-color: #6299c5;
-        border:1px solid #6299c5;
+        background-color: var(--color-primary);
+        border: 1px solid var(--color-primary);
         color: #fff;
     }
     .pagination span.disabled {
         padding: 2px 5px 2px 5px;
         margin: 2px;
-        border: 1px solid #eee;
-        color: #ddd;
+        border: 1px solid var(--color-lightest);
+        color: var(--color-lighter);
         cursor: not-allowed;
 }
 
 .help-text {
     font-size: 0.8em;
-    color: #888;
+    color: var(--color-light);
 }
 
 .errorlist {
-    color: red;
+    color: var(--color-danger);
     }
     .errorlist li {
         padding: 0 0 1rem 0;
 }
 
+/* Used on new item form */
 div#id_popular_tags {
     display: flex;
     flex-direction: row;

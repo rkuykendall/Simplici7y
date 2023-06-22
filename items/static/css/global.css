@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 :root {
   --text-xs-size: 0.75rem; /* 12px */
   --text-xs-lh: 1rem; /* 16px */
@@ -219,7 +221,7 @@ a.button:hover,
 
 html, body, h4, h5, input  {
     color: #666;
-    font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
+    font-family: 'Instrument Sans', sans-serif;
     font-size: var(--text-base-size);
     line-height: var(--text-base-lh);
 }
@@ -409,7 +411,6 @@ div#menu ul li {
 div#menu #navigation {
     width: 960px;
     margin: 0 auto;
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
 }
 div#menu a {
     display: block;
@@ -429,7 +430,6 @@ div#menu a {
         color: #fff;
 }
 div#menu a.logo {
-    font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
     text-transform: none;
     font-size: 1.1em;
     }

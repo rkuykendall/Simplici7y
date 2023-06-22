@@ -1,48 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   viewBox="0 0 157.1275 158.4425"
-   height="158.4425"
-   width="157.1275"
-   xml:space="preserve"
-   version="1.1"
-   id="svg3282"><defs
-     id="defs3286"><clipPath
-       id="clipPath3374"
-       clipPathUnits="userSpaceOnUse"><path
-         style="clip-rule:evenodd"
-         id="path3376"
-         d="m 90,418.5 612,0 0,-154.34 -612,0 0,154.34 z" /></clipPath><clipPath
-       id="clipPath3380"
-       clipPathUnits="userSpaceOnUse"><path
-         id="path3382"
-         d="M 0,684 792,684 792,0 0,0 0,684 Z" /></clipPath><clipPath
-       id="clipPath3386"
-       clipPathUnits="userSpaceOnUse"><path
-         id="path3388"
-         d="m 0.06,684 792,0 0,-684 -792,0 0,684 z" /></clipPath></defs><g
-     transform="matrix(1.25,0,0,-1.25,-416.7725,509.64875)"
-     id="g3290"><g
-       id="g3370"><g
-         clip-path="url(#clipPath3374)"
-         id="g3372"><g
-           clip-path="url(#clipPath3380)"
-           id="g3378"><g
-             clip-path="url(#clipPath3386)"
-             id="g3384"><path
-               id="path3392"
-               style="fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:#231f20;stroke-width:0.70200002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3.86400008;stroke-dasharray:none;stroke-opacity:1"
-               d="m 333.769,344.869 c 0,34.518 27.981,62.499 62.499,62.499 34.519,0 62.501,-27.981 62.501,-62.499 0,-34.519 -27.982,-62.501 -62.501,-62.501 -34.518,0 -62.499,27.982 -62.499,62.501 z" /><path
-               id="path3394"
-               style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-               d="m 354.316,361.668 c 0,22.48 18.38,40.703 41.053,40.703 22.674,0 41.054,-18.223 41.054,-40.703 0,-22.48 -18.38,-40.702 -41.054,-40.702 -22.673,0 -41.053,18.222 -41.053,40.702" /><path
-               id="path3396"
-               style="fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-               d="m 361.334,362.019 c 0,18.798 15.238,34.036 34.035,34.036 18.798,0 34.036,-15.238 34.036,-34.036 0,-18.797 -15.238,-34.036 -34.036,-34.036 -18.797,0 -34.035,15.239 -34.035,34.036" /><path
-               id="path3398"
-               style="fill:none;stroke:#ffffff;stroke-width:10.52600002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3.86400008;stroke-dasharray:none;stroke-opacity:1"
-               d="m 394.656,325.344 0,-44.379" /></g></g></g></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 157.1275 158.4425">
+  <defs>
+    <clipPath id="a" clipPathUnits="userSpaceOnUse">
+      <path d="M90 418.5h612V264.16H90V418.5z" clip-rule="evenodd"/>
+    </clipPath>
+    <clipPath id="b" clipPathUnits="userSpaceOnUse">
+      <path d="M0 684h792V0H0v684Z"/>
+    </clipPath>
+    <clipPath id="c" clipPathUnits="userSpaceOnUse">
+      <path d="M.06 684h792V0H.06v684z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 -416.7725 509.64875)">
+    <g clip-path="url(#b)">
+      <g clip-path="url(#c)">
+        <path fill="#231f20" stroke="#231f20" stroke-miterlimit="3.86400008" stroke-width=".70200002" d="M333.769 344.869c0 34.518 27.981 62.499 62.499 62.499 34.519 0 62.501-27.981 62.501-62.499 0-34.519-27.982-62.501-62.501-62.501-34.518 0-62.499 27.982-62.499 62.501z"/>
+        <path fill="#fff" d="M354.316 361.668c0 22.48 18.38 40.703 41.053 40.703 22.674 0 41.054-18.223 41.054-40.703 0-22.48-18.38-40.702-41.054-40.702-22.673 0-41.053 18.222-41.053 40.702"/>
+        <path fill="#231f20" d="M361.334 362.019c0 18.798 15.238 34.036 34.035 34.036 18.798 0 34.036-15.238 34.036-34.036 0-18.797-15.238-34.036-34.036-34.036-18.797 0-34.035 15.239-34.035 34.036"/>
+        <path fill="none" stroke="#fff" stroke-miterlimit="3.86400008" stroke-width="10.52600002" d="M394.656 325.344v-44.379"/>
+      </g>
+    </g>
+  </g>
+</svg>

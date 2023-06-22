@@ -471,6 +471,11 @@ div#footer {
     right: 0;
     left: 0;
 }
+
+div#footer .footer-logo {
+    max-width: 980px;
+}
+
 div#footer .community_box {
     text-decoration: none;
     text-align: left;

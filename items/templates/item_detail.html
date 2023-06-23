@@ -3,11 +3,12 @@
 {% load static %}
 
 {% block content %}
+<div class="layout-1">
+    <h1>{{ item.name|escape }} <span>by <a href="{% url 'user' username=item.user %}">{{ item.user.first_name|escape }}</a></span></h1>
+</div>
 
-<h1>{{ item.name|escape }} <span>by <a href="{% url 'user' username=item.user %}">{{ item.user.first_name|escape }}</a></span></h1>
-
-<div>
-    <div class="content">
+<div class="layout-1-1">
+    <div>
         <h2>Description</h2>
         <div class="indent">
             <div class="markdown">
@@ -51,8 +52,7 @@
             </div>
         {% endif %}
 
-        <h2>{{ item.reviews_count }} Review{{item.reviews_count|pluralize}}
-        </h2>
+        <h2>{{ item.reviews_count }} Review{{item.reviews_count|pluralize}}</h2>
 
         <div id="map_reviews">
             {% for review in reviews %}
@@ -62,10 +62,9 @@
                 <a href="{% url 'new_item_review' item_permalink=item.permalink %}" class="button positive add">Write a review</a>
             {% endif %}
         </div>
-
     </div>
 
-    <div class="content screenshots">
+    <div class="screenshots">
         <h2>{{ screenshots.count }} Screenshot{{ screenshots.count|pluralize }}</h2>
 
         {% if user == item.user %}
@@ -86,9 +85,6 @@
         {% if screenshots.count < 1 %}
         <img width="460px" src="{% static 'images/no-screenshots.png' %}">
         {% endif %}
-
-        <hr/>
-
     </div>
 </div>
 {% endblock %}

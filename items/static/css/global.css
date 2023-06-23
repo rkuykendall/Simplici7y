@@ -103,16 +103,16 @@ table {
    ============================== */
 
 #container {
-    width: 960px;
+    max-width: 960px;
     margin: 0 auto;
 }
   .content { /* 480px in the end, half */
-    width: 460px;
+    max-width: 460px;
     padding-left: 20px;
     float: left;
   }
   .sidebar {  /* 240px in the end, one fourth */
-      width: 220px;
+      max-width: 220px;
       margin-left: 20px;
       float: left;
       display: inline; /* floats are handled as block elements, this is to fix
@@ -130,15 +130,15 @@ hr {
     border: 0;
     height: 1px;
     margin-bottom: -1px;
-    width: 970px;
+    max-width: 970px;
     clear: both;
     }
     .content hr {
-        width: 460px;
+        max-width: 460px;
         clear: right;
     }
     .sidebar hr {
-        width: 220px;
+        max-width: 220px;
         clear: left;
     }
 
@@ -233,7 +233,7 @@ h1 {
   /* Header for a whole page */
   font-size: var(--text-4xl-size);
   line-height: var(--text-4xl-lh);
-  width: 920px;
+  max-width: 920px;
   clear: both;
   margin: 20px 20px 0 20px;
 }
@@ -641,11 +641,11 @@ div.subnav div.notice {
 
 #container .content .navblock.search,
 #container .content .navblock.search input {
-  width: 400px;
+  max-width: 400px;
 }
 
 #search {
-    width: 200px;
+    max-width: 200px;
     padding: 2px;
     margin: 0 0 15px;
 
@@ -687,7 +687,7 @@ div.manage_map {
 }
 
 .manage_map hr {
-  width: 560px;
+  max-width: 560px;
 }
 
 div.quote img {

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <mask id="a" maskUnits="userSpaceOnUse">
+      <path fill="#fff" d="M0 0h1000v1000H0Z"/>
+      <circle cx="500" cy="365" r="305" />
+      <path d="M432 500h136v500H432Z"/>
+    </mask>
+  </defs>
+  <circle fill="#c2fe0c" cx="500" cy="500" r="500" mask="url(#a)"/>
+</svg>

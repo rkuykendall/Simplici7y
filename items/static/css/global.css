@@ -497,6 +497,7 @@ div#footer div#footer-dark {
     background-color: var(--color-darker);
     border-top: 1px solid black;
     width: 100%;
+    box-shadow: 0px -7px 0 rgba(0, 0, 0, 0.07);
 }
 div#footer div#community {
     width: 100%;

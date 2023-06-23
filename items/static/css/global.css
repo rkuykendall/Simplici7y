@@ -35,6 +35,8 @@
 
 
   --color-darkest: #1A1A1A;
+  --color-darker: #343434;
+  --color-page-bg: #666;
   --color-light: #A1A1A1;
   --color-lighter: #bbb;
   --color-lightest: #eee;
@@ -99,10 +101,6 @@ table {
 /* ==============================
       Core Structure
    ============================== */
-
-html, body {
-    padding-bottom: 20px;
-}
 
 #container {
     width: 960px;
@@ -220,7 +218,7 @@ a.button:hover,
    ============================== */
 
 html, body, h4, h5, input  {
-    color: #666;
+    color: var(--color-page-bg);
     font-family: 'Instrument Sans', sans-serif;
     font-size: var(--text-base-size);
     line-height: var(--text-base-lh);
@@ -296,7 +294,7 @@ select,
 textarea {
     font-size: var(--text-lg-size);
     line-height: var(--text-lg-lh);
-    color: #666;
+    color: var(--color-page-bg);
     }
     textarea {
     font-size: var(--text-base-size);
@@ -409,7 +407,8 @@ div#menu ul li {
     margin: 0;
 }
 div#menu #navigation {
-    width: 960px;
+    width: 100%;
+    max-width: 960px;
     margin: 0 auto;
 }
 div#menu a {
@@ -451,7 +450,7 @@ div#menu a.username {
    ============================== */
 
 html {
-  background-color: #343434;
+  background-color: var(--color-darker);
 }
 
 body {
@@ -460,19 +459,14 @@ body {
 
 
 div#footer {
-    clear: both;
-
-    background-color: #343434;
     text-align: center;
-    background-image: url("../images/bg_footer.png");
-    background-size: 1px 204px;
-    background-repeat: repeat-x;
-    position: absolute;
-    right: 0;
-    left: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
-div#footer .footer-logo {
+#footer-logo {
+    width: 100%;
     max-width: 980px;
 }
 
@@ -483,7 +477,7 @@ div#footer .community_box {
     float: left;
     background-color: #272727;
     padding: 10px;
-    color: #666;
+    color: var(--color-page-bg);
 }
 div#footer .community_box span {
     display: block;
@@ -499,12 +493,23 @@ div#footer .community_box:hover {
     outline: thin solid black;
     background-color: #222;
 }
+div#footer div#footer-dark {
+    background-color: var(--color-darker);
+    border-top: 1px solid black;
+    width: 100%;
+}
 div#footer div#community {
-width: 980px;
+    width: 100%;
+    max-width: 1000px;
+
     margin: 10px auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(237px, 1fr));
     column-gap: 10px;
+    row-gap: 10px;
 }
 
 
@@ -615,7 +620,7 @@ div.subnav div.notice {
     }
     .navblock ul li a:link,
     .navblock ul li a:visited {
-        color: #666;
+        color: var(--color-page-bg);
         text-decoration: none;
     }
     .navblock ul li a:hover {
@@ -668,7 +673,7 @@ div.manage_map {
         table.manage td, table.manage th {
             padding: 0 10px 10px;
             background-color: #f3f3f3;
-            border-left: solid 1px #666;
+            border-left: solid 1px var(--color-page-bg);
         }
         table.manage th {
             padding: 10px;
@@ -677,7 +682,7 @@ div.manage_map {
             font-weight: normal;
         }
         table tr.newest {
-            color: #666;
+            color: var(--color-page-bg);
 }
 
 .manage_map hr {
@@ -739,7 +744,7 @@ form input:not([type=checkbox]),
 form select,
 form textarea {
     border: solid 1px var(--color-lighter);
-    color: #666;
+    color: var(--color-page-bg);
     background-color: #fff;
 
     width: 100%;

@@ -137,7 +137,14 @@ table {
     gap: 20px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
+    .layout-1-1 {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
     .layout-1-1 {
         grid-template-columns: 1fr;
         max-width: 100%;

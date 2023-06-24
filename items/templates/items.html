@@ -5,7 +5,8 @@
 {% block content %}
 <h1><a href="{% url 'home' %}">{{ pagetitle|default:'Downloads' }}</a></h1>
 
-<div class="sidebar">
+<div class="layout-1-2-1">
+<div>
   <h2>Search &amp; Sort</h2>
 
   {% include "_sort.html" %}
@@ -13,7 +14,7 @@
 </div>
 
 
-<div class="content">
+<div>
   <h2>{% subtitle %}</h2>
 
     {% for item in page_obj %}
@@ -29,11 +30,12 @@
     <hr />
 </div>
 
-<div class="sidebar">
+<div>
   <h2>Filter by Tags</h2>
     {% include "_sidebar_tags.html" %}
      <hr />
 </div>
 
+</div>
 <hr />
 {% endblock %}

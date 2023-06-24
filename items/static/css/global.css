@@ -128,7 +128,8 @@ table {
   }
   .simple { /* Center of the page */
       max-width: 560px;
-      padding: 30px 200px 0 200px;
+      padding: 30px 0;
+      margin: auto;
   }
   .full {
     padding: 20px;
@@ -142,21 +143,31 @@ table {
     display: grid;
     grid-template-columns: 470px 470px;
     gap: 20px;
-}
-
-@media (max-width: 1000px) {
-    .layout-1-1 {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
     }
-}
-
-@media (max-width: 600px) {
-    .layout-1-1 {
-        grid-template-columns: 1fr;
-        max-width: 100%;
+    @media (max-width: 1000px) {
+        .layout-1-1 {
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
     }
-}
+    @media (max-width: 600px) {
+        .layout-1-1 {
+            grid-template-columns: 1fr;
+            max-width: 100%;
+        }
+    }
+
+.layout-1-2-1 {
+    display: grid;
+    grid-template-columns: 220px 480px 220px;
+    gap: 20px;
+    }
+    @media (max-width: 1000px) {
+        .layout-1-2-1 {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+    }
 
 hr {
     border: 0;
@@ -414,6 +425,7 @@ ol.details {
 
     .markdown p {
       overflow: hidden;
+      word-break: break-word;
     }
     .markdown li p {
     overflow: visible;
@@ -551,9 +563,9 @@ div#footer div#community {
 .messages li {
     color: #333;
 
-    padding: 7px 10px;
+    padding: 7px 20px;
     max-width: 900px;
-    margin: 0 auto 15px;
+    margin: 0 auto 20px;
     font-size: var(--text-base-size);
     line-height: var(--text-base-lh);
 

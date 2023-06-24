@@ -313,7 +313,7 @@ p {
     line-height: 1.4em;
 }
 
-p, ul, ol, hr.clear {
+p, ul, ol {
     margin-bottom: 15px;
 }
 
@@ -668,10 +668,6 @@ div.manage_map {
         }
         table tr.newest {
             color: var(--color-page-bg);
-}
-
-.manage_map hr {
-  max-width: 560px;
 }
 
 div.quote img {

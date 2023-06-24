@@ -4,12 +4,13 @@
 {% block content %}
 <h1><a href="{% url 'reviews' %}">Reviews</a></h1>
 
-<div class="content">
+<div class="layout-1-1">
+<div>
     <h2>Newest Reviews</h2>
     {% for review in page_obj %}
         {% include '_show_review.html' with show=review %}
     {% endfor %}
-    <hr />
+</div>
 </div>
 
 {% include "_pagination.html" %}

@@ -5,11 +5,11 @@
   <a href="{% url 'user' username=show_user.username %}">{{ show_user.first_name }}</a>
 </h1>
 
-<div class="content">
+<div class="layout-1-1">
+<div>
   <h2>{{ show_user.items_count }} Submission{{ show_user.items_count|pluralize }}</h2>
 
   {% include "_sort.html" %}
-  <hr />
 
   {% for item in items %}
     {% if item.latest_version %}
@@ -33,11 +33,12 @@
   {% endfor %}
 </div>
 
-<div class="content">
+<div>
   <h2>{{ show_user.reviews_count }} Review{{ show_user.reviews_count|pluralize }}</h2>
 
   {% for review in reviews %}
     {% include '_show_review.html' with show=review %}
   {% endfor %}
+</div>
 </div>
 {% endblock content %}

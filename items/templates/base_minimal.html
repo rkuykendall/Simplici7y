@@ -31,12 +31,10 @@
             <li><a href="{% url 'reviews' %}">Reviews</a></li>
             <li><a href="{% url 'users' %}">Users</a></li>
         </ul>
-        <hr />
     </div>
 
     <div id="container">
         {% block content %}{% endblock %}
-        <hr />
     </div>
 
     {% include '_footer.html' %}

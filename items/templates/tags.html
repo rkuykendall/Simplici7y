@@ -8,7 +8,6 @@
     {% for tag in tags %}
     <a href="{% url 'tag' name=tag.name %}" class="tag-list-tag">{{ tag.name }}&nbsp;<span class="tag-list-count">({{ tag.count }})</span></a>
     {% endfor %}
-    <hr />
 </div>
 
 {% endblock content %}

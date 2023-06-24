@@ -114,18 +114,6 @@ table {
     margin: 0 auto;
     padding: 0 20px;
 }
-  .content { /* 480px in the end, half */
-    max-width: 460px;
-    padding-left: 20px;
-    float: left;
-  }
-  .sidebar {  /* 240px in the end, one fourth */
-      max-width: 220px;
-      margin-left: 20px;
-      float: left;
-      display: inline; /* floats are handled as block elements, this is to fix
-                                    a margin collapsing bug in IE */
-  }
   .simple { /* Center of the page */
       max-width: 560px;
       padding: 30px 0;
@@ -168,23 +156,6 @@ table {
             gap: 0;
         }
     }
-
-hr {
-    border: 0;
-    height: 1px;
-    margin-bottom: -1px;
-    max-width: 970px;
-    clear: both;
-    }
-    .content hr {
-        max-width: 460px;
-        clear: right;
-    }
-    .sidebar hr {
-        max-width: 220px;
-        clear: left;
-    }
-
 
 
 /* ==============================
@@ -321,13 +292,6 @@ h5 {
 }
 
 
-
-.sidebar {
-    font-size: var(--text-base-size);
-    line-height: var(--text-base-lh);
-    color: #333;
-}
-
 label,
 input,
 select,
@@ -441,16 +405,17 @@ div#menu {
     border-top: 2px solid var(--color-primary);
     margin-bottom: 30px;
 }
-div#menu ul li {
-    display: block;
-    float: left;
-    padding: 0;
-    margin: 0;
-}
 div#menu #navigation {
-    width: 100%;
-    max-width: 990px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     margin: 0 auto;
+    max-width: 990px;
+    padding: 0;
+    width: 100%;
+}
+div#menu #navigation li {
+    padding: 0;
 }
 div#menu a {
     display: block;
@@ -634,21 +599,12 @@ div.subnav div.notice {
     }
 
 
-
-/* ==============================
-      Sidebar
-   ============================== */
-
-.sidebar {
-    margin-bottom: 10px;
-}
-
-
 /* ==============================
       Navblocks
    ============================== */
 
 .navblock {
+  display: block;
   width: 220px;
   margin: 0;
   padding: 0;
@@ -670,19 +626,6 @@ div.subnav div.notice {
     }
     .navblock ul li a:active {
         color: #fff;
-}
-
-#container .content .navblock {
-  float: left;
-}
-
-#container .content .navblock + hr {
-  margin-bottom: 20px;
-}
-
-#container .content .navblock.search,
-#container .content .navblock.search input {
-  max-width: 400px;
 }
 
 #search {

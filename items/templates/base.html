@@ -44,7 +44,6 @@
                 <li><a href="{% url 'login' %}" class="control">Log In</a></li>
             {% endif %}
         </ul>
-        <hr />
     </div>
 
     {% if messages %}
@@ -57,7 +56,6 @@
 
     <div id="container">
         {% block content %}{% endblock %}
-        <hr />
     </div>
 
     {% include '_footer.html' %}

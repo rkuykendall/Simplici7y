@@ -6,6 +6,7 @@ from .models import Item, Version, Download, Review, Screenshot, Tag
 
 class ItemAdmin(admin.ModelAdmin):
     ordering = ["-created_at"]
+    search_fields = ["name"]
 
     list_display = [
         "name",

@@ -146,7 +146,7 @@ class Version(TimeStampMixin):
 
         if created:
             Item.objects.filter(pk=self.item.pk).update(
-                version_created_at=F("created_at")
+                version_created_at=self.created_at
             )
 
     def delete(self, *args, **kwargs):

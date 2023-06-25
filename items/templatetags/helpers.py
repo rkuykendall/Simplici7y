@@ -50,7 +50,7 @@ def pagetitle(context):
         return "Marathon Aleph One community downloads."
 
     if "item" in context:
-        return context["item"].name
+        return f'{context["item"].name} by {context["item"].user.first_name}'
 
     if view.view_name == "user" and "show_user" in context:
         return context["show_user"].first_name

@@ -206,6 +206,8 @@ MARKDOWNIFY = {
             "p",
             "strong",
             "ul",
+            "h2",
+            "h3",
         ],
     },
 }

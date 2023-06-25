@@ -59,27 +59,30 @@ class UserForm(BaseUserCreationForm):
         return user
 
 
+popular_tag_names = [
+    "ctf",
+    "emfh",
+    "enhancement",
+    "koth",
+    "ktmwtb",
+    "lua",
+    "map",
+    "multiplayer",
+    "physics",
+    "plugin",
+    "scenario",
+    "script",
+    "solo",
+    "solocoop",
+    "survival",
+    "utility",
+]
+
+
 class ItemForm(forms.ModelForm):
     popular_tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.filter(
-            name__in=[
-                "ctf",
-                "emfh",
-                "enhancement",
-                "koth",
-                "ktmwtb",
-                "lua",
-                "map",
-                "multiplayer",
-                "physics",
-                "plugin",
-                "scenario",
-                "script",
-                "solo",
-                "solocoop",
-                "survival",
-                "utility",
-            ]
+            name__in=popular_tag_names
         ),
         widget=forms.CheckboxSelectMultiple,
         required=False,
@@ -91,64 +94,46 @@ class ItemForm(forms.ModelForm):
         help_text="Enter additional tags separated by commas or spaces.",
     )
 
+    tc_radio_choice = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        required=False,
+        label="Marathon game",
+    )
+
     class Meta:
         model = Item
-        fields = ("name", "body", "tc", "popular_tags", "additional_tags")
+        fields = ("name", "body", "tc_radio_choice", "tc", "popular_tags", "additional_tags")
         labels = {
             "tc": "Total conversion",
         }
         help_texts = {
-            "tc": "If n/a leave blank",
+            "tc": "Only for uploads not for the original trilogy. This will override the field above.",
             "body": 'Formatted with <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown</a>.',
         }
 
     def __init__(self, *args, **kwargs):
         super(ItemForm, self).__init__(*args, **kwargs)
+
+        marathon = Item.objects.get(permalink="marathon")
+        marathon_2 = Item.objects.get(permalink="marathon-2-durandal")
+        marathon_infinity = Item.objects.get(permalink="marathon-infinity")
+        self.fields["tc_radio_choice"].choices = [
+            (marathon.pk, "Marathon"),
+            (marathon_2.pk, "Marathon 2: Durandal"),
+            (marathon_infinity.pk, "Marathon Infinity"),
+        ]
+
         scenario_tag = Tag.objects.get(name="scenario")
         self.fields["tc"].queryset = Item.objects.filter(tags=scenario_tag)
 
         if self.instance and self.instance.pk:
             self.fields["popular_tags"].initial = self.instance.tags.filter(
-                name__in=[
-                    "ctf",
-                    "emfh",
-                    "enhancement",
-                    "koth",
-                    "ktmwtb",
-                    "lua",
-                    "map",
-                    "multiplayer",
-                    "physics",
-                    "plugin",
-                    "scenario",
-                    "script",
-                    "solo",
-                    "solocoop",
-                    "survival",
-                    "utility",
-                ]
+                name__in=popular_tag_names
             )
             self.fields["additional_tags"].initial = ", ".join(
                 tag.name
                 for tag in self.instance.tags.exclude(
-                    name__in=[
-                        "ctf",
-                        "emfh",
-                        "enhancement",
-                        "koth",
-                        "ktmwtb",
-                        "lua",
-                        "map",
-                        "multiplayer",
-                        "physics",
-                        "plugin",
-                        "scenario",
-                        "script",
-                        "solo",
-                        "solocoop",
-                        "survival",
-                        "utility",
-                    ]
+                    name__in=popular_tag_names
                 )
             )
 
@@ -161,7 +146,13 @@ class ItemForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
         if commit:
-            instance.save()
+            instance = super().save(commit=False)
+
+            if instance.tc is None and self.cleaned_data["tc_radio_choice"]:
+                instance.tc = Item.objects.get(pk=self.cleaned_data["tc_radio_choice"])
+
+            if commit:
+                instance.save()
 
             # Clear all existing tags before adding new ones.
             # This allows removing tags from the Item during edit.

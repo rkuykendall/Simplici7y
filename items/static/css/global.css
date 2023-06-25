@@ -314,7 +314,7 @@ p {
 }
 
 p, ul, ol {
-    margin-bottom: 15px;
+    margin-bottom: 1.4em;
 }
 
 acronym { /* for sidebar acronyms ( KTMWTB, EMFH... ) */
@@ -721,7 +721,7 @@ form fieldset fieldset {
         margin-left: 123px; /* Width plus 3 (html space) */
 }
 
-form input:not([type=checkbox]),
+form input:not([type=checkbox], [type=radio]),
 form select,
 form textarea {
     border: solid 1px var(--color-lighter);

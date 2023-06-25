@@ -33,7 +33,7 @@ class ValidateQueryParamsMiddleware:
         "scenario": ["order", "search", "page"],
     }
 
-    ORDER_VALUES = ["old", "reviews", "best", "worst", "loud", "popular"]
+    ORDER_VALUES = ["old", "reviews", "best", "worst", "loud", "popular", "random"]
 
     def __init__(self, get_response):
         self.get_response = get_response

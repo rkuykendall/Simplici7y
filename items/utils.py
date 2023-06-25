@@ -27,6 +27,8 @@ def order_items(items, order):
         items = items.filter(reviews_count__gt=0).order_by("-reviews_count")
     elif order == "popular":
         items = items.order_by("-downloads_count")
+    elif order == "random":
+        items = items.order_by("?")
     else:
         # default to new
         items = items.order_by("-version_created_at")

@@ -172,7 +172,7 @@ button[type=submit],
 form input[type=submit] {
     cursor: pointer;
     display: inline-block;
-    min-width: 100px;
+    min-width: 115px;
     padding: 7px 14px 7px 49px;
     background-color: var(--color-primary);
     color: white;
@@ -767,6 +767,7 @@ form div.fieldWithErrors {
 
 div.map {
     margin-bottom: 40px;
+    clear: both;
 }
 
 div.map div.sidenote {

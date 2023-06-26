@@ -93,3 +93,15 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
     page_obj = paginator.get_page(page_number)
 
     return page_obj
+
+
+def page_out_of_bounds(request, page_obj):
+    page_number = request.GET.get("page")
+    if page_number:
+        try:
+            page_number = int(page_number)
+        except ValueError:
+            return True
+        else:
+            return page_obj.number != page_number
+    return False

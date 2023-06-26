@@ -35,7 +35,7 @@ from .serializers import (
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
-from .utils import get_filtered_items, page_size
+from .utils import get_filtered_items, page_size, page_out_of_bounds
 
 CharField.register_lookup(Lower)
 
@@ -46,12 +46,20 @@ def page_not_found_view(request, exception):
 
 def items(request):
     page_obj = get_filtered_items(request=request)
+
+    if page_out_of_bounds(request, page_obj):
+        return redirect("home")
+
     return render(request, "items.html", {"page_obj": page_obj})
 
 
 def scenario(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     page_obj = get_filtered_items(request=request, tc=item.id)
+
+    if page_out_of_bounds(request, page_obj):
+        return redirect("scenario", item_permalink)
+
     return render(request, "items.html", {"page_obj": page_obj, "scenario": item})
 
 
@@ -63,6 +71,10 @@ def tags(request):
 def tag(request, name):
     tag = get_object_or_404(Tag, name=name)
     page_obj = get_filtered_items(request=request, tag=tag)
+
+    if page_out_of_bounds(request, page_obj):
+        return redirect("tag", name)
+
     return render(request, "items.html", {"page_obj": page_obj, "tag": tag})
 
 
@@ -159,19 +171,14 @@ def reviews(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    base_url = request.path
-    query_params = request.GET.copy()
-
-    def get_url(page_number):
-        query_params["page"] = page_number
-        return f"{base_url}?{query_params.urlencode()}"
+    if page_out_of_bounds(request, page_obj):
+        return redirect("reviews")
 
     return render(
         request,
         "reviews.html",
         {
             "page_obj": page_obj,
-            "get_url": get_url,
             "show_item_link": True,
         },
     )

@@ -2,10 +2,16 @@
 {% load markdownify %}
 
 <div class="map">
-    {{ version.download_button }}
-    <h3><a href="{{ show.get_absolute_url }}">{{ show.name }} {{ version.name }}</a></h3>
-    <h4><a href="{{ show.user.get_absolute_url }}">{{ show.user.username }}</a> on {{ item.version_created_at|date:"SHORT_DATE_FORMAT" }}</h4>
-    <div class="indent markdown">
+    <div class="map-header">
+        <div>
+            <h3><a href="{{ show.get_absolute_url }}">{{ show.name }} {{ version.name }}</a></h3>
+            <h4><a href="{{ show.user.get_absolute_url }}">{{ show.user.username }}</a> on {{ item.version_created_at|date:"SHORT_DATE_FORMAT" }}</h4>
+        </div>
+        <div>
+            {{ version.download_button }}
+        </div>
+    </div>
+    <div class="markdown">
         {% if screenshot %}
         <a href="{{ show.get_absolute_url }}"><img src="{{ screenshot.file_thumb.url }}" alt="" class="screenshot_thumb"></a>
         {% endif %}

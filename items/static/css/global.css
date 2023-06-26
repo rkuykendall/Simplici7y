@@ -778,29 +778,18 @@ div.map div.sidenote {
         margin: 0;
 }
 
-div.subnote {
-    clear: right;
-    background-color: #f1f1f1;
-    margin-left: -10px;
-    padding: 5px 10px;
-    border-top: 1px solid #cecece;
-    color: #555;
-    }
-    div.subnote span.pipe {
-        color: #f1f1f1;
-        border-right: 1px solid #cacaca;
-        padding: 5px 0;
-        margin-left: -6px;
+.map-header {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 15px;
 }
 
-div.indent {
-    margin-top: 15px;
-    }
-    div.indent img {
-        float: right;
-        padding: 5px;
-        margin: 0 0 15px 15px;
-        border: 1px solid #ccc;
+div.markdown img {
+    float: right;
+    padding: 5px;
+    margin: 0 0 15px 15px;
+    border: 1px solid #ccc;
 }
 
 

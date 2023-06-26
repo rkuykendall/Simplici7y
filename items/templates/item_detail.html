@@ -10,12 +10,10 @@
 <div class="layout-1-1">
     <div>
         <h2>Description</h2>
-        <div class="indent">
-            <div class="markdown">
-                {{ item.body|markdownify }}
-            </div>
-            {{ version.download_button }}
+        <div class="markdown">
+            {{ item.body|markdownify }}
         </div>
+        {{ version.download_button }}
 
         <h2>Version {{ version.name|escape }}</h2>
         <div class="markdown">

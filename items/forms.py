@@ -81,9 +81,7 @@ popular_tag_names = [
 
 class ItemForm(forms.ModelForm):
     popular_tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.filter(
-            name__in=popular_tag_names
-        ),
+        queryset=Tag.objects.filter(name__in=popular_tag_names),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
@@ -102,7 +100,14 @@ class ItemForm(forms.ModelForm):
 
     class Meta:
         model = Item
-        fields = ("name", "body", "tc_radio_choice", "tc", "popular_tags", "additional_tags")
+        fields = (
+            "name",
+            "body",
+            "tc_radio_choice",
+            "tc",
+            "popular_tags",
+            "additional_tags",
+        )
         labels = {
             "tc": "Total conversion",
         }
@@ -132,9 +137,7 @@ class ItemForm(forms.ModelForm):
             )
             self.fields["additional_tags"].initial = ", ".join(
                 tag.name
-                for tag in self.instance.tags.exclude(
-                    name__in=popular_tag_names
-                )
+                for tag in self.instance.tags.exclude(name__in=popular_tag_names)
             )
 
     def clean_additional_tags(self):

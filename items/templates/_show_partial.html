@@ -11,11 +11,11 @@
         {% endif %}
         {{ show.body|markdownify }}
 
-        {% if version.body != "" %}
-        <h5>Notes for version {{ version.name }}:</h5>
+        {% if version.body.strip is not None and version.body.trim != "" %}
+            {{version.body.trim }}
+            <h5>Notes for version {{ version.name }}:</h5>
+            {{ version.body|markdownify }}
         {% endif %}
-
-        {{ version.body|markdownify }}
 
         <h4>
             {{ show.downloads_count }} download{{ show.downloads_count|pluralize }},

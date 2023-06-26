@@ -1,4 +1,9 @@
-from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.postgres.search import (
+    TrigramSimilarity,
+    SearchVector,
+    SearchQuery,
+    SearchRank,
+)
 from django.core.paginator import Paginator
 from django.db.models import (
     Prefetch,
@@ -67,16 +72,18 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
     page_number = request.GET.get("page") if request else None
 
     if search:
-        if len(search) < 4:
-            items = items.filter(Q(name__icontains=search))
-        else:
-            items = (
-                items.annotate(
-                    similarity=TrigramSimilarity("name", search),
-                )
-                .filter(similarity__gt=0.1)
-                .order_by("-similarity")
-            )
+        vector = (
+            SearchVector("name", weight="A")
+            + SearchVector("tags__name", weight="D")
+            + SearchVector("body", weight="D")
+        )
+        query = SearchQuery(search)
+        items = (
+            Item.objects.annotate(rank=SearchRank(vector, query))
+            .filter(rank__gte=0.02)
+            .order_by("-rank")
+            .distinct()
+        )
 
     if order or not search:
         items = order_items(items, order)

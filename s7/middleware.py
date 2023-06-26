@@ -47,7 +47,7 @@ class ValidateQueryParamsMiddleware:
         if view_name in self.VALID_QUERY_PARAMS:
             params = request.GET.copy()
 
-            for param in list(params):  # we use list() to create a copy of the keys, because we will modify the dict
+            for param in list(params):
                 values = params.getlist(param)
                 if self._is_valid_param(view_name, param, values):
                     # If there are multiple values, only keep the last one

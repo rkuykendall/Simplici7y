@@ -71,7 +71,7 @@ def item_detail(request, item_permalink):
 
     if item_permalink in legacy_tc_slugs:
         url = reverse("scenario", args=[item_permalink])
-        query_string = request.META.get('QUERY_STRING', '')
+        query_string = request.META.get("QUERY_STRING", "")
         if query_string:
             url = f"{url}?{query_string}"
         return redirect(url, permanent=True)
@@ -219,7 +219,7 @@ def login_view(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
 
-                next_url = request.GET.get('next', 'home')
+                next_url = request.GET.get("next", "home")
                 return redirect(next_url)
 
             else:

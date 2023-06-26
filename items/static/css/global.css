@@ -604,7 +604,7 @@ div.subnav div.notice {
    ============================== */
 
 .navblock {
-  display: block;
+  display: inline-grid;
   width: 220px;
   margin: 0;
   padding: 0;

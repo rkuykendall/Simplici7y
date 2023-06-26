@@ -11,7 +11,7 @@
         {% endif %}
         {{ show.body|markdownify }}
 
-        {% if version.body.strip is not None and version.body.trim != "" %}
+        {% if version.body.strip is not None and version.body.strip != "" %}
             {{version.body.trim }}
             <h5>Notes for version {{ version.name }}:</h5>
             {{ version.body|markdownify }}

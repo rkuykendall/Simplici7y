@@ -29,6 +29,8 @@ class DownloadAdmin(admin.ModelAdmin):
 
 
 class ReviewAdmin(admin.ModelAdmin):
+    ordering = ["-created_at"]
+    search_fields = ["title", "body"]
     list_display = [
         "version",
         "user",

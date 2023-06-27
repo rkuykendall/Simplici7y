@@ -13,23 +13,19 @@
       gtag('config', 'G-R1B7GLGNXW');
     </script>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <meta name="viewport">
     <meta name="description" content="Error Page" />
     <title>Simplici7y - Error Page</title>
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
     <link rel="alternate" type="application/rss+xml" title="New Uploads" href="/items.rss"/>
     <link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
     <div id="menu">
         <ul id="navigation">
             <li><a href="/" class="logo">Simplici<span>7</span>y</a></li>
-            <li><a href="{% url 'home' %}">New</a></li>
-            <li><a href="/?order=best">Best</a></li>
-            <li><a href="{% url 'reviews' %}">Reviews</a></li>
-            <li><a href="{% url 'users' %}">Users</a></li>
         </ul>
     </div>
 

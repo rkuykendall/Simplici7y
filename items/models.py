@@ -71,11 +71,6 @@ class Item(TimeStampMixin):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.pk:
-            self.permalink = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    def save(self, *args, **kwargs):
         created = self.pk is None
         if created:
             self.permalink = slugify(self.name)

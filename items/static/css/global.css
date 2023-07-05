@@ -455,6 +455,7 @@ div#menu a.control {
 div#menu a.username {
     max-width: 125px;
     overflow: hidden;
+    overflow-wrap: normal;
 }
 
 

@@ -102,6 +102,15 @@ table {
       Core Structure
    ============================== */
 
+html {
+  background-color: var(--color-darker);
+}
+
+body {
+  background-color: white;
+  overflow-wrap: anywhere;
+}
+
 @media screen and (max-width: 300px){
   html{
       width: 300px;
@@ -389,7 +398,6 @@ ol.details {
 
     .markdown p {
       overflow: hidden;
-      word-break: break-word;
     }
     .markdown li p {
     overflow: visible;
@@ -454,15 +462,6 @@ div#menu a.username {
 /* ==============================
       Footer
    ============================== */
-
-html {
-  background-color: var(--color-darker);
-}
-
-body {
-  background-color: white;
-}
-
 
 div#footer {
     text-align: center;

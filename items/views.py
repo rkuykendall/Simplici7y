@@ -295,9 +295,8 @@ def add_item(request):
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
-            item = form.save(commit=False)
-            item.user = request.user
-            item.save()
+            form.instance.user = request.user
+            form.save()
             return redirect("add_version", item_permalink=item.permalink)
     else:
         form = ItemForm()
@@ -419,10 +418,9 @@ def new_item_review(request, item_permalink):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review = form.save(commit=False)
-            item.user = request.user
-            review.item = item
-            review.save()
+            form.instance.version = item.find_version()
+            form.instance.user = request.user
+            form.save()
             return redirect("item_detail", item_permalink=item.permalink)
     else:
         form = ReviewForm()

@@ -119,17 +119,25 @@ class ItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ItemForm, self).__init__(*args, **kwargs)
 
-        marathon = Item.objects.get(permalink="marathon")
-        marathon_2 = Item.objects.get(permalink="marathon-2-durandal")
-        marathon_infinity = Item.objects.get(permalink="marathon-infinity")
-        self.fields["tc_radio_choice"].choices = [
-            (marathon.pk, "Marathon"),
-            (marathon_2.pk, "Marathon 2: Durandal"),
-            (marathon_infinity.pk, "Marathon Infinity"),
-        ]
+        try:
+            marathon = Item.objects.get(permalink="marathon")
+            marathon_2 = Item.objects.get(permalink="marathon-2-durandal")
+            marathon_infinity = Item.objects.get(permalink="marathon-infinity")
+            self.fields["tc_radio_choice"].choices = [
+                (marathon.pk, "Marathon"),
+                (marathon_2.pk, "Marathon 2: Durandal"),
+                (marathon_infinity.pk, "Marathon Infinity"),
+            ]
+        except Item.DoesNotExist:
+            print("Marathon trilogy not found. Skipping tc_radio_choice.")
+            pass
 
-        scenario_tag = Tag.objects.get(name="scenario")
-        self.fields["tc"].queryset = Item.objects.filter(tags=scenario_tag)
+        try:
+            scenario_tag = Tag.objects.get(name="scenario")
+            self.fields["tc"].queryset = Item.objects.filter(tags=scenario_tag)
+        except Tag.DoesNotExist:
+            print("Scenario tag not found. Skipping tc field.")
+            pass
 
         if self.instance and self.instance.pk:
             self.fields["popular_tags"].initial = self.instance.tags.filter(

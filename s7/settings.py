@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
-import json
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -28,10 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# if not DEBUG:
-#     SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-# else:
-SECRET_KEY = json.load(open("test_config.json"))["SECRET_KEY"]
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 ALLOWED_HOSTS = [
     "simplici7y.herokuapp.com",
@@ -115,7 +111,8 @@ DATABASES = {
 import dj_database_url
 
 db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES["default"].update(db_from_env)
+if db_from_env:
+    DATABASES["default"].update(db_from_env)
 
 
 # Password validation
@@ -151,36 +148,56 @@ USE_L10N = True
 USE_TZ = True
 
 
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = "simplici7y"
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400",
-}
-
-AWS_LOCATION = "static"
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "LOCATION": os.path.join(BASE_DIR, "static"),
     },
     "mediafiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "LOCATION": os.path.join(BASE_DIR, "media"),
     },
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "LOCATION": os.path.join(BASE_DIR, "media"),
     },
 }
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+USE_S3 = AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+
+if USE_S3:
+    AWS_STORAGE_BUCKET_NAME = "simplici7y"
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
+
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "static")
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
+
+    STORAGES = {
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "mediafiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+    }
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

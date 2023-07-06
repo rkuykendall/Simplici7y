@@ -74,12 +74,13 @@
         {% if screenshot.title %}
         <h3>{{ screenshot.title|escape }}</h3>
         {% endif %}
-        <a href="{{ screenshot.file.url }}" target="_blank"><img class="screenshot_content"
-                                                                 src="{{ screenshot.file_content.url }}"></a>
+        <a href="{{ screenshot.file.url }}" target="_blank">
+            <img alt="{{ screenshot.label }}" class="screenshot_content" src="{{ screenshot.file_content.url }}">
+        </a>
         {% endfor %}
 
         {% if screenshots.count < 1 %}
-        <img width="460px" src="{% static 'images/no-screenshots.png' %}">
+        <img alt="No screenshots" src="{% static 'images/no-screenshots.png' %}">
         {% endif %}
     </div>
 </div>

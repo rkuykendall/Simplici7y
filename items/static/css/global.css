@@ -341,7 +341,7 @@ a, a img {
         border: 0;
     }
     a:hover {
-        color: #336699;
+        color: var(--color-primary);
     }
     a:active {
         color: #fff;
@@ -865,6 +865,7 @@ div.review {
 .screenshots img {
   background-color: black;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .screenshots h3 {

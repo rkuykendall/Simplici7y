@@ -255,6 +255,12 @@ class Screenshot(TimeStampMixin):
     def __str__(self):
         return self.title
 
+    def label(self):
+        return (
+            f'Screenshot titled "{self.title}" from {self.item.name}'
+            or f"Screenshot of {self.item.name}"
+        )
+
     def save(self, *args, **kwargs):
         created = self.pk is None
         super().save(*args, **kwargs)

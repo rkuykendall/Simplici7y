@@ -13,7 +13,7 @@
     </div>
     <div class="markdown">
         {% if screenshot %}
-        <a href="{{ show.get_absolute_url }}"><img src="{{ screenshot.file_thumb.url }}" alt="" class="screenshot_thumb"></a>
+        <a href="{{ show.get_absolute_url }}" aria-label="{{ show.name }}"><img src="{{ screenshot.file_thumb.url }}" alt="{{ screenshot.label }}" class="screenshot_thumb"></a>
         {% endif %}
         {{ show.body|markdownify }}
 

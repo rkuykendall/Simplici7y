@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.urls import path
 from markdownify.templatetags.markdownify import markdownify
@@ -7,7 +8,7 @@ from items.utils import get_filtered_items, PAGE_SIZE
 
 
 class ItemsFeed(Feed):
-    title = "Simplici7y Downloads"
+    title = f"{settings.SITE_TITLE} Downloads"
     link = "http://simplici7y.com"
     description = "Latest updates and submissions to S7."
 
@@ -22,7 +23,7 @@ class ItemsFeed(Feed):
 
 
 class ReviewsFeed(Feed):
-    title = "Simplici7y Reviews"
+    title = f"{settings.SITE_TITLE} Reviews"
     link = "https://simplici7y.com/reviews/"
     description = "Latest reviews on S7."
 

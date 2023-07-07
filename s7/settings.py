@@ -149,17 +149,17 @@ USE_L10N = True
 USE_TZ = True
 
 
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": "django.core.files.storage.FileSystemStorage",
-#     },
-#     "mediafiles": {
-#         "BACKEND": "django.core.files.storage.FileSystemStorage",
-#     },
-#     "default": {
-#         "BACKEND": "django.core.files.storage.FileSystemStorage",
-#     },
-# }
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "mediafiles": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+}
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -169,28 +169,28 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 USE_S3 = AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
 
-# if USE_S3:
-AWS_STORAGE_BUCKET_NAME = "simplici7y"
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400",
-}
+if USE_S3:
+    AWS_STORAGE_BUCKET_NAME = "simplici7y"
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
 
-AWS_LOCATION = "static"
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
+    AWS_LOCATION = "static"
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
 
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "mediafiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-}
+    STORAGES = {
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "mediafiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+    }
 
 
 # Default primary key field type

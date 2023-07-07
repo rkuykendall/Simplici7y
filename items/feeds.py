@@ -9,8 +9,8 @@ from items.utils import get_filtered_items, PAGE_SIZE
 
 class ItemsFeed(Feed):
     title = f"{settings.SITE_TITLE} Downloads"
-    link = "http://simplici7y.com"
-    description = "Latest updates and submissions to S7."
+    link = f"https://{settings.FEED_HOST}"
+    description = f"Latest updates and submissions to {settings.SITE_TITLE}."
 
     def items(self):
         return get_filtered_items()
@@ -24,8 +24,8 @@ class ItemsFeed(Feed):
 
 class ReviewsFeed(Feed):
     title = f"{settings.SITE_TITLE} Reviews"
-    link = "https://simplici7y.com/reviews/"
-    description = "Latest reviews on S7."
+    link = f"https://{settings.FEED_HOST}/reviews/"
+    description = f"Latest reviews on {settings.SITE_TITLE}."
 
     item_guid_is_permalink = False
 
@@ -33,7 +33,7 @@ class ReviewsFeed(Feed):
         return Review.objects.order_by("-created_at")[:PAGE_SIZE]
 
     def item_guid(self, obj):
-        return f"https://simplici7y.com/items/{obj.version.item.permalink}/reviews/{obj.id}"
+        return f"https://{settings.FEED_HOST}/items/{obj.version.item.permalink}/reviews/{obj.id}"
 
     def item_title(self, item):
         return item.title

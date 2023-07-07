@@ -86,6 +86,25 @@ SCENARIOS = {
     "Marathon: Infinity": "marathon-infinity",
 }
 
+POPULAR_TAG_NAMES = [
+    "multiplayer",
+    "netmaps",
+    "scenario",
+    "solo",
+    "solocoop",
+    "survival",
+    "enhancement",
+    "emfh",
+    "ctf",
+    "koth",
+    "ktmwtb",
+    "plugin",
+    "lua",
+    "physics",
+    "script",
+    "utility",
+]
+
 TEMPLATE_VALUES = {
     "community_links": {
         "Aleph One": {

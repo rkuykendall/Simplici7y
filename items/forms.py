@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.conf import settings as conf_settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import BaseUserCreationForm
 from django.core.exceptions import ValidationError
@@ -126,18 +127,11 @@ class ItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ItemForm, self).__init__(*args, **kwargs)
 
-        try:
-            marathon = Item.objects.get(permalink="marathon")
-            marathon_2 = Item.objects.get(permalink="marathon-2-durandal")
-            marathon_infinity = Item.objects.get(permalink="marathon-infinity")
-            self.fields["tc_radio_choice"].choices = [
-                (marathon.pk, "Marathon"),
-                (marathon_2.pk, "Marathon 2: Durandal"),
-                (marathon_infinity.pk, "Marathon Infinity"),
-            ]
-        except Item.DoesNotExist:
-            print("Marathon trilogy not found. Skipping tc_radio_choice.")
-            pass
+        tcs = [
+            (Item.objects.get(permalink=v).pk, k)
+            for k, v in conf_settings.SCENARIOS.items()
+        ]
+        self.fields["tc_radio_choice"].choices = tcs
 
         try:
             scenario_tag = Tag.objects.get(name="scenario")

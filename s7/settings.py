@@ -80,6 +80,12 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGOUT_URL = "/logout/"
 
+SCENARIOS = {
+    "Marathon": "marathon",
+    "Marathon: Durandal": "marathon-2-durandal",
+    "Marathon: Infinity": "marathon-infinity",
+}
+
 TEMPLATE_VALUES = {
     "community_links": {
         "Aleph One": {
@@ -127,11 +133,7 @@ TEMPLATE_VALUES = {
         },
         "Uploads for Scenarios": {
             "kind": "scenario",
-            "items": {
-                "Marathon": "marathon",
-                "Marathon: Durandal": "marathon-2-durandal",
-                "Marathon: Infinity": "marathon-infinity",
-            },
+            "items": SCENARIOS,
         },
     },
 }

@@ -82,6 +82,7 @@ LOGOUT_URL = "/logout/"
 
 SITE_TITLE = "Simplici7y"
 SITE_TITLE_HTML = "Simplici<span>7</span>y"
+FEED_HOST = "simplici7y.com"
 
 SCENARIOS = {
     "Marathon": "marathon",

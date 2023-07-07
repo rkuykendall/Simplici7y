@@ -1,7 +1,7 @@
 {% load static %}
 
 <div id="footer">
-    <img src="{% static 'images/big-logo.svg' %}" id="footer-logo" alt="Simplici7y" />
+    <img src="{% static 'images/big-logo.svg' %}" id="footer-logo" alt="{{ site_title }}" />
     <div id="footer-dark">
         <div id="community">
             {% for title, link in community_links.items %}

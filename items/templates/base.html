@@ -55,7 +55,7 @@
 <body>
     <div id="menu">
         <ul id="navigation">
-            <li class="logo"><a href="/">Simplici<span>7</span>y</a></li>
+            <li class="logo"><a href="/">{{ site_title_html | safe }}</a></li>
             <li><a href="{% url 'home' %}">New</a></li>
             <li><a href="/?order=best">Best</a></li>
             <li><a href="{% url 'reviews' %}">Reviews</a></li>

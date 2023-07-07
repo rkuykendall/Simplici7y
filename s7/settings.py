@@ -80,6 +80,9 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGOUT_URL = "/logout/"
 
+SITE_TITLE = "Simplici7y"
+SITE_TITLE_HTML = "Simplici<span>7</span>y"
+
 SCENARIOS = {
     "Marathon": "marathon",
     "Marathon: Durandal": "marathon-2-durandal",
@@ -106,6 +109,8 @@ POPULAR_TAG_NAMES = [
 ]
 
 TEMPLATE_VALUES = {
+    "site_title": SITE_TITLE,
+    "site_title_html": SITE_TITLE_HTML,
     "community_links": {
         "Aleph One": {
             "href": "https://alephone.lhowon.org/",

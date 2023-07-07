@@ -4,18 +4,11 @@
     <img src="{% static 'images/big-logo.svg' %}" id="footer-logo" alt="Simplici7y" />
     <div id="footer-dark">
         <div id="community">
-            <a href="https://alephone.lhowon.org/" class="community_box">
-                <span>Aleph One</span> Play Marathon free.
+            {% for title, link in community_links.items %}
+            <a href="{{ link.href }}" class="community_box">
+              <span>{{ title }}</span> {{ link.description }}
             </a>
-            <a href="https://discord.gg/ZuJRd8xJ" class="community_box">
-                <span>Marathon Discord</span> Talk and play online.
-            </a>
-            <a href="http://forums.bungie.org/story/" class="community_box">
-                <span>Marathon Story</span> The original Marathon forum.
-            </a>
-            <a href="https://github.com/rkuykendall/Simplici7y" class="community_box">
-                <span>Github - Simplici7y</span> Source code for this site.
-            </a>
+            {% endfor %}
         </div>
     </div>
 </div>

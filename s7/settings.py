@@ -80,6 +80,62 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGOUT_URL = "/logout/"
 
+TEMPLATE_VALUES = {
+    "community_links": {
+        "Aleph One": {
+            "href": "https://alephone.lhowon.org/",
+            "description": "Play Marathon free.",
+        },
+        "Marathon Discord": {
+            "href": "https://discord.gg/ZuJRd8xJ",
+            "description": "Talk and play online.",
+        },
+        "Marathon Story": {
+            "href": "http://forums.bungie.org/story/",
+            "description": "The original Marathon forum.",
+        },
+        "Github - Simplici7y": {
+            "href": "https://github.com/rkuykendall/Simplici7y",
+            "description": "Source code for this site.",
+        },
+    },
+    "sidebar_links": {
+        "Gameplay Types": {
+            "kind": "tag",
+            "items": {
+                "Solo": "solo",
+                "Solo / Cooperative": "solocoop",
+                "Survival": "survival",
+                "Multiplayer": "multiplayer",
+                "Every Man for Himself": "emfh",
+                "King of the Hill": "koth",
+                "Kill the Man with the Ball": "ktmwtb",
+                "Capture the Flag": "ctf",
+            },
+        },
+        "File Types": {
+            "kind": "tag",
+            "items": {
+                "Map": "map",
+                "Scenario": "scenario",
+                "Plugin": "plugin",
+                "Enhancement": "enhancement",
+                "Script": "script",
+                "Physics": "physics",
+                "Utility": "utility",
+            },
+        },
+        "Uploads for Scenarios": {
+            "kind": "scenario",
+            "items": {
+                "Marathon": "marathon",
+                "Marathon: Durandal": "marathon-2-durandal",
+                "Marathon: Infinity": "marathon-infinity",
+            },
+        },
+    },
+}
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -87,6 +143,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "s7.context_processors.from_settings",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",

@@ -1,37 +1,10 @@
+{% for category_title, category in sidebar_links.items %}
 <div class="navblock">
-    <h3>Upload Types</h3>
+    <h3>{{ category_title }}</h3>
     <ul>
-        <li><a href="{% url 'tag' 'netmaps' %}">Netmaps</a></li>
-        <li><a href="{% url 'tag' 'scenario' %}">Scenarios</a></li>
-        <li><a href="{% url 'tag' 'enhancement' %}">Enhancements</a></li>
-        <li><a href="{% url 'tag' 'plugin' %}">Plugins</a></li>
-        <li><a href="{% url 'tag' 'script' %}">Scripts</a></li>
-        <li><a href="{% url 'tag' 'physics' %}">Physics</a></li>
-        <li><a href="{% url 'tag' 'music' %}">Music</a></li>
-        <li><a href="{% url 'tag' 'utility' %}">Utilities</a></li>
+        {% for name, item in category.items.items %}
+        <li><a href="{% url category.kind item %}">{{ name }}</a></li>
+        {% endfor %}
     </ul>
 </div>
-
-<div class="navblock">
-    <h3>Gameplay Types</h3>
-    <ul>
-        <li><a href="{% url 'tag' 'solo' %}">Solo</a></li>
-        <li><a href="{% url 'tag' 'solocoop' %}">Solo / Cooperative</a></li>
-        <li><a href="{% url 'tag' 'survival' %}">Survival</a></li>
-        <li><a href="{% url 'tag' 'multiplayer' %}">Multiplayer</a></li>
-        <li><a href="{% url 'tag' 'emfh' %}">Every Man for Himself</a></li>
-        <li><a href="{% url 'tag' 'koth' %}">King of the Hill</a></li>
-        <li><a href="{% url 'tag' 'ktmwtb' %}">Kill the Man with the Ball</a></li>
-        <li><a href="{% url 'tag' 'ctf' %}">Capture the Flag</a></li>
-    </ul>
-</div>
-
-<div class="navblock">
-    <h3>Uploads for Scenarios</h3>
-    <ul>
-        <li><a href="{% url 'scenario' 'marathon' %}">Marathon</a></li>
-        <li><a href="{% url 'scenario' 'marathon-2-durandal' %}">Marathon: Durandal</a></li>
-        <li><a href="{% url 'scenario' 'marathon-infinity' %}">Marathon: Infinity</a></li>
-        <li><a href="{% url 'scenario_list' %}">See All</a></li>
-    </ul>
-</div>
+{% endfor %}

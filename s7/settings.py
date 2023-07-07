@@ -149,36 +149,51 @@ USE_L10N = True
 USE_TZ = True
 
 
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = "simplici7y"
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400",
-}
-
-AWS_LOCATION = "static"
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
-MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "LOCATION": os.path.join(BASE_DIR, "static"),
     },
     "mediafiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "LOCATION": os.path.join(BASE_DIR, "media"),
     },
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "LOCATION": os.path.join(BASE_DIR, "media"),
     },
 }
+
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+USE_S3 = AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+
+if USE_S3:
+    AWS_STORAGE_BUCKET_NAME = "simplici7y"
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
+
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "static")
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
+
+    STORAGES = {
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "LOCATION": STATIC_URL,
+        },
+        "mediafiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "LOCATION": MEDIA_URL,
+        },
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "LOCATION": MEDIA_URL,
+        },
+    }
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -65,29 +65,9 @@ class UserForm(BaseUserCreationForm):
         return user
 
 
-popular_tag_names = [
-    "multiplayer",
-    "netmaps",
-    "scenario",
-    "solo",
-    "solocoop",
-    "survival",
-    "enhancement",
-    "emfh",
-    "ctf",
-    "koth",
-    "ktmwtb",
-    "plugin",
-    "lua",
-    "physics",
-    "script",
-    "utility",
-]
-
-
 class ItemForm(forms.ModelForm):
     popular_tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.filter(name__in=popular_tag_names).order_by("-count"),
+        queryset=Tag.objects.filter(name__in=conf_settings.POPULAR_TAG_NAMES).order_by("-count"),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
@@ -142,11 +122,13 @@ class ItemForm(forms.ModelForm):
 
         if self.instance and self.instance.pk:
             self.fields["popular_tags"].initial = self.instance.tags.filter(
-                name__in=popular_tag_names
+                name__in=conf_settings.POPULAR_TAG_NAMES
             )
             self.fields["additional_tags"].initial = ", ".join(
                 tag.name
-                for tag in self.instance.tags.exclude(name__in=popular_tag_names)
+                for tag in self.instance.tags.exclude(
+                    name__in=conf_settings.POPULAR_TAG_NAMES
+                )
             )
 
     def clean_additional_tags(self):

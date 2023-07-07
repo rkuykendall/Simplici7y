@@ -175,7 +175,8 @@ if USE_S3:
         "CacheControl": "max-age=86400",
     }
 
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "static")
+    AWS_LOCATION = "static"
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
 
     STORAGES = {

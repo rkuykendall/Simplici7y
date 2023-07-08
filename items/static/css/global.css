@@ -23,7 +23,7 @@
   --text-4xl-size: 2.25rem; /* 36px */
   --text-4xl-lh: 2.5rem; /* 40px */
 
-  --color-primary-darker: #336699;
+  --color-primary-darker: #3B76BA;
   --color-primary: #6699cc;
 
   --color-secondary: #2B2D42;
@@ -181,7 +181,7 @@ button[type=submit],
 form input[type=submit] {
     cursor: pointer;
     display: inline-block;
-    min-width: 115px;
+    min-width: 100px;
     padding: 7px 14px 7px 49px;
     background-color: var(--color-primary);
     color: white;
@@ -852,9 +852,9 @@ div.review {
             color: #fff;
     }
     .pagination span.current {
-        background-color: var(--color-primary);
+        background-color: #FFF;
         border: 1px solid var(--color-primary);
-        color: #fff;
+        color: var(--color-primary-darker);
     }
     .pagination span.disabled {
         padding: 2px 5px 2px 5px;

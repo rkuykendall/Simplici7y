@@ -197,8 +197,10 @@ form input[type=submit] {
     line-height: 22px;
     text-decoration: none;
     text-transform: uppercase;
-    font-weight: 400;
     letter-spacing: 2px;
+
+    font-family: 'Big Shoulders Display', 'Instrument Sans', sans-serif;
+    font-weight: 700;
 }
 
 a.button:hover,

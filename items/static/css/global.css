@@ -200,7 +200,7 @@ form input[type=submit] {
     letter-spacing: 2px;
 
     font-family: 'Big Shoulders Display', 'Instrument Sans', sans-serif;
-    font-weight: 700;
+    font-size: 18px;
 }
 
 a.button:hover,
@@ -275,7 +275,7 @@ h2 {
   line-height: var(--text-2xl-lh);
   margin: 25px 0 20px 0;
   border-bottom: 5px solid var(--color-lightest);
-  font-weight: 400;
+  font-weight: normal;
   letter-spacing: 0.03em;
 }
 

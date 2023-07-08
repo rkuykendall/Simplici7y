@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 :root {
   --text-xs-size: 0.75rem; /* 12px */
   --text-xs-lh: 1rem; /* 16px */
@@ -199,8 +197,8 @@ form input[type=submit] {
     text-transform: uppercase;
     letter-spacing: 2px;
 
-    font-family: 'Big Shoulders Display', 'Instrument Sans', sans-serif;
-    font-size: 18px;
+    font-family: 'Big Shoulders', 'Instrument Sans', sans-serif;
+    font-size: 24px;
 }
 
 a.button:hover,

@@ -2,6 +2,43 @@
 {% load helpers %}
 
 {% block content %}
+<style>
+.users {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.user {
+    text-decoration: none;
+    padding: 10px;
+    border-top: 1px solid var(--color-lightest);
+    border-left: 1px solid var(--color-lighter);
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid var(--color-lighter);
+    overflow: hidden;
+    flex-grow: 1;
+    min-width: 154px;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.46, rgb(252,252,252)),
+        color-stop(0.73, rgb(255,255,255))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(252,252,252) 46%,
+        rgb(255,255,255) 73%
+    );
+}
+
+.user:hover {
+  background-image: none;
+}
+</style>
+
 <h1><a href="{% url 'users' %}">Active Users</a></h1>
 
 <div class="full users">

@@ -2,6 +2,19 @@
 {% load helpers %}
 
 {% block content %}
+<style>
+    .tag-list-tag {
+        display: inline-block;
+        text-decoration: none;
+        font-size: 1.5em;
+        margin: 0 1em 1em 0;
+    }
+
+    .tag-list-count {
+        color: var(--color-light);
+    }
+</style>
+
 <h1><a href="{% url 'tags' %}">Tags</a></h1>
 
 <div class="full">

@@ -33,10 +33,13 @@
   --color-warn: #d87437;
   --color-danger: #FB3640;
 
+  --color-text-darkest: #000;
+  --color-text-darker: #333;
+  --color-text-medium: #666;
+  --color-text-lightest: #767676;
 
   --color-darkest: #1A1A1A;
   --color-darker: #343434;
-  --color-page-bg: #666;
   --color-light: #A1A1A1;
   --color-lighter: #bbb;
   --color-lightest: #eee;
@@ -240,7 +243,7 @@ a.button:hover,
    ============================== */
 
 html, body, h4, h5, input  {
-    color: var(--color-page-bg);
+    color: var(--color-text-medium);
     font-family: 'Instrument Sans', sans-serif;
     font-size: var(--text-base-size);
     line-height: var(--text-base-lh);
@@ -248,7 +251,7 @@ html, body, h4, h5, input  {
 
 h1, h2, h3, legend {
      line-height: 1.2em;
-     color: #333;
+     color: var(--color-text-darker);
 }
 
 h1 {
@@ -291,11 +294,11 @@ h3, legend, .search {
 h4, h4 a {
   /* Subheader for a item */
     margin: -10px 0 0;
-    color: #aaa;
+    color: var(--color-text-lightest);
 }
 
 h5 {
-    color: black;
+    color: var(--color-text-darkest);
     margin-bottom: 2px;
 }
 
@@ -306,7 +309,7 @@ select,
 textarea {
         font-size: var(--text-lg-size);
         line-height: var(--text-lg-lh);
-        color: var(--color-page-bg);
+        color: var(--color-text-medium);
     }
     textarea {
         font-size: var(--text-base-size);
@@ -334,7 +337,7 @@ strong, b {
 }
 
 a, a img {
-    color: #000;
+    color: var(--color-text-darkest);
     }
     a img {
         border: 0;
@@ -360,9 +363,6 @@ ol.details {
   .details li {
       margin: 0 0 5px 20px;
       padding: 0 0 0 0;
-  }
-  .details li a {
-    color: #555;
   }
   .details li a:active {
     color: white;
@@ -482,7 +482,7 @@ div#footer .community_box {
     float: left;
     background-color: #272727;
     padding: 10px;
-    color: var(--color-page-bg);
+    color: var(--color-text-medium);
 }
 div#footer .community_box span {
     display: block;
@@ -617,7 +617,7 @@ div.subnav div.notice {
     }
     .navblock ul li a:link,
     .navblock ul li a:visited {
-        color: var(--color-page-bg);
+        color: var(--color-text-medium);
         text-decoration: none;
     }
     .navblock ul li a:hover {
@@ -687,7 +687,7 @@ form input:not([type=checkbox], [type=radio]),
 form select,
 form textarea {
     border: solid 1px var(--color-lighter);
-    color: var(--color-page-bg);
+    color: var(--color-text-medium);
     background-color: #fff;
 
     width: 100%;

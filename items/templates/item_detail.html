@@ -24,7 +24,7 @@
             <li>Uploaded {{ version.created_at|date:"M jS, Y" }}</li>
 
             {% if tags %}
-            <li>tags:
+            <li>Tags:
                 {% for tag in tags %}
                 <a href="{% url 'tag' tag %}">{{ tag }}</a>
                 {% endfor %}

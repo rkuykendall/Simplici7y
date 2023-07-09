@@ -161,12 +161,6 @@ body {
     }
     @media (max-width: 1000px) {
         .layout-1-2-1 {
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-        }
-    }
-    @media (max-width: 600px) {
-        .layout-1-2-1 {
             grid-template-columns: 1fr;
             gap: 0;
         }
@@ -195,6 +189,7 @@ form input[type=submit] {
     background-color: var(--color-primary);
     color: white;
     border: none;
+    white-space: nowrap;
 
     -webkit-mask-image: url("../images/icons/generic.svg"), linear-gradient(#fff 0 0);
     -webkit-mask-repeat: no-repeat;

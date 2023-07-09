@@ -6,7 +6,7 @@
 <h1><a href="{% url 'home' %}">{{ pagetitle|default:'Downloads' }}</a></h1>
 
 <div class="layout-1-2-1">
-<div>
+<div class="sidebar">
   <h2>Search &amp; Sort</h2>
 
   {% include "_sort.html" %}
@@ -27,7 +27,7 @@
     {% include "_pagination.html" %}
 </div>
 
-<div>
+<div class="sidebar">
   <h2>Filter by Tags</h2>
   {% include "_sidebar_tags.html" %}
 </div>

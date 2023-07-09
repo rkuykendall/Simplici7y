@@ -431,7 +431,7 @@ div#menu #navigation li {
 
 @media screen and (max-width: 600px) {
     #navigation a.logo {
-        width: 100vh;
+        width: 100vw;
     }
 }
 

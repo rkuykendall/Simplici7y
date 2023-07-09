@@ -753,9 +753,17 @@ div.markdown img {
     float: right;
     padding: 5px;
     margin: 0 0 15px 15px;
-    border: 1px solid #ccc;
+    background-color: #000;
 }
 
+@media (max-width: 600px) {
+    div.markdown img,
+    .screenshot_thumb {
+        float: none;
+        margin: 0;
+        width: 100%;
+    }
+}
 
 
 /* ==============================

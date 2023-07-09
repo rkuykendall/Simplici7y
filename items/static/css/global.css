@@ -742,6 +742,7 @@ form div.fieldWithErrors {
 div.map {
     margin-bottom: 40px;
     clear: both;
+    overflow: auto;
 }
 
 .map-header {

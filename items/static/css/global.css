@@ -453,11 +453,11 @@ div#menu a {
         background-color: #000;
         color: #fff;
 }
-div#menu a.logo {
+div#menu li.logo a {
     text-transform: none;
     font-size: 1.1em;
     }
-    a.logo span {
+    li.logo a span {
         color: var(--color-primary);
 }
 div#menu a.control {

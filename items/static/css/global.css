@@ -430,8 +430,8 @@ div#menu #navigation li {
 }
 
 @media screen and (max-width: 600px) {
-    #navigation a.logo {
-        width: 100vw;
+    #navigation .logo {
+        width: 100%;
     }
 }
 

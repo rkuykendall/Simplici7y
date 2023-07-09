@@ -2,7 +2,7 @@ from django.db.models import Value
 from django.db.models.functions import Replace
 from django.core.management.base import BaseCommand
 
-from items.models import Review, Item, Version
+from items.models import Review, Item, Version, Screenshot
 
 
 class Command(BaseCommand):
@@ -17,5 +17,7 @@ class Command(BaseCommand):
 
         Review.objects.update(title=Replace("title", Value('""'), Value('"')))
         Review.objects.update(body=Replace("body", Value('""'), Value('"')))
+
+        Screenshot.objects.update(title=Replace("title", Value('""'), Value('"')))
 
         self.stdout.write(self.style.SUCCESS('Successfully replaced "" with "'))

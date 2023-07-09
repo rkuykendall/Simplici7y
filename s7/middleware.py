@@ -31,6 +31,7 @@ class ValidateQueryParamsMiddleware:
         "user": ["order", "search", "page"],
         "tag": ["order", "search", "page"],
         "scenario": ["order", "search", "page"],
+        "reviews": ["page"],
     }
 
     ORDER_VALUES = ["old", "reviews", "best", "worst", "loud", "popular", "random"]

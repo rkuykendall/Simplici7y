@@ -736,19 +736,17 @@ div.map {
     clear: both;
 }
 
-div.map div.sidenote {
-        float: right;
-        margin-top: 7px;
-    }
-    div.map div.sidenote .button {
-        margin: 0;
-}
-
 .map-header {
     display: flex;
     gap: 20px;
     justify-content: space-between;
     margin-bottom: 15px;
+}
+
+@media (max-width: 600px) {
+    .map-header {
+        flex-direction: column;
+    }
 }
 
 div.markdown img {

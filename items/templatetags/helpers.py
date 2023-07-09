@@ -28,7 +28,7 @@ def subtitle(context):
     if view.view_name in ["home", "items"]:
         subtitle = "Items"
         if not order:
-            subtitle = "Latest Updates and Submissions"
+            subtitle = "Latest Down" ""
     elif view.view_name == "scenario":
         subtitle = context["scenario"].name
     elif view.view_name == "tag":
@@ -41,19 +41,30 @@ def subtitle(context):
 
 @register.simple_tag(takes_context=True)
 def pagetitle(context):
+    prefix = "Marathon Aleph One Downloads"
+
     try:
         view = resolve(context["request"].path_info)
     except Resolver404:
         return "Page not found"  # Default title for unmatched paths
 
     if context["request"].path == "/":
-        return "Marathon Aleph One community downloads."
+        return prefix
 
     if "item" in context:
-        return f'{context["item"].name} by {context["item"].user.first_name}'
+        return f'Download {context["item"].name} by {context["item"].user.first_name}'
 
     if view.view_name == "user" and "show_user" in context:
-        return context["show_user"].first_name
+        return f'{prefix} and Reviews from {context["show_user"].first_name}'
+
+    if view.view_name == "tag":
+        return f'{prefix} Tagged "{context["tag"].name.capitalize()}"'
+
+    if view.view_name == "scenario":
+        return f'{prefix} for {context["scenario"].name}'
+
+    if view.view_name == "users":
+        return "Active members of the Marathon Aleph One community"
 
     items_subtitle = subtitle(context)
     if items_subtitle:

@@ -761,7 +761,8 @@ div.markdown img {
     .screenshot_thumb {
         float: none;
         margin: 0;
-        width: 100%;
+        max-width: 100%;
+        max-height: none;
     }
 }
 

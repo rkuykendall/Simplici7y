@@ -428,6 +428,15 @@ div#menu #navigation {
 div#menu #navigation li {
     padding: 0;
 }
+
+
+@media screen and (max-width: 600px) {
+    #navigation a.logo {
+        width: 100vh;
+    }
+}
+
+
 div#menu a {
     display: block;
     margin: 5px;
@@ -747,16 +756,7 @@ div.map {
     .map-header {
         flex-direction: column;
     }
-}
 
-div.markdown img {
-    float: right;
-    padding: 5px;
-    margin: 0 0 15px 15px;
-    background-color: #000;
-}
-
-@media (max-width: 600px) {
     div.markdown img,
     .screenshot_thumb {
         float: none;
@@ -766,6 +766,12 @@ div.markdown img {
     }
 }
 
+div.markdown img {
+    float: right;
+    padding: 5px;
+    margin: 0 0 15px 15px;
+    background-color: #000;
+}
 
 /* ==============================
       Reviews

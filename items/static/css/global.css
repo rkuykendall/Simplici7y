@@ -429,7 +429,6 @@ div#menu #navigation li {
     padding: 0;
 }
 
-
 @media screen and (max-width: 600px) {
     #navigation a.logo {
         width: 100vh;
@@ -752,6 +751,13 @@ div.map {
     margin-bottom: 15px;
 }
 
+div.markdown img {
+    float: right;
+    padding: 5px;
+    margin: 0 0 15px 15px;
+    background-color: #000;
+}
+
 @media (max-width: 600px) {
     .map-header {
         flex-direction: column;
@@ -764,13 +770,6 @@ div.map {
         max-width: 100%;
         max-height: none;
     }
-}
-
-div.markdown img {
-    float: right;
-    padding: 5px;
-    margin: 0 0 15px 15px;
-    background-color: #000;
 }
 
 /* ==============================

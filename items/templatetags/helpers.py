@@ -24,17 +24,20 @@ def subtitle(context):
     subtitle = ""
     view = resolve(context["request"].path_info)
     order = context["request"].GET.get("order")
+    search = context["request"].GET.get("search")
 
     if view.view_name in ["home", "items"]:
         subtitle = "Items"
         if not order:
-            subtitle = "Latest Down" ""
+            subtitle = "Latest Downloads"
     elif view.view_name == "scenario":
         subtitle = context["scenario"].name
     elif view.view_name == "tag":
         subtitle = f"Tagged '{context['tag'].name.capitalize()}'"
     if order:
         subtitle += order_name(order)
+    if search:
+        subtitle += f" matching '{search}'"
 
     return subtitle
 

@@ -43,9 +43,7 @@
   --color-lightest: #eee;
 }
 
-/* ==============================
-      Meyer CSS Reset
-   ============================== */
+/* Meyer CSS Reset */
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -98,9 +96,7 @@ table {
 
 
 
-/* ==============================
-      Core Structure
-   ============================== */
+/* Core Structure */
 
 html {
   background-color: var(--color-darker);
@@ -170,9 +166,7 @@ body {
     }
 
 
-/* ==============================
-      Buttons
-   ============================== */
+/* Buttons */
 
 .button-bar {
     text-align: right;
@@ -242,9 +236,7 @@ a.button:hover,
 .button.edit-txt   { -webkit-mask-image: url('../images/icons/edit.svg'), linear-gradient(#fff 0 0); }
 
 
-/* ==============================
-      Global Text
-   ============================== */
+/* Global Text */
 
 html, body, h4, h5, input  {
     color: var(--color-text-medium);
@@ -282,7 +274,7 @@ h2 {
 }
 
 h3, legend, .search {
-  /* Header for a item */
+    /* Header for a item */
     margin: 0;
     font-size: var(--text-xl-size);
     line-height: var(--text-xl-lh);
@@ -374,42 +366,31 @@ ol.details {
 
 
 
-/* ==============================
-      Markdown
-   ============================== */
-
-    .markdown li {
-        margin: 0 0 0 20px;
-        padding: 0 0 0 0;
-    }
-
-    .markdown ol {
-        list-style: decimal outside;
-    }
-
-    .markdown ul {
-        list-style: circle outside;
-    }
-
-    .markdown em {
-        font-style: italic;
-    }
-
-    .markdown strong {
-        font-weight: bold;
-    }
-
-    .markdown p {
-      overflow: hidden;
-    }
-    .markdown li p {
+/* Markdown */
+.markdown li {
+    margin: 0 0 0 20px;
+    padding: 0 0 0 0;
+}
+.markdown ol {
+    list-style: decimal outside;
+}
+.markdown ul {
+    list-style: circle outside;
+}
+.markdown em {
+    font-style: italic;
+}
+.markdown strong {
+    font-weight: bold;
+}
+.markdown p {
+    overflow: hidden;
+}
+.markdown li p {
     overflow: visible;
-    }
+}
 
-/* ==============================
-      Header Menu
-   ============================== */
-
+/* Header Menu */
 div#menu {
     background-color: var(--color-darkest);
     border-bottom: 1px solid #000;
@@ -434,7 +415,6 @@ div#menu #navigation li {
         width: 100%;
     }
 }
-
 
 div#menu a {
     display: block;
@@ -471,9 +451,7 @@ div#menu a.username {
 
 
 
-/* ==============================
-      Footer
-   ============================== */
+/* Footer */
 
 div#footer {
     text-align: center;
@@ -514,7 +492,7 @@ div#footer div#footer-dark {
     background-color: var(--color-darker);
     border-top: 1px solid black;
     width: 100%;
-    box-shadow: 0px -7px 0 rgba(0, 0, 0, 0.07);
+    box-shadow: 0 -7px 0 rgba(0, 0, 0, 0.07);
 }
 div#footer div#community {
     width: 100%;
@@ -532,10 +510,7 @@ div#footer div#community {
 
 
 
-/* ==============================
-      Notices
-   ============================== */
-
+/* Notices */
 .messages li {
     color: #333;
 
@@ -573,46 +548,8 @@ div#footer div#community {
     border-color: #f1d576;
 }
 
-div.subnav {
-    background-color: #F5F5F5;
-    margin-top: -30px;
-}
 
-div.subnav div.notice {
-  border: none;
-}
-
-#errorExplanation {
-    border: 3px solid #c00;
-    padding: 10px 15px 0;
-    margin-bottom: 20px;
-    background-color: #f9e5e5;
-    border-radius: 4px;
-    }
-
-    #errorExplanation h2 {
-        text-align: left;
-        font-size: var(--text-xl-size);
-        line-height: var(--text-xl-lh);
-        letter-spacing: 1px;
-        padding: 5px 15px;
-        margin: -10px -15px 10px;
-        background-color: #c00;
-        color: #fff;
-    }
-
-    #errorExplanation p {
-        color: #280000;
-    }
-
-    #errorExplanation ul {
-        list-style: square inside;
-    }
-
-
-/* ==============================
-      Navblocks
-   ============================== */
+/* Navblocks */
 
 .navblock {
   display: inline-grid;
@@ -652,47 +589,17 @@ div.subnav div.notice {
 }
 
 
-/* ==============================
-      Forms
-   ============================== */
+/* Forms */
 
-form em {
-    font-style: normal;
+.errorlist {
     color: var(--color-danger);
-}
-
-form fieldset {
-    margin-bottom: 10px;
     }
-    form fieldset, form fieldset fieldset {
-        border: none;
-    }
-    form fieldset ol {
-        margin: 0 0 20px;
-        padding: 0;
-        }
-        form fieldset li {
-            padding: 0px 10px 10px 0px;
-            list-style: none;
-            margin: 0;
+    .errorlist li {
+        padding: 0 0 1rem 0;
 }
 
 form .helptext {
     display: block;
-}
-
-form fieldset fieldset {
-    border: none;
-    margin: 3px 0 0;
-    }
-    form fieldset fieldset legend {
-        padding: 0 0 5px;
-        font-weight: normal;
-    }
-    form fieldset fieldset label {
-        display: block;
-        width: auto;
-        margin-left: 123px; /* Width plus 3 (html space) */
 }
 
 form input:not([type=checkbox], [type=radio]),
@@ -709,13 +616,6 @@ form textarea {
     box-sizing: border-box;
 
     }
-    form div.fieldWithErrors input,
-    form div.fieldWithErrors select,
-    form div.fieldWithErrors textarea {
-        border: solid 2px #c00;
-        background-color: #f0f0f0;
-        width: 208px;
-    }
     input[type=checkbox] {
       margin: 0;
     }
@@ -723,21 +623,21 @@ form textarea {
         height: 200px;
 }
 
-form input.file {
-    width: 202px;
-    padding: 6px;
-    border: solid 1px var(--color-lighter);
+.help-text {
+    font-size: 0.8em;
+    color: var(--color-light);
 }
 
-form div.fieldWithErrors {
-    display: inline;
+/* Used on new item form */
+div#id_popular_tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 
-
-/* ==============================
-      Maps
-   ============================== */
+/* Maps */
 
 div.map {
     margin-bottom: 40px;
@@ -773,17 +673,13 @@ div.markdown img {
     }
 }
 
-/* ==============================
-      Reviews
-   ============================== */
+/* Reviews */
 
 div.review {
     margin-bottom: 30px;
 }
 
-/* ==============================
-      Screenshots
-   ============================== */
+/* Screenshots */
 
 .screenshots img {
   background-color: black;
@@ -806,9 +702,7 @@ div.review {
 }
 
 
-/* ==============================
-      Star Rating
-   ============================== */
+/* Star Rating */
 
 .star-rating {
     float: right;
@@ -827,7 +721,7 @@ div.review {
     margin: 0;
 }
 
-.star-rating li.current-rating{
+.star-rating li.current-rating {
     background: url('../images/star_rating.png') left 75px;
     background-size: 25px;
     height: 25px;
@@ -838,9 +732,7 @@ div.review {
 
 
 
-/* ==============================
-      Pagination
-   ============================== */
+/* Pagination */
 
 .pagination {
   clear: both;
@@ -879,24 +771,4 @@ div.review {
         border: 1px solid var(--color-lightest);
         color: var(--color-lighter);
         cursor: not-allowed;
-}
-
-.help-text {
-    font-size: 0.8em;
-    color: var(--color-light);
-}
-
-.errorlist {
-    color: var(--color-danger);
-    }
-    .errorlist li {
-        padding: 0 0 1rem 0;
-}
-
-/* Used on new item form */
-div#id_popular_tags {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
 }

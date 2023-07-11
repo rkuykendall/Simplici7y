@@ -27,7 +27,7 @@ def subtitle(context):
     search = context["request"].GET.get("search")
 
     if view.view_name in ["home", "items"]:
-        subtitle = "Items"
+        subtitle = "Downloads"
         if not order:
             subtitle = "Latest Downloads"
     elif view.view_name == "scenario":
@@ -51,7 +51,7 @@ def pagetitle(context):
     except Resolver404:
         return "Page not found"  # Default title for unmatched paths
 
-    if context["request"].path == "/":
+    if context["request"].path == "/" and not context["request"].GET:
         return prefix
 
     if "item" in context:

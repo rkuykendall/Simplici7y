@@ -180,7 +180,9 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 def review_list(request):
-    reviews = Review.objects.order_by("-created_at")
+    reviews = Review.objects.order_by("-created_at").prefetch_related(
+        "version__item", "version", "user"
+    )
     paginator = Paginator(reviews, PAGE_SIZE)
 
     page_number = request.GET.get("page")

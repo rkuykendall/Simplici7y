@@ -13,7 +13,6 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
-from .models import User
 from rest_framework import viewsets, permissions
 from .forms import (
     UserForm,
@@ -50,7 +49,7 @@ def page_not_found_view(request, exception):
     return render(request, "404.html", status=404)
 
 
-def items(request):
+def item_list(request):
     page_obj = get_filtered_items(request=request)
 
     if page_out_of_bounds(request, page_obj):
@@ -59,7 +58,7 @@ def items(request):
     return render(request, "items.html", {"page_obj": page_obj})
 
 
-def scenario(request, item_permalink):
+def scenario_detail(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     page_obj = get_filtered_items(request=request, tc=item.id)
 
@@ -69,12 +68,12 @@ def scenario(request, item_permalink):
     return render(request, "items.html", {"page_obj": page_obj, "scenario": item})
 
 
-def tags(request):
+def tag_list(request):
     tags = Tag.objects.all().order_by("-count")
     return render(request, "tags.html", {"tags": tags})
 
 
-def tag(request, name):
+def tag_detail(request, name):
     tag = get_object_or_404(Tag, name=name)
     page_obj = get_filtered_items(request=request, tag=tag)
 
@@ -118,7 +117,7 @@ def item_detail(request, item_permalink):
 
     if item_version is None:
         if item.user_id == request.user.id:
-            return redirect("add_version", item_permalink)
+            return redirect("version_create", item_permalink)
         else:
             return redirect("home")
 
@@ -180,7 +179,7 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-def reviews(request):
+def review_list(request):
     reviews = Review.objects.order_by("-created_at")
     paginator = Paginator(reviews, PAGE_SIZE)
 
@@ -200,7 +199,9 @@ def reviews(request):
     )
 
 
-def users(request):
+def user_list(request):
+    User = get_user_model()
+
     active_users = (
         User.objects.filter(Q(items_count__gt=0) | Q(reviews_count__gt=0))
         .annotate(total_contributions=F("items_count") + F("reviews_count"))
@@ -231,7 +232,7 @@ def signup(request):
     return render(request, "signup.html", {"form": form})
 
 
-def login_view(request):
+def session_create(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -256,7 +257,7 @@ def login_view(request):
     )
 
 
-def user(request, username):
+def user_detail(request, username):
     User = get_user_model()
     show_user = get_object_or_404(User, username=username)
     items = get_filtered_items(request=request, user=show_user)
@@ -272,6 +273,7 @@ def user(request, username):
         .order_by("-created_at")
         .prefetch_related(
             "version",
+            "version__item",
             "user",
         )
     )
@@ -307,19 +309,19 @@ def settings(request):
 
 
 @login_required
-def add_item(request):
+def item_add(request):
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
             form.instance.user = request.user
             form.save()
-            return redirect("add_version", item_permalink=item.permalink)
+            return redirect("version_create", item_permalink=item.permalink)
     else:
         form = ItemForm()
     return render(request, "simple_form.html", {"form": form, "title": "Add Item"})
 
 
-def add_item_child(request, item_permalink, model_name, form_class):
+def item_child_add(request, item_permalink, model_name, form_class):
     item = get_object_or_404(Item, permalink=item_permalink)
 
     if (item.user != request.user) and (not request.user.is_staff):
@@ -345,13 +347,13 @@ def add_item_child(request, item_permalink, model_name, form_class):
 
 
 @login_required
-def add_version(request, item_permalink):
-    return add_item_child(request, item_permalink, "Version", VersionForm)
+def version_create(request, item_permalink):
+    return item_child_add(request, item_permalink, "Version", VersionForm)
 
 
 @login_required
-def add_screenshot(request, item_permalink):
-    return add_item_child(request, item_permalink, "Screenshot", ScreenshotForm)
+def screenshot_create(request, item_permalink):
+    return item_child_add(request, item_permalink, "Screenshot", ScreenshotForm)
 
 
 @login_required
@@ -390,7 +392,7 @@ def item_edit(request, item_permalink):
     return render(request, "simple_form.html", {"form": form, "title": "Edit Item"})
 
 
-def item_download(request, item_permalink):
+def download_create(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     version = Version.objects.filter(item=item).order_by("-created_at").first()
 
@@ -429,7 +431,7 @@ def item_delete(request, item_permalink):
 
 
 @login_required
-def new_item_review(request, item_permalink):
+def review_create(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
     if request.method == "POST":
         form = ReviewForm(request.POST)
@@ -443,7 +445,7 @@ def new_item_review(request, item_permalink):
     return render(request, "simple_form.html", {"form": form, "title": "Add Review"})
 
 
-def items_redirect(request):
+def items_list_redirect(request):
     query_string = request.META["QUERY_STRING"]
     if query_string:
         return redirect(f"/?{query_string}")

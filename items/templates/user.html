@@ -33,8 +33,11 @@
       </li>
     </ul>
     {% endif %}
-
   {% endfor %}
+
+  {% if items.paginator.num_pages > 1 %}
+    {% include "_pagination.html" with page_obj=items %}
+  {% endif %}
 </div>
 
 <div>

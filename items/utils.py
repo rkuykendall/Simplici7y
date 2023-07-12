@@ -1,5 +1,6 @@
+from operator import attrgetter
+
 from django.contrib.postgres.search import (
-    TrigramSimilarity,
     SearchVector,
     SearchQuery,
     SearchRank,
@@ -12,11 +13,7 @@ from django.db.models import (
 
 from .models import Item, Version, Screenshot
 
-page_size = 20
-
-
-def get_items_with_versions():
-    return Item.objects.exclude(version_created_at__isnull=True)
+PAGE_SIZE = 20
 
 
 def order_items(items, order):
@@ -42,7 +39,7 @@ def order_items(items, order):
 
 
 def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
-    items = items or get_items_with_versions()
+    items = items or Item.objects.exclude(version_created_at__isnull=True)
 
     if tc:
         items = items.filter(tc=tc)
@@ -88,7 +85,7 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
     if order or not search:
         items = order_items(items, order)
 
-    paginator = Paginator(items, page_size)
+    paginator = Paginator(items, PAGE_SIZE)
 
     page_obj = paginator.get_page(page_number)
 

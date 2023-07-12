@@ -2,7 +2,7 @@ from django.contrib.syndication.views import Feed
 from markdownify.templatetags.markdownify import markdownify
 
 from items.models import Review
-from items.utils import get_filtered_items, page_size
+from items.utils import get_filtered_items, PAGE_SIZE
 
 
 class ItemsFeed(Feed):
@@ -28,7 +28,7 @@ class ReviewsFeed(Feed):
     item_guid_is_permalink = False
 
     def items(self):
-        return Review.objects.order_by("-created_at")[:page_size]
+        return Review.objects.order_by("-created_at")[:PAGE_SIZE]
 
     def item_guid(self, obj):
         return f"https://simplici7y.com/items/{obj.version.item.permalink}/reviews/{obj.id}"

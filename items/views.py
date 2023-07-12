@@ -35,7 +35,13 @@ from .serializers import (
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
-from .utils import get_filtered_items, page_size, page_out_of_bounds
+from .utils import (
+    get_filtered_items,
+    PAGE_SIZE,
+    page_out_of_bounds,
+)
+from django.db.models import Prefetch
+
 
 CharField.register_lookup(Lower)
 
@@ -89,31 +95,40 @@ def item_detail(request, item_permalink):
         return redirect(url, permanent=True)
 
     item = get_object_or_404(
-        Item.objects.prefetch_related(
-            "versions",
-            "screenshots",
-            "versions__reviews",
-            "tags",
+        Item.objects.select_related(
             "user",
+        ).prefetch_related(
+            "screenshots",
+            "tags",
+            Prefetch(
+                "versions",
+                queryset=Version.objects.order_by("-created_at").prefetch_related(
+                    Prefetch(
+                        "reviews",
+                        queryset=Review.objects.order_by("-created_at").select_related("user"),
+                    )
+                ),
+                to_attr="ordered_versions",
+            ),
         ),
         permalink=item_permalink,
     )
-    item_version = item.find_version()
+
+    item_version = item.ordered_versions[0] if item.ordered_versions else None
 
     if item_version is None:
-        if item.user is user:
+        if item.user_id == request.user.id:
             return redirect("add_version", item_permalink)
         else:
             return redirect("home")
 
-    item_screenshots = Screenshot.objects.filter(item=item).order_by("created_at").all()
-    item_reviews = (
-        Review.objects.filter(version__item=item).order_by("-created_at").all()
-    ).prefetch_related(
-        "version",
-        "user",
-    )
-    item_tags = Tag.objects.filter(item=item).all()
+    item_screenshots = list(item.screenshots.all())
+
+    item_reviews = []
+    for version in item.ordered_versions:
+        item_reviews.extend(version.reviews.all())
+
+    item_tags = list(item.tags.all())
 
     return render(
         request,
@@ -126,6 +141,7 @@ def item_detail(request, item_permalink):
             "tags": item_tags,
         },
     )
+
 
 
 class ItemViewSet(viewsets.ModelViewSet):
@@ -166,7 +182,7 @@ class TagViewSet(viewsets.ModelViewSet):
 
 def reviews(request):
     reviews = Review.objects.order_by("-created_at")
-    paginator = Paginator(reviews, page_size)
+    paginator = Paginator(reviews, PAGE_SIZE)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)

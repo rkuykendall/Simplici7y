@@ -9,7 +9,11 @@
 <div>
   <h2>{{ show_user.items_count }} Submission{{ show_user.items_count|pluralize }}</h2>
 
-  {% include "_sort.html" %}
+  {% if show_user.items_count > 0 %}
+    {% include "_sort.html" %}
+  {% else %}
+    <div>No submissions.</div>
+  {% endif %}
 
   {% for item in items %}
     {% if item.latest_version %}

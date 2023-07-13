@@ -76,7 +76,7 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
         )
         query = SearchQuery(search)
         items = (
-            Item.objects.annotate(rank=SearchRank(vector, query))
+            items.annotate(rank=SearchRank(vector, query))
             .filter(rank__gte=0.02)
             .order_by("-rank")
             .distinct()

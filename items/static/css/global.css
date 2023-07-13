@@ -317,7 +317,8 @@ textarea {
 }
 
 p {
-    line-height: 1.4em;
+    font-size: var(--text-base-size);
+    line-height: var(--text-base-lh);
 }
 
 p, ul, ol {
@@ -677,6 +678,10 @@ div.markdown img {
 
 div.review {
     margin-bottom: 30px;
+}
+
+.review-header {
+    margin-bottom: 5px;
 }
 
 /* Screenshots */

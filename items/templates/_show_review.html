@@ -2,9 +2,11 @@
 {% load markdownify %}
 
 <div class="review">
-    {{ show.rating|stars|safe }}
-    <h3>{{ show.title|escape }} {% if show_item_link %}<span><a href="{{ show.version.item.get_absolute_url }}">{{ show.version.item.name }}</a></span>{% endif %}</h3>
-    <h4><a href="{% url 'user' show.user.username %}">{{ show.user.first_name }}</a> on {{ show.created_at|date:"M jS, Y" }}, Version {{ show.version.name|escape }}</h4>
+    <div class="review-header">
+        {{ show.rating|stars|safe }}
+        <h3>{{ show.title|escape }} {% if show_item_link %}<span><a href="{{ show.version.item.get_absolute_url }}">{{ show.version.item.name }}</a></span>{% endif %}</h3>
+        <h4><a href="{% url 'user' show.user.username %}">{{ show.user.first_name }}</a> on {{ show.created_at|date:"M jS, Y" }}, Version {{ show.version.name|escape }}</h4>
+    </div>
 
     {% if 'permission' == True %}
         <a href="{% url 'review_edit' show.item.id show.id %}" class="button change edit-txt">Edit</a>

@@ -445,7 +445,7 @@ div#menu a.control {
     color: var(--color-lighter);
 }
 div#menu a.username {
-    max-width: 125px;
+    max-width: 177px;
     overflow: hidden;
     overflow-wrap: normal;
 }

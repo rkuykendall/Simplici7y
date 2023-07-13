@@ -21,6 +21,7 @@ def validate_passphrase(value):
 
 class UserForm(BaseUserCreationForm):
     email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=True)
     passphrase = forms.CharField(
         label="Passphrase",
         help_text='Ask on the <a href="https://discord.gg/ZuJRd8xJ">Discord</a> for the passphrase.',

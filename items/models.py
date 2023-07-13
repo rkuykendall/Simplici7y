@@ -164,7 +164,7 @@ class Download(TimeStampMixin):
 
     def __str__(self):
         if self.user is not None:
-            return f"Download by {self.user.username} of version {self.version.name}"
+            return f"Download by {self.user.first_name} of version {self.version.name}"
 
         return f"Download of version {self.version.name}"
 
@@ -203,7 +203,7 @@ class Review(TimeStampMixin):
         ]
 
     def __str__(self):
-        return f"Review by {self.user.username} - {self.title}"
+        return f"Review by {self.user.first_name} - {self.title}"
 
     def get_absolute_url(self):
         return self.version.item.get_absolute_url()

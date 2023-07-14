@@ -48,6 +48,8 @@ class Tag(models.Model):
 
 class Item(TimeStampMixin):
     name = models.CharField(max_length=255, db_index=True)
+    byline = models.CharField(max_length=255, null=True, blank=True, db_index=True)
+    topnote = models.TextField(null=True, blank=True)
     body = models.TextField()
     tc = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.PROTECT, related_name="items"
@@ -96,6 +98,13 @@ class Item(TimeStampMixin):
 
     def get_absolute_url(self):
         return reverse("item_detail", kwargs={"item_permalink": self.permalink})
+
+    def get_byline(self):
+        if self.byline:
+            return self.byline
+        else:
+            return self.user.first_name
+
 
 
 class Version(TimeStampMixin):

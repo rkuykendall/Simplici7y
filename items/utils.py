@@ -71,6 +71,7 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
     if search:
         vector = (
             SearchVector("name", weight="A")
+            + SearchVector("byline", weight="A")
             + SearchVector("tags__name", weight="D")
             + SearchVector("body", weight="D")
         )

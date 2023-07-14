@@ -55,7 +55,7 @@ def pagetitle(context):
         return prefix
 
     if "item" in context:
-        return f'Download {context["item"].name} by {context["item"].user.first_name}'
+        return f'Download {context["item"].name} by {context["item"].get_byline}'
 
     if view.view_name == "user" and "show_user" in context:
         return f'{prefix} and Reviews from {context["show_user"].first_name}'

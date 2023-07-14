@@ -316,7 +316,7 @@ def item_add(request):
         form = ItemForm(request.POST)
         if form.is_valid():
             form.instance.user = request.user
-            form.save()
+            item = form.save()
             return redirect("version_create", item_permalink=item.permalink)
     else:
         form = ItemForm()

@@ -26,6 +26,7 @@
         <div style="display: flex; gap: 1rem; flex-direction: row; justify-content: space-between">
           <div style="flex-shrink: 1">"{{ item.name }}" has no versions.</div>
           <div style="flex-shrink: 0">
+            <a href="{% url 'item_edit' item_permalink=item.permalink %}">Edit item</a><br />
             <a href="{% url 'version_create' item_permalink=item.permalink %}">Add version</a><br />
             <a href="{% url 'item_delete' item_permalink=item.permalink %}">Delete item</a>
           </div>

@@ -104,7 +104,9 @@ def item_detail(request, item_permalink):
                 queryset=Version.objects.order_by("-created_at").prefetch_related(
                     Prefetch(
                         "reviews",
-                        queryset=Review.objects.order_by("-created_at").select_related("user"),
+                        queryset=Review.objects.order_by("-created_at").select_related(
+                            "user"
+                        ),
                     )
                 ),
                 to_attr="ordered_versions",
@@ -140,7 +142,6 @@ def item_detail(request, item_permalink):
             "tags": item_tags,
         },
     )
-
 
 
 class ItemViewSet(viewsets.ModelViewSet):

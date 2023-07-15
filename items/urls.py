@@ -59,7 +59,9 @@ urlpatterns = [
     path("tags/", tag_list, name="tags"),
     path("tags/<str:name>/", tag_detail, name="tag"),
     path("items/new", item_add, name="add_item"),
-    path("items/<str:item_permalink>/versions/new", version_create, name="version_create"),
+    path(
+        "items/<str:item_permalink>/versions/new", version_create, name="version_create"
+    ),
     path(
         "items/<str:item_permalink>/screenshots/new",
         screenshot_create,
@@ -73,7 +75,9 @@ urlpatterns = [
     path("items/<str:item_permalink>/edit", item_edit, name="item_edit"),
     path("items/<str:item_permalink>/delete", item_delete, name="item_delete"),
     path(
-        "items/<str:item_permalink>/downloads/new", download_create, name="item_download"
+        "items/<str:item_permalink>/downloads/new",
+        download_create,
+        name="item_download",
     ),
     path(
         "password_reset/",

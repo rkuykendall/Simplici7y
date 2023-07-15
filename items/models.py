@@ -106,7 +106,6 @@ class Item(TimeStampMixin):
             return self.user.first_name
 
 
-
 class Version(TimeStampMixin):
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, related_name="versions", db_index=True
@@ -144,7 +143,7 @@ class Version(TimeStampMixin):
         else:
             url = ""
 
-        return mark_safe('<div>{}</div>'.format(url))
+        return mark_safe("<div>{}</div>".format(url))
 
     def save(self, *args, **kwargs):
         created = self.pk is None

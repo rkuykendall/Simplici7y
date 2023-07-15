@@ -86,7 +86,7 @@
             {% if user == item.user %}
                 <div class="button-bar">
                     <a href="{% url 'screenshot_edit' item.permalink screenshot.id %}" class="button change edit-txt">Edit</a>
-                    <a href="{% url 'screenshot_delete' item.permalink screenshot.id %}" class="button danger cancel">Delete</a>
+                    <a href="{% url 'screenshot_delete' item.permalink screenshot.id %}" class="button danger delete">Delete</a>
                 </div>
             {% endif %}
         </div>

@@ -1,3 +1,4 @@
+from urllib.parse import urlencode
 from uuid import uuid4
 
 from django.db import models
@@ -104,6 +105,12 @@ class Item(TimeStampMixin):
             return self.byline
         else:
             return self.user.first_name
+
+    def get_byline_url(self):
+        if self.byline:
+            return f'{reverse("home")}?{urlencode({"search": self.byline})}'
+        else:
+            return self.user.get_absolute_url()
 
 
 class Version(TimeStampMixin):

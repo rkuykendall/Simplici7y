@@ -103,6 +103,7 @@ class ItemForm(forms.ModelForm):
         model = Item
         fields = (
             "name",
+            "byline",
             "body",
             "tc_radio_choice",
             "tc",
@@ -115,6 +116,7 @@ class ItemForm(forms.ModelForm):
         help_texts = {
             "tc": "Only for uploads not for the original trilogy. This will override the field above.",
             "body": 'Formatted with <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown</a>.',
+            "byline": "Optional. Will be displayed instead of username if provided.",
         }
 
     def __init__(self, *args, **kwargs):

@@ -686,6 +686,11 @@ div.review {
 }
 
 /* Screenshots */
+.screenshots-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
 .screenshots img {
   background-color: black;

@@ -67,6 +67,7 @@
     <div class="screenshots">
         <h2>{{ item.screenshots_count }} Screenshot{{ item.screenshots_count|pluralize }}</h2>
 
+        <div class="screenshots-content">
         {% if user == item.user %}
             <div class="screenshot">
                 <a href="{% url 'add_screenshot' item.permalink %}" class="button positive add">Add screenshot</a>
@@ -95,6 +96,7 @@
         {% if item.screenshots_count < 1 %}
         <img alt="No screenshots" src="{% static 'images/no-screenshots.png' %}">
         {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

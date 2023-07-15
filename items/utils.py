@@ -1,5 +1,6 @@
 from operator import attrgetter
 
+from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.search import (
     SearchVector,
     SearchQuery,
@@ -72,18 +73,24 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
         vector = (
             SearchVector("name", weight="A")
             + SearchVector("byline", weight="A")
-            + SearchVector("tags__name", weight="D")
+            + SearchVector("tags_names", weight="D")
             + SearchVector("body", weight="D")
         )
         query = SearchQuery(search)
+
         items = (
-            items.annotate(rank=SearchRank(vector, query))
+            items.annotate(
+                tags_names=ArrayAgg(
+                    "tags__name",
+                    distinct=True,
+                )
+            )
+            .annotate(rank=SearchRank(vector, query))
             .filter(rank__gte=0.02)
             .order_by("-rank")
             .distinct()
         )
-
-    if order or not search:
+    elif order:
         items = order_items(items, order)
 
     paginator = Paginator(items, PAGE_SIZE)

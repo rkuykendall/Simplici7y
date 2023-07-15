@@ -23,6 +23,10 @@
         </div>
 
         <ul class="details">
+            {% if item.byline %}
+                <li>Uploaded by <a href="{% url 'user' username=item.user %}">{{ item.user.first_name|escape }}</a></li>
+            {% endif %}
+            
             <li>Uploaded {{ version.created_at|date:"M jS, Y" }}</li>
 
             {% if tags %}

@@ -31,7 +31,9 @@ from .views import (
     items_list_redirect,
     review_create,
     download_create,
-    tag_list, screenshot_edit, screenshot_delete,
+    tag_list,
+    screenshot_edit,
+    screenshot_delete,
 )
 
 router = DefaultRouter()

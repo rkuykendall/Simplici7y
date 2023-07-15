@@ -68,17 +68,28 @@
         <h2>{{ item.screenshots_count }} Screenshot{{ item.screenshots_count|pluralize }}</h2>
 
         {% if user == item.user %}
-        <div><a href="{% url 'add_screenshot' item.permalink %}" class="button positive add">Add screenshot</a>
-        </div>
+            <div class="screenshot">
+                <a href="{% url 'add_screenshot' item.permalink %}" class="button positive add">Add screenshot</a>
+            </div>
         {% endif %}
 
         {% for screenshot in screenshots %}
-        {% if screenshot.title %}
-        <h3>{{ screenshot.title|escape }}</h3>
-        {% endif %}
-        <a href="{{ screenshot.file.url }}" target="_blank">
-            <img alt="{{ screenshot.label }}" class="screenshot_content" src="{{ screenshot.file_content.url }}">
-        </a>
+        <div class="screenshot">
+            {% if screenshot.title %}
+                <h3>{{ screenshot.title|escape }}</h3>
+            {% endif %}
+
+            <a href="{{ screenshot.file.url }}" target="_blank">
+                <img alt="{{ screenshot.label }}" class="screenshot_content" src="{{ screenshot.file_content.url }}">
+            </a>
+
+            {% if user == item.user %}
+                <div class="button-bar">
+                    <a href="{% url 'screenshot_edit' item.permalink screenshot.id %}" class="button change edit-txt">Edit</a>
+                    <a href="{% url 'screenshot_delete' item.permalink screenshot.id %}" class="button danger cancel">Delete</a>
+                </div>
+            {% endif %}
+        </div>
         {% endfor %}
 
         {% if item.screenshots_count < 1 %}

@@ -31,7 +31,7 @@ from .views import (
     items_list_redirect,
     review_create,
     download_create,
-    tag_list,
+    tag_list, screenshot_edit, screenshot_delete,
 )
 
 router = DefaultRouter()
@@ -66,6 +66,16 @@ urlpatterns = [
         "items/<str:item_permalink>/screenshots/new",
         screenshot_create,
         name="add_screenshot",
+    ),
+    path(
+        "items/<str:item_permalink>/screenshots/<str:screenshot_id>/edit",
+        screenshot_edit,
+        name="screenshot_edit",
+    ),
+    path(
+        "items/<str:item_permalink>/screenshots/<str:screenshot_id>/delete",
+        screenshot_delete,
+        name="screenshot_delete",
     ),
     path(
         "items/<str:item_permalink>/versions/<str:version_id>/edit",

@@ -355,6 +355,35 @@ def version_create(request, item_permalink):
 
 
 @login_required
+def screenshot_edit(request, item_permalink, screenshot_id):
+    screenshot = get_object_or_404(Screenshot, id=screenshot_id)
+
+    if request.user != screenshot.item.user:
+        return redirect("item_detail", item_permalink=screenshot.item.permalink)
+
+    if request.method == "POST":
+        form = ScreenshotForm(request.POST, request.FILES, instance=screenshot)
+        if form.is_valid():
+            form.save()
+            return redirect("item_detail", item_permalink=screenshot.item.permalink)
+    else:
+        form = ScreenshotForm(instance=screenshot)
+    return render(
+        request, "simple_form.html", {"form": form, "title": "Edit Screenshot"}
+    )
+
+
+def screenshot_delete(request, item_permalink, screenshot_id):
+    screenshot = get_object_or_404(Screenshot, id=screenshot_id)
+
+    if request.user != screenshot.item.user:
+        return redirect("item_detail", item_permalink=screenshot.item.permalink)
+
+    screenshot.delete()
+    return redirect("item_detail", item_permalink=screenshot.item.permalink)
+
+
+@login_required
 def screenshot_create(request, item_permalink):
     return item_child_add(request, item_permalink, "Screenshot", ScreenshotForm)
 

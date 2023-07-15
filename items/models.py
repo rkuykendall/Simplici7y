@@ -144,7 +144,7 @@ class Version(TimeStampMixin):
         else:
             url = ""
 
-        return mark_safe('<div class="sidenote">{}</div>'.format(url))
+        return mark_safe('<div>{}</div>'.format(url))
 
     def save(self, *args, **kwargs):
         created = self.pk is None

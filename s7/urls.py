@@ -27,5 +27,3 @@ if settings.DEBUG and not settings.USE_S3:
     from django.conf.urls.static import static
 
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-handler404 = "items.views.page_not_found_view"

@@ -18,7 +18,7 @@
 
     {% for item in page_obj %}
       {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
-        {% include "_show_partial.html" %}
+        {% include "_show_item.html" %}
       {% endwith %}
     {% empty %}
         <div>There are no results to display.</div>

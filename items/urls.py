@@ -19,10 +19,9 @@ from .views import (
     signup,
     user_detail,
     user_list,
-    view_404,
     tag_detail,
     scenario_detail,
-    item_add,
+    item_create,
     version_create,
     screenshot_create,
     version_edit,
@@ -53,7 +52,6 @@ urlpatterns = [
     path("items/", items_list_redirect, name="items_redirect"),
     path("scenarios/<str:item_permalink>/", scenario_detail, name="scenario"),
     path("login/", session_create, name="login"),
-    path("404/", view_404, name="view_404"),
     path("logout/", log_out, name="logout"),
     path("reviews/", review_list, name="reviews"),
     path("settings/", settings, name="settings"),
@@ -62,7 +60,7 @@ urlpatterns = [
     path("users/<str:username>/", user_detail, name="user"),
     path("tags/", tag_list, name="tags"),
     path("tags/<str:name>/", tag_detail, name="tag"),
-    path("items/new", item_add, name="add_item"),
+    path("items/new", item_create, name="item_create"),
     path(
         "items/<str:item_permalink>/versions/new", version_create, name="version_create"
     ),

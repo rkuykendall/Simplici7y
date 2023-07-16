@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="simple">
+  <h2>Delete</h2>
+  <p>
+    Are you sure you want to delete "{{ object }}"?
+  </p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="button-bar">
+    <a href="javascript:history.back()" class="button skip">No, take me back</a>
+    <button type="submit" class="button danger delete">Yes, delete</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -26,7 +26,7 @@
             {% if item.byline %}
                 <li>Uploaded by <a href="{% url 'user' username=item.user %}">{{ item.user.first_name|escape }}</a></li>
             {% endif %}
-            
+
             <li>Uploaded {{ version.created_at|date:"M jS, Y" }}</li>
 
             {% if tags %}
@@ -45,7 +45,7 @@
             {% endif %}
         </ul>
 
-        {% if user == item.user %}
+        {% if item.user_has_permission %}
             <h2>Controls</h2>
 
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -72,7 +72,7 @@
         <h2>{{ item.screenshots_count }} Screenshot{{ item.screenshots_count|pluralize }}</h2>
 
         <div class="screenshots-content">
-        {% if user == item.user %}
+        {% if item.user_has_permission %}
             <div class="screenshot">
                 <a href="{% url 'add_screenshot' item.permalink %}" class="button positive add">Add screenshot</a>
             </div>
@@ -88,7 +88,7 @@
                 <img alt="{{ screenshot.label }}" class="screenshot_content" src="{{ screenshot.file_content.url }}">
             </a>
 
-            {% if user == item.user %}
+            {% if item.user_has_permission %}
                 <div class="button-bar">
                     <a href="{% url 'screenshot_edit' item.permalink screenshot.id %}" class="button change edit-txt">Edit</a>
                     <a href="{% url 'screenshot_delete' item.permalink screenshot.id %}" class="button danger delete">Delete</a>

@@ -37,6 +37,14 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse("user", kwargs={"username": self.username})
 
+    def has_permission(self, user):
+        return user == self or user.is_superuser
+
+
+class OwnedMixin:
+    def has_permission(self, user):
+        return user == self.user or user.is_superuser
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
@@ -47,7 +55,7 @@ class Tag(models.Model):
         return self.name
 
 
-class Item(TimeStampMixin):
+class Item(TimeStampMixin, OwnedMixin):
     name = models.CharField(max_length=255, db_index=True)
     byline = models.CharField(max_length=255, null=True, blank=True, db_index=True)
     topnote = models.TextField(null=True, blank=True)
@@ -168,6 +176,9 @@ class Version(TimeStampMixin):
             version_created_at=Coalesce(Max("versions__created_at"), None)
         )
 
+    def has_permission(self, user):
+        return self.item.has_permission(user)
+
 
 class Download(TimeStampMixin):
     user = models.ForeignKey(
@@ -199,7 +210,7 @@ class Download(TimeStampMixin):
         super().delete(*args, **kwargs)
 
 
-class Review(TimeStampMixin):
+class Review(TimeStampMixin, OwnedMixin):
     version = models.ForeignKey(
         Version, on_delete=models.CASCADE, related_name="reviews", db_index=True
     )
@@ -287,3 +298,6 @@ class Screenshot(TimeStampMixin):
             screenshots_count=models.F("screenshots_count") - 1
         )
         super().delete(*args, **kwargs)
+
+    def has_permission(self, user):
+        return self.item.has_permission(user)

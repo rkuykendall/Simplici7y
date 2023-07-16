@@ -6,6 +6,8 @@ from django.db.models import (
     Q,
     CharField,
     F,
+    Value,
+    BooleanField,
 )
 from django.db.models.functions import Lower
 from django.shortcuts import render, redirect, get_object_or_404
@@ -115,10 +117,13 @@ def item_detail(request, item_permalink):
         permalink=item_permalink,
     )
 
+    user_has_permission = item.has_permission(request.user)
+    item.user_has_permission = user_has_permission
+
     item_version = item.ordered_versions[0] if item.ordered_versions else None
 
     if item_version is None:
-        if item.user_id == request.user.id:
+        if user_has_permission:
             return redirect("version_create", item_permalink)
         else:
             return redirect("home")
@@ -128,6 +133,9 @@ def item_detail(request, item_permalink):
     item_reviews = []
     for version in item.ordered_versions:
         item_reviews.extend(version.reviews.all())
+
+    for review in item_reviews:
+        review.user_has_permission = review.has_permission(request.user)
 
     item_tags = list(item.tags.all())
 
@@ -202,6 +210,39 @@ def review_list(request):
     )
 
 
+@login_required
+def review_edit(request, item_permalink, review_id):
+    review = get_object_or_404(Review, id=review_id)
+
+    if not review.has_permission(request.user):
+        return redirect("home")
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your review has been updated.")
+            return redirect("item", review.version.item.permalink)
+    else:
+        form = ReviewForm(instance=review)
+
+    return render(request, "simple_form.html", {"form": form})
+
+
+@login_required
+def review_delete(request, item_permalink, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    if not review.has_permission(request.user):
+        return redirect("home")
+
+    if request.method == "POST":
+        review.delete()
+        messages.success(request, "Your review has been deleted.")
+        return redirect("item", review.version.item.permalink)
+
+    return render(request, "confirm_delete.html", {"object": review})
+
+
 def user_list(request):
     User = get_user_model()
 
@@ -264,12 +305,10 @@ def user_detail(request, username):
     User = get_user_model()
     show_user = get_object_or_404(User, username=username)
     items = get_filtered_items(request=request, user=show_user)
+    user_has_permission = show_user.has_permission(request.user)
 
-    if request.user.is_authenticated:
-        if request.user == show_user:
-            items = get_filtered_items(
-                request=request, items=Item.objects, user=show_user
-            )
+    if user_has_permission:
+        items = get_filtered_items(request=request, items=Item.objects, user=show_user)
 
     reviews = (
         Review.objects.filter(user=show_user)
@@ -278,6 +317,9 @@ def user_detail(request, username):
             "version",
             "version__item",
             "user",
+        )
+        .annotate(
+            user_has_permission=Value(user_has_permission, output_field=BooleanField())
         )
     )
 
@@ -327,7 +369,7 @@ def item_add(request):
 def item_child_add(request, item_permalink, model_name, form_class):
     item = get_object_or_404(Item, permalink=item_permalink)
 
-    if (item.user != request.user) and (not request.user.is_staff):
+    if not item.has_permission(request.user):
         messages.error(
             request, "You do not have permission to add a version to this item."
         )
@@ -358,7 +400,7 @@ def version_create(request, item_permalink):
 def screenshot_edit(request, item_permalink, screenshot_id):
     screenshot = get_object_or_404(Screenshot, id=screenshot_id)
 
-    if request.user != screenshot.item.user:
+    if screenshot.has_permission(request.user):
         return redirect("item_detail", item_permalink=screenshot.item.permalink)
 
     if request.method == "POST":
@@ -392,7 +434,6 @@ def screenshot_create(request, item_permalink):
 def version_edit(request, item_permalink, version_id):
     version = get_object_or_404(Version, id=version_id)
 
-    # Check if the user is the owner of the version
     if request.user != version.item.user:
         return redirect("item_detail", item_permalink=version.item.permalink)
 
@@ -410,8 +451,7 @@ def version_edit(request, item_permalink, version_id):
 def item_edit(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
 
-    # Check if the user is the owner of the item
-    if request.user != item.user:
+    if not item.has_permission(request.user):
         return redirect("item_detail", item_permalink=item.permalink)
 
     if request.method == "POST":
@@ -451,8 +491,7 @@ def download_create(request, item_permalink):
 def item_delete(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
 
-    # Check if the user is the owner of the item
-    if request.user != item.user:
+    if not item.has_permission(request.user):
         return redirect("item_detail", item_permalink=item.permalink)
 
     if request.method == "POST":

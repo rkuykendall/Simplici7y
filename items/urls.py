@@ -34,6 +34,8 @@ from .views import (
     tag_list,
     screenshot_edit,
     screenshot_delete,
+    review_edit,
+    review_delete,
 )
 
 router = DefaultRouter()
@@ -119,6 +121,16 @@ urlpatterns = [
         "items/<str:item_permalink>/reviews/new",
         review_create,
         name="new_item_review",
+    ),
+    path(
+        "items/<str:item_permalink>/reviews/<str:review_id>/edit",
+        review_edit,
+        name="review_edit",
+    ),
+    path(
+        "items/<str:item_permalink>/reviews/<str:review_id>/delete",
+        review_delete,
+        name="review_delete",
     ),
     path("items.rss", ItemsFeed()),
     path("reviews.rss", ReviewsFeed()),

@@ -16,7 +16,7 @@
         {% if item.topnote %}
             <ul class="messages">
               <li class="info">
-                {{ item.topnote|markdownify }}
+                <strong>Admin note:</strong> {{ item.topnote|markdownify }}
               </li>
             </ul>
         {% endif %}

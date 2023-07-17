@@ -531,7 +531,7 @@ div#footer div#community {
 }
 
 .messages li p {
-    margin: 0;
+    margin-bottom: 0;
 }
 
 .messages li.info {

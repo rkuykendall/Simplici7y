@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.core.management.base import BaseCommand
 from django.db import transaction, connection
 
@@ -17,6 +18,7 @@ class Command(BaseCommand):
                 if discrepancy > 0:
                     default_version = item.versions.order_by("-created_at").first()
                     if default_version:
-                        insert_sql = "INSERT INTO items_downloads (version_id) VALUES (%s)"
-                        cursor.executemany(insert_sql, [(default_version.id,)] * discrepancy)
+                        insert_sql = "INSERT INTO items_download (version_id, created_at, updated_at) VALUES (%s, %s, %s)"
+                        params = [(default_version.id, timezone.now(), timezone.now()) for _ in range(discrepancy)]
+                        cursor.executemany(insert_sql, params)
                         self.stdout.write(f'Corrected download count for item {item.id}')

@@ -127,7 +127,7 @@ def item_detail(request, item_permalink):
     for review in item_reviews:
         review.user_has_permission = review.has_permission(request.user)
 
-    item_tags = list(item.tags.all())
+    item_tags = item.tags.order_by('-count').all()
 
     return render(
         request,

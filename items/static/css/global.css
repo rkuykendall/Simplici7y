@@ -185,6 +185,9 @@ form input[type=submit] {
     border: none;
     white-space: nowrap;
 
+    mask: url('../images/icons/generic.svg'), linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    mask-repeat: no-repeat;
     -webkit-mask-image: url("../images/icons/generic.svg"), linear-gradient(#fff 0 0);
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-composite: destination-out;
@@ -223,17 +226,46 @@ a.button:hover,
 
 
 /* Icons */
-.button.skip       { -webkit-mask-image: url('../images/icons/chevron-right.svg'), linear-gradient(#fff 0 0); }
-.button.next       { -webkit-mask-image: url('../images/icons/chevron-right.svg'), linear-gradient(#fff 0 0); }
-.button.down       { -webkit-mask-image: url('../images/icons/chevron-down.svg'), linear-gradient(#fff 0 0); }
+.button.skip {
+  mask-image: url("../images/icons/chevron-right.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/chevron-right.svg"),
+    linear-gradient(#fff 0 0);
+}
+.button.next {
+  mask-image: url("../images/icons/chevron-right.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/chevron-right.svg"),
+    linear-gradient(#fff 0 0);
+}
+.button.down {
+  mask-image: url("../images/icons/chevron-down.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/chevron-down.svg"),
+    linear-gradient(#fff 0 0);
+}
 
-.button.accept     { -webkit-mask-image: url('../images/icons/add.svg'), linear-gradient(#fff 0 0); }
-.button.add        { -webkit-mask-image: url('../images/icons/add.svg'), linear-gradient(#fff 0 0); }
+.button.accept {
+  mask-image: url("../images/icons/add.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/add.svg"), linear-gradient(#fff 0 0);
+}
+.button.add {
+  mask-image: url("../images/icons/add.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/add.svg"), linear-gradient(#fff 0 0);
+}
 
-.button.cancel     { -webkit-mask-image: url('../images/icons/chevron-left.svg'), linear-gradient(#fff 0 0); }
-.button.delete     { -webkit-mask-image: url('../images/icons/delete.svg'), linear-gradient(#fff 0 0); }
+.button.cancel {
+  mask-image: url("../images/icons/chevron-left.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/chevron-left.svg"),
+    linear-gradient(#fff 0 0);
+}
+.button.delete {
+  mask-image: url("../images/icons/delete.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/delete.svg"),
+    linear-gradient(#fff 0 0);
+}
 
-.button.edit-txt   { -webkit-mask-image: url('../images/icons/edit.svg'), linear-gradient(#fff 0 0); }
+.button.edit-txt {
+  mask-image: url("../images/icons/edit.svg"), linear-gradient(#fff 0 0);
+  -webkit-mask-image: url("../images/icons/edit.svg"), linear-gradient(#fff 0 0);
+}
 
 
 /* Global Text */

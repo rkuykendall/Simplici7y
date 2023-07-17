@@ -1,8 +1,10 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.contrib.sitemaps.views import sitemap
 from rest_framework.routers import DefaultRouter
 
 from .feeds import ItemsFeed, ReviewsFeed
+from .sitemaps import sitemaps
 from .views import (
     DownloadViewSet,
     ItemViewSet,
@@ -132,4 +134,10 @@ urlpatterns = [
     ),
     path("items.rss", ItemsFeed()),
     path("reviews.rss", ReviewsFeed()),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
 ]

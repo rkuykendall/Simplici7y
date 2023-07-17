@@ -4,8 +4,9 @@ from django.db import transaction, connection
 
 from items.models import Item, Version
 
+
 class Command(BaseCommand):
-    help = 'Corrects the downloads count for each item'
+    help = "Corrects the downloads count for each item"
 
     @transaction.atomic  # This will ensure all database operations in this function are done as a single transaction
     def handle(self, *args, **options):
@@ -19,6 +20,11 @@ class Command(BaseCommand):
                     default_version = item.versions.order_by("-created_at").first()
                     if default_version:
                         insert_sql = "INSERT INTO items_download (version_id, created_at, updated_at) VALUES (%s, %s, %s)"
-                        params = [(default_version.id, timezone.now(), timezone.now()) for _ in range(discrepancy)]
+                        params = [
+                            (default_version.id, timezone.now(), timezone.now())
+                            for _ in range(discrepancy)
+                        ]
                         cursor.executemany(insert_sql, params)
-                        self.stdout.write(f'Corrected download count for item {item.id}')
+                        self.stdout.write(
+                            f"Corrected download count for item {item.id}"
+                        )

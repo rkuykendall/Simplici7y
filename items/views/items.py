@@ -127,7 +127,7 @@ def item_detail(request, item_permalink):
     for review in item_reviews:
         review.user_has_permission = review.has_permission(request.user)
 
-    item_tags = item.tags.order_by('-count').all()
+    item_tags = item.tags.order_by("-count").all()
 
     return render(
         request,
@@ -354,7 +354,9 @@ def review_create(request, item_permalink):
 
 @login_required
 def review_edit(request, item_permalink, review_id):
-    return item_child_edit(request, Review, item_permalink, "Review", ReviewForm, review_id)
+    return item_child_edit(
+        request, Review, item_permalink, "Review", ReviewForm, review_id
+    )
 
 
 @login_required
@@ -381,7 +383,9 @@ def screenshot_edit(request, item_permalink, screenshot_id):
 
 @login_required
 def screenshot_delete(request, item_permalink, screenshot_id):
-    return item_child_delete(request, Screenshot, item_permalink, "Screenshot", screenshot_id)
+    return item_child_delete(
+        request, Screenshot, item_permalink, "Screenshot", screenshot_id
+    )
 
 
 def download_create(request, item_permalink):

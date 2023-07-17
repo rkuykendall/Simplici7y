@@ -37,6 +37,12 @@
 
             <li>Uploaded {{ version.created_at|date:"M jS, Y" }}</li>
 
+            {% if item.tc %}
+            <li>
+                Scenario: <a href="{% url 'scenario' item.tc.permalink %}">{{ item.tc|escape }}</a></li>
+            </li>
+            {% endif %}
+
             {% if tags %}
             <li>Tags:
                 {% for tag in tags %}

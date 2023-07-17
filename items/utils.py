@@ -87,7 +87,7 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
             )
             .annotate(rank=SearchRank(vector, query))
             .filter(rank__gte=0.02)
-            .order_by("-rank")
+            .order_by("-rank", "-version_created_at")
             .distinct()
         )
     elif order:

@@ -530,6 +530,10 @@ div#footer div#community {
     border-radius: 2px;
 }
 
+.messages li p {
+    margin: 0;
+}
+
 .messages li.info {
     background-color: #F5F5F5;
     border-color: #DEDEDE;

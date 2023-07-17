@@ -5,12 +5,21 @@
     <div class="map-header">
         <div>
             <h3><a href="{{ show.get_absolute_url }}">{{ show.name }} {{ version.name }}</a></h3>
-            <h4><a href="{{ show.get_byline_url }}">{{ show.get_byline }}</a> on {{ item.version_created_at|date:"SHORT_DATE_FORMAT" }}</h4>
+            <h4><a href="{{ show.get_byline_url }}">{{ show.get_byline }}</a> on {{ show.version_created_at|date:"SHORT_DATE_FORMAT" }}</h4>
         </div>
         <div>
             {{ version.download_button }}
         </div>
     </div>
+
+    {% if show.topnote %}
+        <ul class="messages">
+          <li class="info">
+            Admin note: {{ show.topnote|markdownify }}
+          </li>
+        </ul>
+    {% endif %}
+
     <div class="markdown">
         {% if screenshot %}
         <a href="{{ show.get_absolute_url }}" aria-label="{{ show.name }}"><img src="{{ screenshot.file_thumb.url }}" alt="{{ screenshot.label }}" class="screenshot_thumb"></a>

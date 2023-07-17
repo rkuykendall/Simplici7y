@@ -397,7 +397,8 @@ def download_create(request, item_permalink):
     )
     Item.objects.filter(id=item.id).update(downloads_count=F("downloads_count") + 1)
 
-    Download.objects.create(version=version, user=request.user)
+    download_user = request.user if request.user.is_authenticated else None
+    Download.objects.create(version=version, user=download_user)
 
     if version.file:
         return redirect(version.file.url)

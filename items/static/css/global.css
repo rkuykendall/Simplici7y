@@ -26,10 +26,10 @@
   --color-primary-darker: #3B76BA;
   --color-primary: #6699cc;
 
-  --color-secondary: #2B2D42;
+  --color-secondary: #445e79;
   --color-success: #5ec269;
   --color-warn: #d87437;
-  --color-danger: #FB3640;
+  --color-danger: #e83733;
 
   --color-text-darkest: #000;
   --color-text-darker: #333;
@@ -178,7 +178,6 @@ button[type=submit],
 form input[type=submit] {
     cursor: pointer;
     display: inline-block;
-    min-width: 100px;
     padding: 7px 14px 7px 49px;
     background-color: var(--color-primary);
     color: white;
@@ -200,6 +199,10 @@ form input[type=submit] {
 
     font-family: 'Big Shoulders Text', 'Instrument Sans', sans-serif;
     font-size: 24px;
+}
+
+.map-header .button, button[type=submit] {
+    min-width: 100px;
 }
 
 a.button:hover,

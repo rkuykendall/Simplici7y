@@ -2,7 +2,16 @@ from urllib.parse import urlencode
 from uuid import uuid4
 
 from django.db import models
-from django.db.models import F, Max, Q
+from django.db.models import (
+    F,
+    Max,
+    Q,
+    Subquery,
+    OuterRef,
+    Avg,
+    FloatField,
+    ExpressionWrapper,
+)
 from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -19,6 +28,39 @@ def get_model_name(instance):
 
 def get_upload_path(instance, filename):
     return f"{get_model_name(instance)}s/item-{instance.item.id}/{uuid4()}/{filename}"
+
+
+def update_rating_counts(item_pk):
+    items = (
+        Item.objects.filter(pk=item_pk)
+        .annotate(
+            new_rating_average=Coalesce(
+                Subquery(
+                    Review.objects.filter(version__item=OuterRef("pk"))
+                    .values("version__item")
+                    .annotate(avg=Avg("rating"))
+                    .values("avg"),
+                    output_field=FloatField(),
+                ),
+                0.0,
+            ),
+        )
+        .annotate(
+            new_rating_weighted=ExpressionWrapper(
+                F("new_rating_average")
+                + (F("new_rating_average") - 2.5) * (F("new_reviews_count") / 10.0),
+                output_field=FloatField(),
+            ),
+        )
+    )
+
+    for item in items:
+        updates = {
+            "rating_average": item.new_rating_average,
+            "rating_weighted": item.new_rating_weighted,
+        }
+
+        Item.objects.filter(pk=item.pk).update(**updates)
 
 
 class TimeStampMixin(models.Model):
@@ -249,14 +291,21 @@ class Review(TimeStampMixin, OwnedMixin):
                 reviews_count=models.F("reviews_count") + 1
             )
 
+        update_rating_counts(self.version.item.pk)
+
     def delete(self, *args, **kwargs):
-        Item.objects.filter(pk=self.version.item.pk).update(
+        item_pk = self.version.item.pk
+
+        Item.objects.filter(pk=item_pk).update(
             reviews_count=models.F("reviews_count") - 1
         )
         User.objects.filter(pk=self.user.pk).update(
             reviews_count=models.F("reviews_count") - 1
         )
+
         super().delete(*args, **kwargs)
+
+        update_rating_counts(item_pk)
 
 
 class Screenshot(TimeStampMixin):

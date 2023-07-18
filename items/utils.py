@@ -1,5 +1,3 @@
-from operator import attrgetter
-
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.search import (
     SearchVector,

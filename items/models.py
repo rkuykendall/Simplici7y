@@ -11,6 +11,8 @@ from django.db.models import (
     Avg,
     FloatField,
     ExpressionWrapper,
+    IntegerField,
+    Count,
 )
 from django.db.models.functions import Coalesce
 from django.urls import reverse
@@ -43,6 +45,16 @@ def update_rating_counts(item_pk):
                     output_field=FloatField(),
                 ),
                 0.0,
+            ),
+            new_reviews_count=Coalesce(
+                Subquery(
+                    Review.objects.filter(version__item=OuterRef("pk"))
+                    .values("version__item")
+                    .annotate(c=Count("id"))
+                    .values("c"),
+                    output_field=IntegerField(),
+                ),
+                0,
             ),
         )
         .annotate(

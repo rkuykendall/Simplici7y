@@ -107,7 +107,6 @@ def og_image(context):
 
     if view.view_name == "item_detail" and "screenshots" in context and len(context["screenshots"]) > 0:
         return context["screenshots"][0].file_content.url
-    print("no")
 
     return None
 

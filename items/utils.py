@@ -91,7 +91,8 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
     elif order:
         items = order_items(items, order)
 
-    items = items.annotate(user_has_permission=Q(user_id=request.user.id))
+    if request:
+        items = items.annotate(user_has_permission=Q(user_id=request.user.id))
 
     paginator = Paginator(items, PAGE_SIZE)
 

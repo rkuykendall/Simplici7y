@@ -21,7 +21,6 @@ class RemoveWwwAndHttpsRedirectMiddleware:
                 new_url = "{}://{}{}".format(
                     new_scheme, new_host, request.get_full_path()
                 )
-                print('new_url', new_url)
                 return HttpResponsePermanentRedirect(new_url)
 
         return self.get_response(request)

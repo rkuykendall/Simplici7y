@@ -25,6 +25,31 @@
     <link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss"/>
     <link rel="canonical" href="{{ request.build_absolute_uri }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="{% pagetitle %}">
+    <meta property="og:site_name" content="Simplici7y">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:description" content="{% description %}">
+    <meta property="og:type" content="article">
+
+    {% if item %}
+        <meta property="article:published_time" content="{{ item.created_at|date:'c' }}">
+        <meta property="article:author" content="{{ item.user.first_name }}">
+        {% if item.version_created_at %}
+            <meta property="article:modified_time" content="{{ item.version_created_at|date:'c' }}">
+        {% endif %}
+
+        {% if item.tags %}
+            {% for tag in item.tags.all %}
+                <meta property="article:tag" content="{{ tag.name }}">
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+    {% og_image as og_image_url %}
+    {% if og_image_url %}
+        <meta property="og:image" content="{{ og_image_url }}">
+    {% endif %}
 </head>
 
 <body>

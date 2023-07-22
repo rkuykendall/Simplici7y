@@ -101,6 +101,17 @@ def description(context):
     )
 
 
+@register.simple_tag(takes_context=True)
+def og_image(context):
+    view = resolve(context["request"].path_info)
+
+    if view.view_name == "item_detail" and "screenshots" in context and len(context["screenshots"]) > 0:
+        return context["screenshots"][0].file_content.url
+    print("no")
+
+    return None
+
+
 def order_name(txt):
     name = " by "
     if txt == "new":

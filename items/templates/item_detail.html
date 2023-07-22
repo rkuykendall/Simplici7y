@@ -8,6 +8,10 @@
         <h1>{{ item.name|escape }} <span>by <a href="{{ item.get_byline_url }}">{{ item.get_byline|escape }}</a></span></h1>
         {{ version.download_button }}
     </div>
+    <div>
+        Uploaded {{ version.created_at|date:"M jS, Y" }}
+        {% if item.tc %} for <a href="{% url 'scenario' item.tc.permalink %}">{{ item.tc|escape }}</a>{% endif %}
+    </div>
 </div>
 
 <div class="layout-1-1">
@@ -35,14 +39,6 @@
                 <li>Uploaded by <a href="{% url 'user' username=item.user %}">{{ item.user.first_name|escape }}</a></li>
             {% endif %}
 
-            <li>Uploaded {{ version.created_at|date:"M jS, Y" }}</li>
-
-            {% if item.tc %}
-            <li>
-                Scenario: <a href="{% url 'scenario' item.tc.permalink %}">{{ item.tc|escape }}</a></li>
-            </li>
-            {% endif %}
-
             {% if tags %}
             <li>Tags:
                 {% for tag in tags %}
@@ -51,8 +47,10 @@
             </li>
             {% endif %}
 
-            <li>{{ item.downloads_count }} download{{ item.downloads_count|pluralize }} of this item</li>
-            <li>{{ version.downloads_count }} download{{ version.downloads_count|pluralize }} of latest version</li>
+            <li>{{ item.downloads_count }} download{{ item.downloads_count|pluralize }}</li>
+            {% if item.downloads_count != version.downloads_count %}
+                <li>{{ version.downloads_count }} download{{ version.downloads_count|pluralize }} of latest version</li>
+            {% endif %}
 
             {% if item.reviews_count > 0 %}
             <li>{{ item.rating_average|stringformat:".1f" }} rating ( {{ item.rating_weighted|stringformat:".2f" }} weighted for sorting )</li>
@@ -74,16 +72,18 @@
             </div>
         {% endif %}
 
-        <h2>{{ item.reviews_count }} Review{{item.reviews_count|pluralize}}</h2>
+        {% if user.is_authenticated or item.reviews_count > 0 %}
+            <h2>{{ item.reviews_count }} Review{{item.reviews_count|pluralize}}</h2>
 
-        <div id="map_reviews">
-            {% for review in reviews %}
-            {% include "_show_review.html" with show=review %}
-            {% endfor %}
-            {% if user.is_authenticated %}
-                <a href="{% url 'new_item_review' item_permalink=item.permalink %}" class="button positive add">Write a review</a>
-            {% endif %}
-        </div>
+            <div id="map_reviews">
+                {% for review in reviews %}
+                {% include "_show_review.html" with show=review %}
+                {% endfor %}
+                {% if user.is_authenticated %}
+                    <a href="{% url 'new_item_review' item_permalink=item.permalink %}" class="button positive add">Write a review</a>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 
     <div class="screenshots">

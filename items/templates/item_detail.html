@@ -5,7 +5,7 @@
 {% block content %}
 <div class="layout-1">
     <div class="map-header">
-        <h1>{{ item.name|escape }} <span>by <a href="{{ item.get_byline_url }}">{{ item.get_byline|escape }}</a></span></h1>
+        <div class="map-title"><h1>{{ item.name|escape }}</h1><h1><span>by <a href="{{ item.get_byline_url }}">{{ item.get_byline|escape }}</a></span></h1></div>
         {{ version.download_button }}
     </div>
     <div>

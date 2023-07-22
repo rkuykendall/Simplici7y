@@ -693,6 +693,12 @@ div.map {
     margin-bottom: 15px;
 }
 
+.map-title {
+    display: flex;
+    column-gap: 1em;
+    flex-wrap: wrap;
+}}
+
 div.markdown img {
     float: right;
     padding: 5px;

@@ -1,3 +1,4 @@
+import re
 from django.http import HttpResponsePermanentRedirect
 from urllib.parse import urlencode
 from django.shortcuts import redirect
@@ -25,7 +26,7 @@ class RemoveWwwAndHttpsRedirectMiddleware:
         return self.get_response(request)
 
 
-class ValidateQueryParamsMiddleware:
+class ValidateAndCleanUrlsMiddleware:
     VALID_QUERY_PARAMS = {
         "home": ["order", "search", "page"],
         "user": ["order", "search", "page"],
@@ -36,12 +37,19 @@ class ValidateQueryParamsMiddleware:
 
     ORDER_VALUES = ["old", "reviews", "best", "worst", "loud", "popular", "random"]
 
+    BAD_URL_REGEX = re.compile(r"{.*")
+
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
+        clean_path = self.BAD_URL_REGEX.sub('', request.path_info)
+
+        if request.path_info != clean_path:
+            return redirect(clean_path)
+
         try:
-            view_name = resolve(request.path_info).view_name
+            view_name = resolve(clean_path).view_name
         except:
             view_name = None
 
@@ -58,7 +66,7 @@ class ValidateQueryParamsMiddleware:
                     params.pop(param)
 
             if request.GET != params:
-                url = f"{request.path}?{urlencode(params, doseq=True)}"
+                url = f"{clean_path}?{urlencode(params, doseq=True)}"
                 return redirect(url)
 
         response = self.get_response(request)

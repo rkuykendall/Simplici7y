@@ -10,7 +10,6 @@ class RemoveWwwAndHttpsRedirectMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        print('RemoveWwwAndHttpsRedirectMiddleware')
         official_domain = "simplici7y.com"
         host = request.get_host().split(":")[0]
         scheme = request.scheme
@@ -29,7 +28,6 @@ class RemoveWwwAndHttpsRedirectMiddleware:
 
 
 class ValidateAndCleanUrlsMiddleware:
-    print('ValidateAndCleanUrlsMiddleware')
     VALID_QUERY_PARAMS = {
         "home": ["order", "search", "page"],
         "user": ["order", "search", "page"],

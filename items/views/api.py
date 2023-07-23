@@ -1,4 +1,6 @@
+from django.urls import path, include
 from rest_framework import viewsets, permissions
+from rest_framework.routers import DefaultRouter
 
 from ..models import Item, Version, Download, Review, Screenshot, Tag
 from ..permissions import IsOwnerOrReadOnly
@@ -46,3 +48,13 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+router = DefaultRouter()
+router.register(r"items", ItemViewSet)
+router.register(r"versions", VersionViewSet)
+router.register(r"downloads", DownloadViewSet)
+router.register(r"reviews", ReviewViewSet)
+router.register(r"screenshots", ScreenshotViewSet)
+router.register(r"tags", TagViewSet)
+api_paths = [path("api/", include(router.urls))]

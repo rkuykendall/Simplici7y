@@ -5,11 +5,12 @@ from django.db.models import (
     F,
     Value,
     BooleanField,
+    Count,
 )
 from django.db.models.functions import Lower
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.urls import reverse, path
 
 from ..forms import (
     VersionForm,
@@ -32,6 +33,9 @@ from django.db.models import Prefetch
 CharField.register_lookup(Lower)
 
 
+item_paths = []
+
+
 def items_list_redirect(request):
     # Redirects /items/ to /
     query_string = request.META["QUERY_STRING"]
@@ -41,6 +45,9 @@ def items_list_redirect(request):
         return redirect("/")
 
 
+item_paths += [path("items/", items_list_redirect, name="items_redirect")]
+
+
 def item_list(request):
     page_obj = get_filtered_items(request=request)
 
@@ -48,6 +55,25 @@ def item_list(request):
         return redirect("home")
 
     return render(request, "items.html", {"page_obj": page_obj})
+
+
+item_paths += [path("", item_list, name="home")]
+
+
+def scenario_list(request):
+    items = (
+        Item.objects.exclude(version_created_at__isnull=True)
+        .annotate(frequency=Count("items"))
+        .filter(frequency__gt=1)
+        .order_by("-frequency")
+    )
+
+    page_obj = get_filtered_items(request=request, items=items)
+
+    return render(request, "scenario_list.html", {"page_obj": page_obj})
+
+
+item_paths += [path("scenarios/", scenario_list, name="scenario_list")]
 
 
 def scenario_detail(request, item_permalink):
@@ -60,9 +86,17 @@ def scenario_detail(request, item_permalink):
     return render(request, "items.html", {"page_obj": page_obj, "scenario": item})
 
 
+item_paths += [
+    path("scenarios/<str:item_permalink>/", scenario_detail, name="scenario")
+]
+
+
 def tag_list(request):
     tags = Tag.objects.all().order_by("-count")
     return render(request, "tags.html", {"tags": tags})
+
+
+item_paths += [path("tags/", tag_list, name="tags")]
 
 
 def tag_detail(request, name):
@@ -73,6 +107,9 @@ def tag_detail(request, name):
         return redirect("tag", name)
 
     return render(request, "items.html", {"page_obj": page_obj, "tag": tag})
+
+
+item_paths += [path("tags/<str:name>/", tag_detail, name="tag")]
 
 
 def item_detail(request, item_permalink):
@@ -142,6 +179,9 @@ def item_detail(request, item_permalink):
     )
 
 
+item_paths += [path("items/<str:item_permalink>/", item_detail, name="item_detail")]
+
+
 def review_list(request):
     reviews = Review.objects.order_by("-created_at").prefetch_related(
         "version__item", "version", "user"
@@ -164,6 +204,9 @@ def review_list(request):
     )
 
 
+item_paths += [path("reviews/", review_list, name="reviews")]
+
+
 def user_list(request):
     User = get_user_model()
 
@@ -174,6 +217,9 @@ def user_list(request):
     )
 
     return render(request, "users.html", {"users": active_users})
+
+
+item_paths += [path("users/", user_list, name="users")]
 
 
 def user_detail(request, username):
@@ -210,6 +256,9 @@ def user_detail(request, username):
     )
 
 
+item_paths += [path("users/<str:username>/", user_detail, name="user")]
+
+
 @login_required
 def item_create(request):
     if request.method == "POST":
@@ -221,6 +270,9 @@ def item_create(request):
     else:
         form = ItemForm()
     return render(request, "simple_form.html", {"form": form, "title": "Add Item"})
+
+
+item_paths += [path("items/new", item_create, name="item_create")]
 
 
 @login_required
@@ -240,6 +292,9 @@ def item_edit(request, item_permalink):
     return render(request, "simple_form.html", {"form": form, "title": "Edit Item"})
 
 
+item_paths += [path("items/<str:item_permalink>/edit", item_edit, name="item_edit")]
+
+
 @login_required
 def item_delete(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
@@ -253,6 +308,11 @@ def item_delete(request, item_permalink):
         return redirect("home")
 
     return render(request, "item_confirm_delete.html", {"item": item})
+
+
+item_paths += [
+    path("items/<str:item_permalink>/delete", item_delete, name="item_delete")
+]
 
 
 def item_child_create(request, item_permalink, model_name, form_class):
@@ -330,11 +390,27 @@ def version_create(request, item_permalink):
     return item_child_create(request, item_permalink, "Version", VersionForm)
 
 
+item_paths += [
+    path(
+        "items/<str:item_permalink>/versions/new", version_create, name="version_create"
+    )
+]
+
+
 @login_required
 def version_edit(request, item_permalink, version_id):
     return item_child_edit(
         request, Version, item_permalink, "Version", VersionForm, version_id
     )
+
+
+item_paths += [
+    path(
+        "items/<str:item_permalink>/versions/<str:version_id>/edit",
+        version_edit,
+        name="edit_version",
+    )
+]
 
 
 @login_required
@@ -352,6 +428,15 @@ def review_create(request, item_permalink):
     return render(request, "simple_form.html", {"form": form, "title": "Add Review"})
 
 
+item_paths += [
+    path(
+        "items/<str:item_permalink>/reviews/new",
+        review_create,
+        name="new_item_review",
+    )
+]
+
+
 @login_required
 def review_edit(request, item_permalink, review_id):
     return item_child_edit(
@@ -359,14 +444,41 @@ def review_edit(request, item_permalink, review_id):
     )
 
 
+item_paths += [
+    path(
+        "items/<str:item_permalink>/reviews/<str:review_id>/edit",
+        review_edit,
+        name="review_edit",
+    )
+]
+
+
 @login_required
 def review_delete(request, item_permalink, review_id):
     return item_child_delete(request, Review, item_permalink, "Review", review_id)
 
 
+item_paths += [
+    path(
+        "items/<str:item_permalink>/reviews/<str:review_id>/delete",
+        review_delete,
+        name="review_delete",
+    )
+]
+
+
 @login_required
 def screenshot_create(request, item_permalink):
     return item_child_create(request, item_permalink, "Screenshot", ScreenshotForm)
+
+
+item_paths += [
+    path(
+        "items/<str:item_permalink>/screenshots/new",
+        screenshot_create,
+        name="add_screenshot",
+    )
+]
 
 
 @login_required
@@ -381,11 +493,29 @@ def screenshot_edit(request, item_permalink, screenshot_id):
     )
 
 
+item_paths += [
+    path(
+        "items/<str:item_permalink>/screenshots/<str:screenshot_id>/edit",
+        screenshot_edit,
+        name="screenshot_edit",
+    )
+]
+
+
 @login_required
 def screenshot_delete(request, item_permalink, screenshot_id):
     return item_child_delete(
         request, Screenshot, item_permalink, "Screenshot", screenshot_id
     )
+
+
+item_paths += [
+    path(
+        "items/<str:item_permalink>/screenshots/<str:screenshot_id>/delete",
+        screenshot_delete,
+        name="screenshot_delete",
+    )
+]
 
 
 def download_create(request, item_permalink):
@@ -412,3 +542,12 @@ def download_create(request, item_permalink):
 
     messages.error(request, "No file or URL found")
     return redirect("home")
+
+
+item_paths += [
+    path(
+        "items/<str:item_permalink>/downloads/new",
+        download_create,
+        name="item_download",
+    )
+]

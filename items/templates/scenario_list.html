@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load markdownify %}
+{% load helpers %}
+
+{% block content %}
+<h1><a href="{% url 'home' %}">{{ pagetitle|default:'Scenarios' }}</a></h1>
+
+<div class="layout-1-2-1">
+<div class="sidebar">
+  <h2>Search &amp; Sort</h2>
+
+  {% include "_sort.html" %}
+</div>
+
+
+<div>
+  <h2>Scenarios with Associated Downloads</h2>
+
+    {% for item in page_obj %}
+      {% with version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
+        <div class="map">
+            <div class="map-header">
+                <div>
+                    <h3><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></h3>
+                    <h4><a href="{{ item.get_byline_url }}">{{ item.get_byline }}</a> on {{ item.version_created_at|date:"SHORT_DATE_FORMAT" }}</h4>
+                </div>
+                <div>
+                    <a href="{% url 'scenario' item.permalink %}" class="button next">Browse</a>
+                </div>
+            </div>
+        </div>
+      {% endwith %}
+    {% empty %}
+        <div>There are no results to display.</div>
+    {% endfor %}
+
+    {% include "_pagination.html" %}
+</div>
+
+</div>
+{% endblock %}

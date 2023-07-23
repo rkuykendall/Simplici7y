@@ -43,7 +43,7 @@ class ValidateAndCleanUrlsMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        clean_path = self.BAD_URL_REGEX.sub('', request.path_info)
+        clean_path = self.BAD_URL_REGEX.sub("", request.path_info)
 
         if request.path_info != clean_path:
             return redirect(clean_path)

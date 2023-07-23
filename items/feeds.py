@@ -1,4 +1,5 @@
 from django.contrib.syndication.views import Feed
+from django.urls import path
 from markdownify.templatetags.markdownify import markdownify
 
 from items.models import Review
@@ -38,3 +39,9 @@ class ReviewsFeed(Feed):
 
     def item_description(self, item):
         return markdownify(item.body)
+
+
+feed_paths = [
+    path("items.rss", ItemsFeed()),
+    path("reviews.rss", ReviewsFeed()),
+]

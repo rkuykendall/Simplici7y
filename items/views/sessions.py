@@ -3,7 +3,8 @@ from django.contrib.auth.forms import (
     AuthenticationForm,
 )
 from django.shortcuts import render, redirect
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout, authenticate, login, views as auth_views
+from django.urls import path
 
 from ..forms import (
     UserForm,
@@ -11,10 +12,41 @@ from ..forms import (
 from django.contrib import messages
 
 
+session_paths = [
+    path(
+        "password_reset/",
+        auth_views.PasswordResetView.as_view(template_name="simple_form.html"),
+        name="password_reset",
+    ),
+    path(
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="password_reset_done.html"
+        ),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(template_name="simple_form.html"),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="password_reset_complete.html"
+        ),
+        name="password_reset_complete",
+    ),
+]
+
+
 def log_out(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
     return redirect("home")
+
+
+session_paths += [path("logout/", log_out, name="logout")]
 
 
 def signup(request):
@@ -31,6 +63,9 @@ def signup(request):
         form = UserForm()
 
     return render(request, "signup.html", {"form": form})
+
+
+session_paths += [path("signup/", signup, name="signup")]
 
 
 def session_create(request):
@@ -58,6 +93,9 @@ def session_create(request):
     )
 
 
+session_paths += [path("login/", session_create, name="login")]
+
+
 @login_required
 def settings(request):
     user = request.user
@@ -70,3 +108,6 @@ def settings(request):
         form = UserForm(instance=user)
 
     return render(request, "simple_form.html", {"form": form, "title": "User Settings"})
+
+
+session_paths += [path("settings/", settings, name="settings")]

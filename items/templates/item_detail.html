@@ -55,6 +55,12 @@
             {% if item.reviews_count > 0 %}
             <li>{{ item.rating_average|stringformat:".1f" }} rating ( {{ item.rating_weighted|stringformat:".2f" }} weighted for sorting )</li>
             {% endif %}
+
+            {% if item.scenario_items_count > 0 %}
+                <li><a href="{% url 'scenario' item.permalink %}">
+                    {{item.scenario_items_count}} associated download{{ item.scenario_items_count|pluralize }}
+                </a></li>
+            {% endif %}
         </ul>
 
         {% if item.user_has_permission %}

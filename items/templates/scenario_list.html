@@ -16,13 +16,19 @@
 <div>
   <h2>Scenarios with Associated Downloads</h2>
 
+    <ul class="messages">
+      <li class="info">
+          For all scenarios use the <a href="/tags/scenario/">scenario tag</a>.
+      </li>
+    </ul>
+
     {% for item in page_obj %}
       {% with version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
         <div class="map">
             <div class="map-header">
                 <div>
                     <h3><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></h3>
-                    <h4><a href="{{ item.get_byline_url }}">{{ item.get_byline }}</a> on {{ item.version_created_at|date:"SHORT_DATE_FORMAT" }}</h4>
+                    <h4>{{item.scenario_items_count}} associated downloads</h4>
                 </div>
                 <div>
                     <a href="{% url 'scenario' item.permalink %}" class="button next">Browse</a>

@@ -115,7 +115,12 @@ class Item(TimeStampMixin, OwnedMixin):
     topnote = models.TextField(null=True, blank=True)
     body = models.TextField()
     tc = models.ForeignKey(
-        "self", null=True, blank=True, on_delete=models.PROTECT, related_name="items"
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name="items",
+        db_index=True,
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items")
     permalink = models.SlugField(max_length=255, unique=True)

@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.db.models import (
     Prefetch,
     Q,
+    Count,
 )
 
 from .models import Item, Version, Screenshot
@@ -37,7 +38,9 @@ def order_items(items, order):
     return items
 
 
-def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
+def get_filtered_items(
+    request=None, items=None, tc=None, tag=None, user=None, scenarios=False
+):
     items = items or Item.objects.exclude(version_created_at__isnull=True)
 
     if tc:
@@ -93,6 +96,12 @@ def get_filtered_items(request=None, items=None, tc=None, tag=None, user=None):
 
     if request:
         items = items.annotate(user_has_permission=Q(user_id=request.user.id))
+
+    items = items.annotate(scenario_items_count=Count("items"))
+    if scenarios:
+        items = items.filter(scenario_items_count__gt=1).order_by(
+            "-scenario_items_count"
+        )
 
     paginator = Paginator(items, PAGE_SIZE)
 

@@ -61,15 +61,7 @@ item_paths += [path("", item_list, name="home")]
 
 
 def scenario_list(request):
-    items = (
-        Item.objects.exclude(version_created_at__isnull=True)
-        .annotate(frequency=Count("items"))
-        .filter(frequency__gt=1)
-        .order_by("-frequency")
-    )
-
-    page_obj = get_filtered_items(request=request, items=items)
-
+    page_obj = get_filtered_items(request=request, scenarios=True)
     return render(request, "scenario_list.html", {"page_obj": page_obj})
 
 
@@ -125,7 +117,8 @@ def item_detail(request, item_permalink):
     item = get_object_or_404(
         Item.objects.select_related(
             "user",
-        ).prefetch_related(
+        )
+        .prefetch_related(
             "screenshots",
             "tags",
             Prefetch(
@@ -140,6 +133,9 @@ def item_detail(request, item_permalink):
                 ),
                 to_attr="ordered_versions",
             ),
+        )
+        .annotate(
+            scenario_items_count=Count("items"),
         ),
         permalink=item_permalink,
     )

@@ -91,7 +91,7 @@ def get_filtered_items(
             .order_by("-rank", "-version_created_at")
             .distinct()
         )
-    elif order:
+    else:
         items = order_items(items, order)
 
     if request:

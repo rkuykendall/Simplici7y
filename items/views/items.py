@@ -6,8 +6,10 @@ from django.db.models import (
     Value,
     BooleanField,
     Count,
+    Case,
+    When,
 )
-from django.db.models.functions import Lower
+from django.db.models.functions import Lower, Length
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, path
@@ -187,7 +189,12 @@ def review_list(request):
         Review.objects.order_by("-created_at")
         .prefetch_related("version__item", "version", "user")
         .annotate(
-            should_truncate=Count("body", filter=Q(body__length__gt=MAX_REVIEW_LENGTH))
+            body_length=Length("body"),
+            should_truncate=Case(
+                When(body_length__gt=MAX_REVIEW_LENGTH, then=Value(True)),
+                default=Value(False),
+                output_field=BooleanField(),
+            ),
         )
     )
     paginator = Paginator(reviews, PAGE_SIZE)
@@ -244,7 +251,13 @@ def user_detail(request, username):
             "user",
         )
         .annotate(
-            user_has_permission=Value(user_has_permission, output_field=BooleanField())
+            user_has_permission=Value(user_has_permission, output_field=BooleanField()),
+            body_length=Length("body"),
+            should_truncate=Case(
+                When(body_length__gt=MAX_REVIEW_LENGTH, then=Value(True)),
+                default=Value(False),
+                output_field=BooleanField(),
+            ),
         )
     )
 

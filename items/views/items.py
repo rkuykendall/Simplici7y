@@ -430,20 +430,6 @@ item_paths += [
 ]
 
 
-def review_detail(request, item_permalink, review_id):
-    review = get_object_or_404(Review, id=review_id)
-    return render(request, "review_detail.html", {"review": review})
-
-
-item_paths += [
-    path(
-        "items/<str:item_permalink>/reviews/<str:review_id>",
-        review_detail,
-        name="review_detail",
-    )
-]
-
-
 @login_required
 def review_create(request, item_permalink):
     item = get_object_or_404(Item, permalink=item_permalink)
@@ -466,6 +452,21 @@ item_paths += [
         name="new_item_review",
     )
 ]
+
+
+def review_detail(request, item_permalink, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    return render(request, "review_detail.html", {"review": review})
+
+
+item_paths += [
+    path(
+        "items/<str:item_permalink>/reviews/<str:review_id>",
+        review_detail,
+        name="review_detail",
+    )
+]
+
 
 
 @login_required

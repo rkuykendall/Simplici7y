@@ -730,15 +730,6 @@ div.review {
     margin-bottom: 5px;
 }
 
-.truncated_review {
-    max-height: 1000px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
-    mask-image: linear-gradient(180deg, #000 60%, transparent);
-}
-
-
 /* Screenshots */
 .screenshots-content {
     display: flex;

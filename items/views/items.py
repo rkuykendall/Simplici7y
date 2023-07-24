@@ -36,6 +36,9 @@ CharField.register_lookup(Lower)
 item_paths = []
 
 
+MAX_REVIEW_LENGTH = 2000
+
+
 def items_list_redirect(request):
     # Redirects /items/ to /
     query_string = request.META["QUERY_STRING"]
@@ -159,6 +162,7 @@ def item_detail(request, item_permalink):
 
     for review in item_reviews:
         review.user_has_permission = review.has_permission(request.user)
+        review.should_truncate = len(review.body) > MAX_REVIEW_LENGTH
 
     item_tags = item.tags.order_by("-count").all()
 
@@ -179,8 +183,12 @@ item_paths += [path("items/<str:item_permalink>/", item_detail, name="item_detai
 
 
 def review_list(request):
-    reviews = Review.objects.order_by("-created_at").prefetch_related(
-        "version__item", "version", "user"
+    reviews = (
+        Review.objects.order_by("-created_at")
+        .prefetch_related("version__item", "version", "user")
+        .annotate(
+            should_truncate=Count("body", filter=Q(body__length__gt=MAX_REVIEW_LENGTH))
+        )
     )
     paginator = Paginator(reviews, PAGE_SIZE)
 
@@ -405,6 +413,20 @@ item_paths += [
         "items/<str:item_permalink>/versions/<str:version_id>/edit",
         version_edit,
         name="edit_version",
+    )
+]
+
+
+def review_detail(request, item_permalink, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    return render(request, "review_detail.html", {"review": review})
+
+
+item_paths += [
+    path(
+        "items/<str:item_permalink>/reviews/<str:review_id>",
+        review_detail,
+        name="review_detail",
     )
 ]
 

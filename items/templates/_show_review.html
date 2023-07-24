@@ -4,16 +4,30 @@
 <div class="review">
     <div class="review-header">
         {{ show.rating|stars|safe }}
-        <h3>{{ show.title|escape }} {% if show_item_link %}<span><a href="{{ show.version.item.get_absolute_url }}">{{ show.version.item.name }}</a></span>{% endif %}</h3>
-        <h4><a href="{% url 'user' show.user.username %}">{{ show.user.first_name }}</a> on {{ show.created_at|date:"M jS, Y" }}, Version {{ show.version.name|escape }}</h4>
+        <h3>
+            <a href="{% url 'review_detail' show.version.item.permalink show.id %}">{{ show.title|escape }}</a>
+            {% if show_item_link %}
+                <span><a href="{{ show.version.item.get_absolute_url }}">{{ show.version.item.name }}</a></span>
+            {% endif %}
+        </h3>
+        <h4><a href="{% url 'user' show.user.username %}">
+            {{ show.user.first_name }}</a> on {{ show.created_at|date:"M jS, Y" }}, Version {{ show.version.name|escape }}
+        </h4>
     </div>
 
     {% if review.user_has_permission %}
         <a href="{% url 'review_edit' show.version.item.permalink show.id %}" class="button change edit-txt">Edit</a>
-        <a href="{% url 'review_delete' show.version.item.permalink show.id %}" class="button danger delete" data-confirm="Are you sure you want to delete this review?\n'{{ show.title }}' by {{ show.user.first_name }}">Delete</a>
+        <a href="{% url 'review_delete' show.version.item.permalink show.id %}" class="button danger delete">Delete</a>
     {% endif %}
 
     <div class="markdown">
-        {{ show.body|markdownify }}
+        {% if show.should_truncate %}
+            <div class="truncated_review">
+                {{ show.body|markdownify }}
+            </div>
+            <a href="{% url 'review_detail' show.version.item.permalink show.id %}" class="button next">Read full review</a>
+        {% else %}
+            {{ show.body|markdownify }}
+        {% endif %}
     </div>
 </div>

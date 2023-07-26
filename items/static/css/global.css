@@ -787,7 +787,7 @@ div.review {
 }
 
 .star-rating li.current-rating {
-    background: url('../images/star_rating.png') left 75px;
+    background: url('../images/star_rating.png') left 25px;
     background-size: 25px;
     height: 25px;
     display: block;

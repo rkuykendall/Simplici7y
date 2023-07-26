@@ -4,10 +4,9 @@
 {% block content %}
 <style>
 .users {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
     gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(178px, 1fr) );
 }
 
 .user {
@@ -36,6 +35,12 @@
 
 .user:hover {
   background-image: none;
+}
+
+.user h3 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 </style>
 

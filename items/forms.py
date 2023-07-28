@@ -11,6 +11,9 @@ from items.models import Item, Version, Screenshot, Review, Tag
 User = get_user_model()
 
 
+MARKDOWN_LINK = 'Formatted with <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown</a>.'
+
+
 def validate_passphrase(value):
     if value != "escapewillmakemegod":
         raise ValidationError(
@@ -115,7 +118,7 @@ class ItemForm(forms.ModelForm):
         }
         help_texts = {
             "tc": "Only for uploads not for the original trilogy. This will override the field above.",
-            "body": 'Formatted with <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown</a>.',
+            "body": MARKDOWN_LINK,
             "byline": "Optional. Will be displayed instead of username if provided.",
         }
 
@@ -201,6 +204,13 @@ class VersionForm(forms.ModelForm):
     class Meta:
         model = Version
         fields = ("name", "body", "file", "link")
+        labels = {
+            "name": "Version number",
+            "body": "Release notes or changelog",
+        }
+        help_texts = {
+            "body": "Optional. " + MARKDOWN_LINK,
+        }
 
     def clean(self):
         cleaned_data = super().clean()
@@ -216,12 +226,19 @@ class VersionForm(forms.ModelForm):
 class ScreenshotForm(forms.ModelForm):
     class Meta:
         model = Screenshot
-        fields = ("title", "file")
+        fields = ("title", "file", "order")
+        help_texts = {
+            "title": "Optional.",
+            "order": "Screenshots are displayed in ascending order, then by first created.",
+        }
 
 
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ("title", "rating", "body")
+        help_texts = {
+            "body": MARKDOWN_LINK,
+        }
 
-    rating = forms.IntegerField(min_value=1, max_value=5)
+    rating = forms.IntegerField(min_value=1, max_value=5, help_text="1-5 Stars")

@@ -156,7 +156,7 @@ def item_detail(request, item_permalink):
         else:
             return redirect("home")
 
-    item_screenshots = list(item.screenshots.all())
+    item_screenshots = list(item.screenshots.order_by("order").all())
 
     item_reviews = []
     for version in item.ordered_versions:
@@ -466,7 +466,6 @@ item_paths += [
         name="review_detail",
     )
 ]
-
 
 
 @login_required

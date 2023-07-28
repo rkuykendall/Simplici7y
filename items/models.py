@@ -161,9 +161,6 @@ class Item(TimeStampMixin, OwnedMixin):
     def find_version(self):
         return Version.objects.filter(item=self).latest("created_at")
 
-    def rand_screenshot(self):
-        return Screenshot.objects.order_by("?").first()
-
     def get_absolute_url(self):
         return reverse("item_detail", kwargs={"item_permalink": self.permalink})
 
@@ -185,7 +182,7 @@ class Version(TimeStampMixin):
         Item, on_delete=models.CASCADE, related_name="versions", db_index=True
     )
     name = models.CharField(max_length=255)
-    body = models.TextField()
+    body = models.TextField(blank=True)
     file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
     link = models.CharField(max_length=255, null=True, blank=True)
 
@@ -331,6 +328,7 @@ class Screenshot(TimeStampMixin):
     )
     title = models.CharField(max_length=255, blank=True)
     file = models.ImageField(upload_to=get_upload_path)
+    order = models.PositiveIntegerField(default=1)
     file_thumb = ImageSpecField(
         source="file",
         processors=[ResizeToFit(300, 400)],
@@ -343,6 +341,9 @@ class Screenshot(TimeStampMixin):
         format="JPEG",
         options={"quality": 90},
     )
+
+    class Meta:
+        ordering = ["order", "-created_at"]
 
     def __str__(self):
         return self.title

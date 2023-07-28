@@ -60,7 +60,7 @@ def get_filtered_items(
 
     random_screenshots = Prefetch(
         "screenshots",
-        queryset=Screenshot.objects.order_by("?"),
+        queryset=Screenshot.objects.order_by("order", "?"),
         to_attr="random_screenshot",
     )
 

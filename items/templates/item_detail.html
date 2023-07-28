@@ -73,7 +73,7 @@
             <a href="{% url 'version_create' item.permalink %}" class="button positive add">Add version</a>
 
             {% if user.is_superuser %}
-            <a href="/admin/items/item/{{ item.id }}/change/" class="button change edit-txt">Admin</a>
+            <a href="{% url 'admin:items_item_change' item.id %}" class="button change edit-txt">Admin</a>
             {% endif %}
             </div>
         {% endif %}

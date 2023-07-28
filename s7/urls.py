@@ -19,7 +19,7 @@ from django.urls import path, include
 from s7 import settings
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("terminal/", admin.site.urls),
     path("", include("items.urls")),
 ]
 

@@ -20,15 +20,23 @@ def order_items(items, order):
     if order == "old":
         items = items.order_by("version_created_at")
     elif order == "reviews":
-        items = items.filter(reviews_count__gt=0).order_by("-rating_average")
+        items = items.filter(reviews_count__gt=0).order_by(
+            "-rating_average", "-reviews_count", "-version_created_at"
+        )
     elif order == "best":
-        items = items.filter(reviews_count__gt=0).order_by("-rating_weighted")
+        items = items.filter(reviews_count__gt=0).order_by(
+            "-rating_weighted", "-rating", "-reviews_count", "-version_created_at"
+        )
     elif order == "worst":
-        items = items.filter(reviews_count__gt=0).order_by("rating_weighted")
+        items = items.filter(reviews_count__gt=0).order_by(
+            "rating_weighted", "rating", "-reviews_count", "-version_created_at"
+        )
     elif order == "loud":
-        items = items.filter(reviews_count__gt=0).order_by("-reviews_count")
+        items = items.filter(reviews_count__gt=0).order_by(
+            "-reviews_count", "-version_created_at"
+        )
     elif order == "popular":
-        items = items.order_by("-downloads_count")
+        items = items.order_by("-downloads_count", "-version_created_at")
     elif order == "random":
         items = items.order_by("?")
     else:

@@ -16,6 +16,14 @@
 <div>
   <h2>{% subtitle %}</h2>
 
+    {% if scenario %}
+      {% with show=scenario %}
+        {% include "_show_item.html" %}
+      {% endwith %}
+
+      <h2>Associated Downloads</h2>
+    {% endif %}
+
     {% for item in page_obj %}
       {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}
         {% include "_show_item.html" %}

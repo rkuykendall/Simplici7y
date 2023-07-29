@@ -31,7 +31,7 @@ def subtitle(context):
         if not order:
             subtitle = "Latest Downloads"
     elif view.view_name == "scenario":
-        subtitle = context["scenario"].name
+        subtitle = f"Downloads for {context['scenario'].name}"
     elif view.view_name == "tag":
         subtitle = f"Tagged '{context['tag'].name.capitalize()}'"
     if order:

@@ -14,15 +14,15 @@
 
 
 <div>
-  <h2>{% subtitle %}</h2>
 
     {% if scenario %}
-      {% with show=scenario %}
+      <h2>Scenario</h2>
+      {% with show=scenario version=scenario.latest_version.0 screenshot=scenario.random_screenshot.0 %}
         {% include "_show_item.html" %}
       {% endwith %}
-
-      <h2>Associated Downloads</h2>
     {% endif %}
+
+    <h2>{% subtitle %}</h2>
 
     {% for item in page_obj %}
       {% with show=item version=item.latest_version.0 screenshot=item.random_screenshot.0 %}

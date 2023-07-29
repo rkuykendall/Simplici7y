@@ -54,7 +54,7 @@ User = get_user_model()
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("username", "email", "is_staff")
+    list_display = ("username", "email", "is_staff", "date_joined", "last_login")
     search_fields = ("username", "email")
     ordering = ("-date_joined",)
 

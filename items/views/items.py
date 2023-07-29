@@ -110,15 +110,6 @@ item_paths += [path("tags/<str:name>/", tag_detail, name="tag")]
 
 
 def item_detail(request, item_permalink):
-    legacy_tc_slugs = ["marathon", "marathon-2-durandal", "marathon-infinity"]
-
-    if item_permalink in legacy_tc_slugs:
-        url = reverse("scenario", args=[item_permalink])
-        query_string = request.META.get("QUERY_STRING", "")
-        if query_string:
-            url = f"{url}?{query_string}"
-        return redirect(url, permanent=True)
-
     item = get_object_or_404(
         Item.objects.select_related(
             "user",

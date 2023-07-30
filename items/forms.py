@@ -64,21 +64,21 @@ class UserForm(BaseUserCreationForm):
 
 
 popular_tag_names = [
-    "ctf",
-    "emfh",
-    "enhancement",
-    "koth",
-    "ktmwtb",
-    "lua",
-    "map",
     "multiplayer",
-    "physics",
-    "plugin",
+    "netmaps",
     "scenario",
-    "script",
     "solo",
     "solocoop",
     "survival",
+    "enhancement",
+    "emfh",
+    "ctf",
+    "koth",
+    "ktmwtb",
+    "plugin",
+    "lua",
+    "physics",
+    "script",
     "utility",
 ]
 

@@ -111,6 +111,9 @@ item_paths += [path("tags/", tag_list, name="tags")]
 
 
 def tag_detail(request, name):
+    if name == "map":
+        return redirect("tag", "netmaps")
+
     tag = get_object_or_404(Tag, name=name)
     page_obj = get_filtered_items(request=request, tag=tag)
 

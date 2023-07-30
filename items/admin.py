@@ -47,7 +47,8 @@ class ScreenshotAdmin(admin.ModelAdmin):
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ["name", "permalink"]
+    list_display = ["name", "permalink", "count"]
+    search_fields = ["name"]
 
 
 User = get_user_model()

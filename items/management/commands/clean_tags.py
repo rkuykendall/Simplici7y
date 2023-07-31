@@ -5,27 +5,45 @@ from items.models import Item, Tag
 
 
 class Command(BaseCommand):
-    help = 'Cleans up used tags'
+    help = "Cleans up used tags"
 
     @transaction.atomic
     def handle(self, *args, **options):
         # Combine "emfh" and "emfhs"
-        self.combine_tags('emfh', 'emfhs')
-        self.stdout.write(self.style.SUCCESS('Successfully combined "emfh" and "emfhs" tags'))
+        self.combine_tags("emfh", "emfhs")
+        self.stdout.write(
+            self.style.SUCCESS('Successfully combined "emfh" and "emfhs" tags')
+        )
 
-        self.combine_multiple_tags(['solo', 'single', 'singleplayer'])
-        self.stdout.write(self.style.SUCCESS('Successfully combined "solo" and "single" and "singleplayer" tags'))
+        self.combine_multiple_tags(["solo", "single", "singleplayer"])
+        self.stdout.write(
+            self.style.SUCCESS(
+                'Successfully combined "solo" and "single" and "singleplayer" tags'
+            )
+        )
 
-        self.combine_multiple_tags(['solocoop', 'coop', 'cooperative'])
-        self.stdout.write(self.style.SUCCESS('Successfully combined "solocoop" and "coop" and "cooperative" tags'))
+        self.combine_multiple_tags(["solocoop", "coop", "cooperative"])
+        self.stdout.write(
+            self.style.SUCCESS(
+                'Successfully combined "solocoop" and "coop" and "cooperative" tags'
+            )
+        )
 
         # Remove "map" tag from any item with a "scenario" tag
         self.remove_map_from_scenario()
-        self.stdout.write(self.style.SUCCESS('Successfully removed "map" tag from items with a "scenario" tag'))
+        self.stdout.write(
+            self.style.SUCCESS(
+                'Successfully removed "map" tag from items with a "scenario" tag'
+            )
+        )
 
         # Combine "map", "netmap", and "netmaps" tags
-        self.combine_multiple_tags(['map', 'netmap', 'netmaps'])
-        self.stdout.write(self.style.SUCCESS('Successfully combined "map", "netmap", and "netmaps" tags'))
+        self.combine_multiple_tags(["map", "netmap", "netmaps"])
+        self.stdout.write(
+            self.style.SUCCESS(
+                'Successfully combined "map", "netmap", and "netmaps" tags'
+            )
+        )
 
     def combine_tags(self, tag1, tag2):
         tag1_obj = Tag.objects.get(name=tag1)
@@ -46,8 +64,8 @@ class Command(BaseCommand):
         tag2_obj.delete()
 
     def remove_map_from_scenario(self):
-        scenario_tag = Tag.objects.get(name='scenario')
-        map_tag = Tag.objects.get(name='map')
+        scenario_tag = Tag.objects.get(name="scenario")
+        map_tag = Tag.objects.get(name="map")
 
         # Get items with both tags
         items = Item.objects.filter(tags=scenario_tag).filter(tags=map_tag)

@@ -89,7 +89,11 @@ def scenario_detail(request, item_permalink):
         to_attr="random_screenshot",
     )
 
-    scenario = Item.objects.filter(id=scenario.id).prefetch_related(latest_version, random_screenshots, "user").first()
+    scenario = (
+        Item.objects.filter(id=scenario.id)
+        .prefetch_related(latest_version, random_screenshots, "user")
+        .first()
+    )
 
     if page_out_of_bounds(request, page_obj):
         return redirect("scenario", item_permalink)

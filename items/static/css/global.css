@@ -695,7 +695,7 @@ div.map {
 
 .map-title {
     display: flex;
-    column-gap: 1em;
+    column-gap: 1ch;
     flex-wrap: wrap;
 }
 

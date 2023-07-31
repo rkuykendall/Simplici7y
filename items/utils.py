@@ -25,7 +25,10 @@ def order_items(items, order):
         )
     elif order == "best":
         items = items.filter(reviews_count__gt=0).order_by(
-            "-rating_weighted", "-rating_average", "-reviews_count", "-version_created_at"
+            "-rating_weighted",
+            "-rating_average",
+            "-reviews_count",
+            "-version_created_at",
         )
     elif order == "worst":
         items = items.filter(reviews_count__gt=0).order_by(

@@ -3,17 +3,32 @@ from items.models import Item
 
 
 class Command(BaseCommand):
-    help = 'Prints the URLs of Items with specified tags'
+    help = "Prints the URLs of Items with specified tags"
 
     def handle(self, *args, **options):
         tag_names = ["emfh", "koth", "ktmwtb"]
-        excluded_tag_names = ["netmaps", "physics", "music", "script", "plugin", "utility", "solocoop", "solo", "halo"]
+        excluded_tag_names = [
+            "netmaps",
+            "physics",
+            "music",
+            "script",
+            "plugin",
+            "utility",
+            "solocoop",
+            "solo",
+            "halo",
+            "lua",
+            "film",
+        ]
         # Get all items with any of the tags in tag_names but not with excluded_tag_names
-        items = Item.objects.filter(
-            tags__name__in=tag_names
-        ).exclude(
-            tags__name__in=excluded_tag_names
-        ).order_by("-downloads_count").distinct()
+        items = (
+            Item.objects.filter(tags__name__in=tag_names)
+            .exclude(tags__name__in=excluded_tag_names)
+            .order_by("-rating_weighted", "-downloads_count")
+            .distinct()
+        )
 
         for item in items:
-            self.stdout.write(self.style.SUCCESS("https://simplici7y.com" + item.get_absolute_url()))
+            self.stdout.write(
+                self.style.SUCCESS("https://simplici7y.com" + item.get_absolute_url())
+            )

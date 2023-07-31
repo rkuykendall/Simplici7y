@@ -86,7 +86,7 @@ popular_tag_names = [
 
 class ItemForm(forms.ModelForm):
     popular_tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.filter(name__in=popular_tag_names),
+        queryset=Tag.objects.filter(name__in=popular_tag_names).order_by("-count"),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
@@ -170,7 +170,7 @@ class ItemForm(forms.ModelForm):
             instance.tc = Item.objects.get(pk=self.cleaned_data["tc_radio_choice"])
 
         # Get the current tags before clearing them
-        previous_tags = set(instance.tags.values_list('pk', flat=True))
+        previous_tags = set(instance.tags.values_list("pk", flat=True))
 
         # Clear all existing tags before adding new ones.
         instance.tags.clear()
@@ -186,7 +186,7 @@ class ItemForm(forms.ModelForm):
 
         # Update all_tags set with the new tags
         all_tags = previous_tags
-        all_tags.update(set(instance.tags.values_list('pk', flat=True)))
+        all_tags.update(set(instance.tags.values_list("pk", flat=True)))
 
         instance.save()
 

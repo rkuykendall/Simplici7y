@@ -5,9 +5,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import BaseUserCreationForm
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+from django.db.models import Count
 
 from items.models import Item, Version, Screenshot, Review, Tag
-from items.signals import update_tag_count
 
 User = get_user_model()
 
@@ -161,27 +161,19 @@ class ItemForm(forms.ModelForm):
         tag_list = re.findall(r"[\w-]+", data)
         return tag_list
 
+    from django.db.models import Count
+
     def save(self, commit=True):
         instance = super().save(commit=False)
 
         if instance.tc is None and self.cleaned_data["tc_radio_choice"]:
             instance.tc = Item.objects.get(pk=self.cleaned_data["tc_radio_choice"])
 
-        if commit:
-            instance.save()
-
         # Get the current tags before clearing them
-        current_tags = list(instance.tags.values_list('pk', flat=True))
+        previous_tags = set(instance.tags.values_list('pk', flat=True))
 
         # Clear all existing tags before adding new ones.
-        # This allows removing tags from the Item during edit.
         instance.tags.clear()
-
-        # Manually call the signal receiver function for the removed tags
-        removed_tags = set(current_tags) - set(tag.pk for tag in self.cleaned_data["popular_tags"]) - set(
-            Tag.objects.filter(name__in=self.cleaned_data["additional_tags"]).values_list('pk', flat=True))
-
-        update_tag_count(Item, instance, "post_remove", removed_tags)
 
         # add popular tags
         for tag in self.cleaned_data["popular_tags"]:
@@ -192,9 +184,21 @@ class ItemForm(forms.ModelForm):
             tag, created = Tag.objects.get_or_create(name=tag_name)
             instance.tags.add(tag)
 
-        # Only save instance if there are tags to avoid unnecessary database writes.
-        if self.cleaned_data["popular_tags"] or self.cleaned_data["additional_tags"]:
-            instance.save()
+        # Update all_tags set with the new tags
+        all_tags = previous_tags
+        all_tags.update(set(instance.tags.values_list('pk', flat=True)))
+
+        instance.save()
+
+        # Update the count for all affected tags
+        tags = (
+            Tag.objects.filter(pk__in=all_tags)
+            .annotate(c=Count("item"))
+            .values("pk", "c")
+        )
+
+        for tag in tags:
+            Tag.objects.filter(pk=tag["pk"]).update(count=tag["c"])
 
         return instance
 

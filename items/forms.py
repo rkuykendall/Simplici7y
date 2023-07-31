@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 
 from items.models import Item, Version, Screenshot, Review, Tag
+from items.signals import update_tag_count
 
 User = get_user_model()
 
@@ -162,34 +163,38 @@ class ItemForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=False)
+
+        if instance.tc is None and self.cleaned_data["tc_radio_choice"]:
+            instance.tc = Item.objects.get(pk=self.cleaned_data["tc_radio_choice"])
+
         if commit:
-            instance = super().save(commit=False)
+            instance.save()
 
-            if instance.tc is None and self.cleaned_data["tc_radio_choice"]:
-                instance.tc = Item.objects.get(pk=self.cleaned_data["tc_radio_choice"])
+        # Get the current tags before clearing them
+        current_tags = list(instance.tags.values_list('pk', flat=True))
 
-            if commit:
-                instance.save()
+        # Clear all existing tags before adding new ones.
+        # This allows removing tags from the Item during edit.
+        instance.tags.clear()
 
-            # Clear all existing tags before adding new ones.
-            # This allows removing tags from the Item during edit.
-            instance.tags.clear()
+        # Manually call the signal receiver function for the removed tags
+        removed_tags = set(current_tags) - set(tag.pk for tag in self.cleaned_data["popular_tags"]) - set(
+            Tag.objects.filter(name__in=self.cleaned_data["additional_tags"]).values_list('pk', flat=True))
 
-            # add popular tags
-            for tag in self.cleaned_data["popular_tags"]:
-                instance.tags.add(tag)
+        update_tag_count(Item, instance, "post_remove", removed_tags)
 
-            # create and add additional tags
-            for tag_name in self.cleaned_data["additional_tags"]:
-                tag, created = Tag.objects.get_or_create(name=tag_name)
-                instance.tags.add(tag)
+        # add popular tags
+        for tag in self.cleaned_data["popular_tags"]:
+            instance.tags.add(tag)
 
-            # Only save instance if there are tags to avoid unnecessary database writes.
-            if (
-                self.cleaned_data["popular_tags"]
-                or self.cleaned_data["additional_tags"]
-            ):
-                instance.save()
+        # create and add additional tags
+        for tag_name in self.cleaned_data["additional_tags"]:
+            tag, created = Tag.objects.get_or_create(name=tag_name)
+            instance.tags.add(tag)
+
+        # Only save instance if there are tags to avoid unnecessary database writes.
+        if self.cleaned_data["popular_tags"] or self.cleaned_data["additional_tags"]:
+            instance.save()
 
         return instance
 

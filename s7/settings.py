@@ -151,7 +151,7 @@ USE_TZ = True
 
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
     "mediafiles": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -162,7 +162,7 @@ STORAGES = {
 }
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "items", "static")
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")

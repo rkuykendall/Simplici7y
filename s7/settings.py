@@ -131,6 +131,19 @@ TEMPLATE_VALUES = {
         },
     },
     "sidebar_links": {
+        "Upload Types": {
+            "kind": "tag",
+            "items": {
+                "Netmaps": "netmaps",
+                "Scenarios": "scenario",
+                "Enhancements": "enhancement",
+                "Plugins": "plugin",
+                "Scripts": "script",
+                "Physics": "physics",
+                "Music": "music",
+                "Utilities": "utility",
+            },
+        },
         "Gameplay Types": {
             "kind": "tag",
             "items": {
@@ -144,21 +157,10 @@ TEMPLATE_VALUES = {
                 "Capture the Flag": "ctf",
             },
         },
-        "File Types": {
-            "kind": "tag",
-            "items": {
-                "Map": "map",
-                "Scenario": "scenario",
-                "Plugin": "plugin",
-                "Enhancement": "enhancement",
-                "Script": "script",
-                "Physics": "physics",
-                "Utility": "utility",
-            },
-        },
         "Uploads for Scenarios": {
             "kind": "scenario",
             "items": SCENARIOS,
+            "list": "scenario_list",
         },
     },
 }

@@ -5,6 +5,9 @@
         {% for name, item in category.items.items %}
         <li><a href="{% url category.kind item %}">{{ name }}</a></li>
         {% endfor %}
+        {% if category.list %}
+        <li><a href="{% url category.list %}">See All</a></li>
+        {% endif %}
     </ul>
 </div>
 {% endfor %}

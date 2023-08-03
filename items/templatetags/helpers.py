@@ -141,4 +141,6 @@ def order_name(txt):
         name += "Most Reviews"
     elif txt == "quiet":
         name += "Fewest Reviews"
+    elif txt == "random":
+        name = " ordered randomly"
     return name

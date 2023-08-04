@@ -145,6 +145,8 @@ class ItemForm(forms.ModelForm):
         if instance.tc is None and self.cleaned_data["tc_radio_choice"]:
             instance.tc = Item.objects.get(pk=self.cleaned_data["tc_radio_choice"])
 
+        instance.save()
+
         # Get the current tags before clearing them
         previous_tags = set(instance.tags.values_list("pk", flat=True))
 

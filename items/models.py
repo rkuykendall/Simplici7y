@@ -200,6 +200,9 @@ class Version(TimeStampMixin):
     def __str__(self):
         return f"{self.item} {self.name} by {self.item.user}"
 
+    def get_absolute_url(self):
+        return self.item.get_absolute_url()
+
     def download_button(self):
         url = reverse("item_download", kwargs={"item_permalink": self.item.permalink})
 
@@ -288,7 +291,7 @@ class Review(TimeStampMixin, OwnedMixin):
         return f"Review by {self.user.first_name} - {self.title}"
 
     def get_absolute_url(self):
-        return self.version.item.get_absolute_url()
+        return reverse("review_detail", args=[self.version.item.permalink, self.pk])
 
     def can_be_edited_by(self, user):
         return self.user == user or user.is_superuser

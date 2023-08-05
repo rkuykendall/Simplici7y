@@ -69,6 +69,9 @@ def pagetitle(context):
     if view.view_name == "users":
         return "Active members of the Marathon Aleph One community"
 
+    if view.view_name == "review_detail":
+        return f'Review by {context["review"].user.first_name} for {context["review"].version.item.name}'
+
     items_subtitle = subtitle(context)
     if items_subtitle:
         return items_subtitle
@@ -81,12 +84,15 @@ def description(context):
     max_length = 170
     view = resolve(context["request"].path_info)
 
-    if view.view_name == "item_detail" and "item" in context:
-        body = re.sub("\s+", " ", strip_tags(markdown.markdown(context["item"].body)))
-        if len(body) > max_length + 20:
-            body = body[: max_length - 3] + "..."
+    def from_markdown(input):
+        single_line_text = re.sub("\s+", " ", strip_tags(markdown.markdown(input)))
+        if len(single_line_text) > max_length + 20:
+            single_line_text = single_line_text[: max_length - 3] + "..."
 
-        return body
+        return single_line_text
+
+    if view.view_name == "item_detail" and "item" in context:
+        return from_markdown(context["item"].body)
 
     if view.view_name == "user" and "show_user" in context:
         show_user = context["show_user"]
@@ -94,6 +100,9 @@ def description(context):
             f"{show_user.first_name} is a member of the Marathon Aleph One community with "
             + f"{show_user.items_count} uploads and {show_user.reviews_count} reviews."
         )
+
+    if view.view_name == "review_detail" and "review" in context:
+        return from_markdown(context["review"].body)
 
     return (
         "File sharing downloads for the Marathon Aleph One community."

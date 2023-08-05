@@ -29,6 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
+CANONICAL_DOMAIN = "https://simplici7y.com"
+
 ALLOWED_HOSTS = [
     "simplici7y.herokuapp.com",
     "www.simplici7y.com",
@@ -339,3 +341,6 @@ AWS_SES_REGION_NAME = "us-east-1"
 AWS_SES_REGION_ENDPOINT = "email.us-east-1.amazonaws.com"
 AWS_IS_GZIPPED = True
 DEFAULT_FROM_EMAIL = "leela@simplici7y.com"
+DISCORD_UPLOADS_CHANNEL_ID = os.environ.get("DISCORD_UPLOADS_CHANNEL_ID")
+DISCORD_REVIEWS_CHANNEL_ID = os.environ.get("DISCORD_REVIEWS_CHANNEL_ID")
+DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")

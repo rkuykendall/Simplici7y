@@ -29,7 +29,7 @@ class UserForm(BaseUserCreationForm):
     first_name = forms.CharField(required=True)
     passphrase = forms.CharField(
         label="Passphrase",
-        help_text='Ask on the <a href="https://discord.gg/ZuJRd8xJ">Discord</a> for the passphrase.',
+        help_text=f'Ask on the <a href="{conf_settings.DISCORD_LINK}">Discord</a> for the passphrase.',
         validators=[validate_passphrase],
     )
 
@@ -67,7 +67,9 @@ class UserForm(BaseUserCreationForm):
 
 class ItemForm(forms.ModelForm):
     popular_tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.filter(name__in=conf_settings.POPULAR_TAG_NAMES).order_by("-count"),
+        queryset=Tag.objects.filter(name__in=conf_settings.POPULAR_TAG_NAMES).order_by(
+            "-count"
+        ),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
@@ -225,7 +227,19 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ("title", "rating", "body")
         help_texts = {
-            "body": MARKDOWN_LINK,
+            "body": (
+                MARKDOWN_LINK
+                + " Long reviews will be truncated on the main page so feel free to write as much as you want"
+            ),
         }
 
-    rating = forms.IntegerField(min_value=1, max_value=5, help_text="1-5 Stars")
+    rating = forms.IntegerField(
+        min_value=1,
+        max_value=5,
+        help_text=(
+            "1-5 Stars. Reviews should be based on content. "
+            "If you cannot get a download working and are looking for technical support, "
+            f'<a href="{conf_settings.DISCORD_LINK}">please ask on Discord</a>. '
+            "Only if others confirm the content is not usable should you leave a negative review."
+        ),
+    )

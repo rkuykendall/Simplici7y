@@ -3,7 +3,7 @@ from django.contrib.syndication.views import Feed
 from django.urls import path
 from markdownify.templatetags.markdownify import markdownify
 
-from items.models import Review
+from items.models import Review, Version
 from items.utils import get_filtered_items, PAGE_SIZE
 
 
@@ -13,13 +13,21 @@ class ItemsFeed(Feed):
     description = f"Latest updates and submissions to {settings.SITE_TITLE}."
 
     def items(self):
-        return get_filtered_items()
+        return Version.objects.order_by("-created_at").prefetch_related("item")[
+            :PAGE_SIZE
+        ]
 
-    def item_title(self, item):
-        return item.name
+    def item_guid(self, obj):
+        return f"https://{settings.FEED_HOST}/items/{obj.item.permalink}/versions/{obj.id}/"
 
-    def item_description(self, item):
-        return markdownify(item.body)
+    def item_link(self, version):
+        return f"https://{settings.FEED_HOST}/items/{version.item.permalink}/"
+
+    def item_title(self, version):
+        return version.item.name
+
+    def item_description(self, version):
+        return markdownify(version.item.body)
 
 
 class ReviewsFeed(Feed):

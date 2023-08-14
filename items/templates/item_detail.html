@@ -82,12 +82,12 @@
             <h2>{{ item.reviews_count }} Review{{item.reviews_count|pluralize}}</h2>
 
             <div id="map_reviews">
-                {% for review in reviews %}
-                {% include "_show_review.html" with show=review %}
-                {% endfor %}
                 {% if user.is_authenticated %}
                     <a href="{% url 'new_item_review' item_permalink=item.permalink %}" class="button positive add">Write a review</a>
                 {% endif %}
+                {% for review in reviews %}
+                {% include "_show_review.html" with show=review %}
+                {% endfor %}
             </div>
         {% endif %}
     </div>

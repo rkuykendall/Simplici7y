@@ -105,6 +105,13 @@ class Tag(models.Model):
     permalink = models.CharField(max_length=255)
     count = models.PositiveIntegerField(default=0)
 
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        if created:
+            self.permalink = slugify(self.name)
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 

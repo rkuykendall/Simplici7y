@@ -21,10 +21,22 @@
     {% endif %}
 
     <div class="markdown">
-        {% if screenshot %}
-        <a href="{{ show.get_absolute_url }}" aria-label="{{ show.name }}"><img src="{{ screenshot.file_thumb.url }}" alt="{{ screenshot.label }}" class="screenshot_thumb"></a>
+        {% if show.should_truncate %}
+            <div class="truncated">
+                {% if screenshot %}
+                    <a href="{{ show.get_absolute_url }}" aria-label="{{ show.name }}"><img src="{{ screenshot.file_thumb.url }}" alt="{{ screenshot.label }}" class="screenshot_thumb"></a>
+                {% endif %}
+
+                {{ show.body|markdownify }}
+            </div>
+            <a href="{% url 'item_detail' show.permalink %}" class="read-more">Read more</a>
+        {% else %}
+            {% if screenshot %}
+                <a href="{{ show.get_absolute_url }}" aria-label="{{ show.name }}"><img src="{{ screenshot.file_thumb.url }}" alt="{{ screenshot.label }}" class="screenshot_thumb"></a>
+            {% endif %}
+
+            {{ show.body|markdownify }}
         {% endif %}
-        {{ show.body|markdownify }}
 
         {% if version.body.strip is not None and version.body.strip != "" %}
             {{version.body.trim }}
@@ -32,6 +44,8 @@
             {{ version.body|markdownify }}
         {% endif %}
 
+        {% if show.should_truncate %}
+        {% endif %}
         <h4>
             {{ show.downloads_count }} download{{ show.downloads_count|pluralize }},
             {{ show.reviews_count }} review{{ show.reviews_count|pluralize }},

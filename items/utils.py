@@ -9,7 +9,12 @@ from django.db.models import (
     Prefetch,
     Q,
     Count,
+    BooleanField,
+    Value,
+    When,
+    Case,
 )
+from django.db.models.functions import Length
 
 from .models import Item, Version, Screenshot
 
@@ -62,6 +67,17 @@ def get_filtered_items(
 
     if user:
         items = items.filter(user=user)
+
+    MAX_DESCRIPTION_LENGTH = 2000
+
+    items = items.annotate(
+        body_length=Length("body"),
+        should_truncate=Case(
+            When(body_length__gt=MAX_DESCRIPTION_LENGTH, then=Value(True)),
+            default=Value(False),
+            output_field=BooleanField(),
+        ),
+    )
 
     latest_version = Prefetch(
         "versions",

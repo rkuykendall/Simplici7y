@@ -22,7 +22,7 @@
 
     <div class="markdown">
         {% if show.should_truncate %}
-            <div class="truncated_review">
+            <div class="truncated">
                 {{ show.body|markdownify }}
             </div>
             <a href="{% url 'review_detail' show.version.item.permalink show.id %}" class="button next">Read full review</a>

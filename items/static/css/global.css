@@ -322,9 +322,12 @@ h3, legend, .search {
     text-decoration: none;
 }
 
-h4, h4 a {
-  /* Subheader for a item */
+h3 + h4 {
+    /* Subheader */
     margin: -10px 0 0;
+}
+
+h4, h4 a {
     color: var(--color-text-lightest);
 }
 
@@ -730,12 +733,18 @@ div.review {
     margin-bottom: 5px;
 }
 
-.truncated_review {
+.truncated {
     max-height: 1000px;
     text-overflow: ellipsis;
     overflow: hidden;
     -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
     mask-image: linear-gradient(180deg, #000 60%, transparent);
+}
+
+.read-more {
+    color: var(--color-primary);
+    position: relative;
+    top: -2ch;
 }
 
 

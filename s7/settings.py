@@ -269,8 +269,8 @@ if USE_S3:
     AWS_S3_SIGNATURE_VERSION = "s3v4"
 
     # Enable multipart uploads for large files - optimized for 30-second Heroku limit
-    AWS_S3_MULTIPART_THRESHOLD = 1024 * 1024 * 10  # 10MB - start multipart later
-    AWS_S3_MULTIPART_CHUNKSIZE = 1024 * 1024 * 10  # 10MB - larger chunks for less overhead
+    AWS_S3_MULTIPART_THRESHOLD = 1024 * 1024 * 20  # 20MB - start multipart later
+    AWS_S3_MULTIPART_CHUNKSIZE = 1024 * 1024 * 20  # 20MB - even larger chunks for minimal overhead
     AWS_S3_MAX_CONCURRENCY = 10  # Parallel uploads
     AWS_S3_USE_THREADS = True
 

@@ -256,6 +256,7 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 USE_S3 = AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
 
+# S3 Upload Optimization for better performance
 if USE_S3:
     AWS_STORAGE_BUCKET_NAME = "simplici7y"
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
@@ -364,6 +365,9 @@ SECURE_SSL_REDIRECT = not DEBUG
 
 # Database connection optimization
 CONN_MAX_AGE = 60
+
+# Static files optimization
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # File Upload Settings
 # Heroku has a hard 30-second timeout limit

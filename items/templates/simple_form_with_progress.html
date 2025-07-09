@@ -1,0 +1,128 @@
+{% extends "base.html" %} {% block content %}
+<div class="simple">
+  {% if title %}
+  <h2>{{ title }}</h2>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data" id="upload-form">
+    {% csrf_token %} {{ form.as_p }}
+
+    <!-- Progress indicator -->
+    <div id="upload-progress" style="display: none">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-text">
+        <span id="progress-percent">0%</span>
+        <span id="progress-status">Uploading...</span>
+      </div>
+    </div>
+
+    <div class="button-bar">
+      <button type="submit" class="button positive accept" id="submit-btn">
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  .progress-text {
+    text-align: center;
+    margin: 5px 0;
+  }
+
+  #upload-progress {
+    margin: 20px 0;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("upload-form");
+    const progressDiv = document.getElementById("upload-progress");
+    const progressFill = document.getElementById("progress-fill");
+    const progressPercent = document.getElementById("progress-percent");
+    const progressStatus = document.getElementById("progress-status");
+    const submitBtn = document.getElementById("submit-btn");
+
+    // Check if form has file inputs
+    const hasFileInputs =
+      form.querySelectorAll('input[type="file"]').length > 0;
+
+    if (hasFileInputs) {
+      form.addEventListener("submit", function (e) {
+        const fileInputs = form.querySelectorAll('input[type="file"]');
+        let hasFiles = false;
+
+        for (let input of fileInputs) {
+          if (input.files && input.files.length > 0) {
+            hasFiles = true;
+            break;
+          }
+        }
+
+        if (hasFiles) {
+          // Show progress bar
+          progressDiv.style.display = "block";
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Uploading...";
+
+          // Create a unique progress ID
+          const progressId = Date.now() + Math.random();
+
+          // Add progress ID to form action
+          const formAction = form.action || window.location.href;
+          const separator = formAction.includes("?") ? "&" : "?";
+          form.action = formAction + separator + "progress_id=" + progressId;
+
+          // Start progress tracking
+          startProgressTracking(progressId);
+        }
+      });
+    }
+
+    function startProgressTracking(progressId) {
+      const pollInterval = setInterval(function () {
+        fetch(`/upload-progress/${progressId}/`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.percent !== undefined) {
+              progressFill.style.width = data.percent + "%";
+              progressPercent.textContent = data.percent + "%";
+
+              if (data.percent >= 100) {
+                clearInterval(pollInterval);
+                progressStatus.textContent = "Processing...";
+              }
+            }
+          })
+          .catch((error) => {
+            console.error("Error tracking progress:", error);
+          });
+      }, 500); // Poll every 500ms
+
+      // Stop polling after 10 minutes
+      setTimeout(function () {
+        clearInterval(pollInterval);
+      }, 600000);
+    }
+  });
+</script>
+{% endblock content %}

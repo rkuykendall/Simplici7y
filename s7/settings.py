@@ -256,24 +256,12 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 USE_S3 = AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
 
-# S3 Upload Optimization for better performance
 if USE_S3:
     AWS_STORAGE_BUCKET_NAME = "simplici7y"
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
     AWS_S3_OBJECT_PARAMETERS = {
         "CacheControl": "max-age=86400",
     }
-
-    # Critical S3 performance settings
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_QUERYSTRING_AUTH = False  # Skip signed URLs for public files (faster)
-    AWS_S3_SIGNATURE_VERSION = "s3v4"
-
-    # Enable multipart uploads for large files - optimized for 30-second Heroku limit
-    AWS_S3_MULTIPART_THRESHOLD = 1024 * 1024 * 5  # 5MB - start multipart earlier
-    AWS_S3_MULTIPART_CHUNKSIZE = 1024 * 1024 * 5  # 5MB - smaller chunks upload faster
-    AWS_S3_MAX_CONCURRENCY = 10  # Parallel uploads
-    AWS_S3_USE_THREADS = True
 
     AWS_LOCATION = "static"
     STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
@@ -358,35 +346,3 @@ DISCORD_UPLOADS_CHANNEL_ID = os.environ.get("DISCORD_UPLOADS_CHANNEL_ID")
 DISCORD_REVIEWS_CHANNEL_ID = os.environ.get("DISCORD_REVIEWS_CHANNEL_ID")
 DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
 DISCORD_LINK = "https://discord.gg/ZuJRd8xJ"
-
-# Additional optimizations for file uploads and performance
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SECURE_SSL_REDIRECT = not DEBUG
-
-# Database connection optimization
-CONN_MAX_AGE = 60
-
-# Static files optimization
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# File Upload Settings
-# Heroku has a hard 30-second timeout limit
-# At 800 KBps (current slow speed), max file size = 800 * 30 = 24 MB
-# At target speed (428 Mbps = 53.5 MBps), max file size = 53.5 * 30 = 1.6 GB
-# Set a reasonable limit that should work well
-FILE_UPLOAD_MAX_MEMORY_SIZE = (
-    2 * 1024 * 1024
-)  # 2MB - smaller threshold for faster processing
-DATA_UPLOAD_MAX_MEMORY_SIZE = (
-    200 * 1024 * 1024
-)  # 200MB - allow for large files within timeout
-
-FILE_UPLOAD_TEMP_DIR = None  # Use system temp directory
-FILE_UPLOAD_PERMISSIONS = 0o644
-FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
-
-# Use default upload handlers - they're already optimized
-FILE_UPLOAD_HANDLERS = [
-    "django.core.files.uploadhandler.MemoryFileUploadHandler",
-    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
-]

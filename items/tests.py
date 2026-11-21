@@ -205,6 +205,13 @@ class SeoTests(SiteTestCase):
         self.assertNotIn("/signup/", body)
         self.assertIn(f"/items/{self.item.permalink}/", body)
 
+    def test_robots_txt_allows_crawling_and_lists_sitemap(self):
+        response = self.get("/robots.txt")
+        self.assertEqual(response["Content-Type"], "text/plain")
+        body = response.content.decode()
+        self.assertIn("Sitemap: https://simplici7y.com/sitemap.xml\n", body)
+        self.assertNotIn("Disallow", body)
+
     def test_sitemap_tag_urls_resolve(self):
         self.assertEqual(self.get("/tags/Big%20Tag/").status_code, 200)
 

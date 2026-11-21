@@ -31,8 +31,12 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 CANONICAL_DOMAIN = "https://simplici7y.com"
 
+# Heroku and Railway terminate TLS and set X-Forwarded-Proto.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 ALLOWED_HOSTS = [
     "simplici7y.herokuapp.com",
+    ".up.railway.app",
     "www.simplici7y.com",
     "simplici7y.com",
     "127.0.0.1",

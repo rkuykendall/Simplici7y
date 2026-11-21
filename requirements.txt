@@ -1,11 +1,10 @@
-Django>=4.2.3
+Django>=5.0,<5.1
 Pillow==9.5.0
 asgiref==3.7.2
-black==23.3.0
 boto3==1.26.155
 discord.py==2.3.1
 dj-database-url==2.0.0
-django-imagekit @ git+https://github.com/matthewwithanm/django-imagekit.git@develop
+django-imagekit @ git+https://github.com/matthewwithanm/django-imagekit.git@0e48627df83cd9142151069db41a1b26f0bb3d87
 django-markdownify==0.9.3
 django-ses==3.5.0
 django-storages==1.13.2

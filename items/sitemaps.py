@@ -12,7 +12,7 @@ class ItemsSitemap(Sitemap):
     priority = 1
 
     def items(self):
-        return Item.objects.exclude(version_created_at__isnull=True)
+        return Item.objects.exclude(version_created_at__isnull=True).order_by("id")
 
     def lastmod(self, obj):
         return obj.version_created_at
@@ -23,7 +23,7 @@ class UserSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return User.objects.all()
+        return User.objects.order_by("id")
 
     def lastmod(self, obj):
         return obj.date_joined
@@ -45,7 +45,7 @@ class TagSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return Tag.objects.all()
+        return Tag.objects.order_by("id")
 
     def location(self, item):
         return reverse("tag", args=[item.permalink])

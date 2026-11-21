@@ -12,8 +12,8 @@ from .models import Item, Review, Screenshot, Tag, User, Version
 
 
 @override_settings(DISCORD_BOT_TOKEN=None)
-class SmokeTests(TestCase):
-    """Render every public page and the main logged-in pages.
+class SiteTestCase(TestCase):
+    """Shared fixture data.
 
     Requests use secure=True because SECURE_SSL_REDIRECT is on outside DEBUG.
     """
@@ -51,6 +51,8 @@ class SmokeTests(TestCase):
             with self.subTest(url=url):
                 self.assertEqual(self.get(url).status_code, 200)
 
+
+class SmokeTests(SiteTestCase):
     def test_public_pages(self):
         p = self.item.permalink
         self.assertPagesOk(
@@ -122,6 +124,29 @@ class SmokeTests(TestCase):
         self.assertEqual(response["Location"], "https://simplici7y.com/")
 
 
+class ApiTests(SiteTestCase):
+    def test_endpoints(self):
+        for name in ["items", "versions", "reviews", "screenshots", "tags"]:
+            with self.subTest(name=name):
+                response = self.get(f"/api/{name}/")
+                self.assertEqual(response.status_code, 200)
+                self.assertIn("results", response.json())
+        item = self.get(f"/api/items/{self.item.pk}/").json()
+        self.assertEqual(item["name"], "Test Map")
+
+    def test_read_only(self):
+        self.client.force_login(self.user)
+        url = f"/api/items/{self.item.pk}/"
+        self.assertEqual(self.client.delete(url, secure=True).status_code, 405)
+        self.assertEqual(
+            self.client.post("/api/items/", {}, secure=True).status_code, 405
+        )
+        self.assertTrue(Item.objects.filter(pk=self.item.pk).exists())
+
+    def test_downloads_not_exposed(self):
+        self.assertEqual(self.get("/api/downloads/").status_code, 404)
+
+
 @override_settings(MEDIA_ROOT=tempfile.mkdtemp())
 class ScreenshotTests(TestCase):
     def test_thumbnails_render(self):
@@ -132,7 +157,8 @@ class ScreenshotTests(TestCase):
         shot = Screenshot.objects.create(
             item=item, file=SimpleUploadedFile("shot.png", buf.getvalue())
         )
-        thumb = Image.open(shot.file_thumb)
-        self.assertEqual(thumb.format, "JPEG")
-        self.assertLessEqual(thumb.size[0], 300)
-        self.assertEqual(Image.open(shot.file_content).size, (920, 690))
+        with Image.open(shot.file_thumb) as thumb:
+            self.assertEqual(thumb.format, "JPEG")
+            self.assertLessEqual(thumb.size[0], 300)
+        with Image.open(shot.file_content) as content:
+            self.assertEqual(content.size, (920, 690))

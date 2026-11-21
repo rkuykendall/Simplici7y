@@ -354,3 +354,8 @@ DISCORD_UPLOADS_CHANNEL_ID = os.environ.get("DISCORD_UPLOADS_CHANNEL_ID")
 DISCORD_REVIEWS_CHANNEL_ID = os.environ.get("DISCORD_REVIEWS_CHANNEL_ID")
 DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
 DISCORD_LINK = "https://discord.gg/ZuJRd8xJ"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
+}

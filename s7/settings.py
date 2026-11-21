@@ -349,7 +349,7 @@ LOGGING = {
 
 USE_THOUSAND_SEPARATOR = True
 
-EMAIL_BACKEND = "django_ses.SESBackend"
+MAILERS = {"default": {"BACKEND": "django_ses.SESBackend"}}
 AWS_SES_REGION_NAME = "us-east-1"
 AWS_SES_REGION_ENDPOINT = "email.us-east-1.amazonaws.com"
 AWS_IS_GZIPPED = True

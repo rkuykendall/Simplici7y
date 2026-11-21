@@ -1,7 +1,7 @@
 Simplici7y 
 ==========
 
-Simplici7y is a file sharing web application for the Aleph One community. Originally written in with Ruby on Rails 1.0 and hosted alongside The Pfhorums, Simplici7y is now a Django 5 application deployed to Heroku from Github.
+Simplici7y is a file sharing web application for the Aleph One community. Originally written in with Ruby on Rails 1.0 and hosted alongside The Pfhorums, Simplici7y is now a Django 6 application deployed to Heroku from Github.
 
 The project is named after a 7-polygon mapping challenge, which focuses on doing more with less.
 

@@ -4,8 +4,12 @@ from django.urls import reverse
 
 import io
 import json
+import re
 import tempfile
 from unittest import mock
+from urllib.parse import urlsplit
+
+from django.core import mail
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
@@ -347,3 +351,31 @@ class StaticFilesTests(TestCase):
                     staticfiles_storage.url("css/global.css"),
                     r"^/static/css/global\.[0-9a-f]{12}\.css$",
                 )
+
+
+class PasswordResetTests(TestCase):
+    def test_reset_flow_sends_email_and_changes_password(self):
+        user = User.objects.create_user(
+            username="tycho", email="tycho@example.com", password="old-password-1"
+        )
+        response = self.client.post(
+            "/password_reset/", {"email": "tycho@example.com"}, secure=True
+        )
+        self.assertRedirects(
+            response, "/password_reset/done/", fetch_redirect_response=False
+        )
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].from_email, "leela@simplici7y.com")
+
+        link = re.search(r"https?://\S+/reset/\S+/", mail.outbox[0].body).group(0)
+        path = urlsplit(link).path
+        response = self.client.get(path, secure=True)  # redirects to set-password
+        new_password = "n3w-Pa55word-for-tests"
+        response = self.client.post(
+            response["Location"],
+            {"new_password1": new_password, "new_password2": new_password},
+            secure=True,
+        )
+        self.assertRedirects(response, "/reset/done/", fetch_redirect_response=False)
+        user.refresh_from_db()
+        self.assertTrue(user.check_password(new_password))

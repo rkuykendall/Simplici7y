@@ -34,6 +34,12 @@ CANONICAL_DOMAIN = "https://simplici7y.com"
 # Heroku and Railway terminate TLS and set X-Forwarded-Proto.
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365
+
 ALLOWED_HOSTS = [
     "simplici7y.herokuapp.com",
     ".up.railway.app",
@@ -235,8 +241,6 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 

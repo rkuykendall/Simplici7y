@@ -85,7 +85,7 @@ def description(context):
     view = resolve(context["request"].path_info)
 
     def from_markdown(input):
-        single_line_text = re.sub("\s+", " ", strip_tags(markdown.markdown(input)))
+        single_line_text = re.sub(r"\s+", " ", strip_tags(markdown.markdown(input)))
         if len(single_line_text) > max_length + 20:
             single_line_text = single_line_text[: max_length - 3] + "..."
 

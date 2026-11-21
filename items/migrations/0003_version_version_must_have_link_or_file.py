@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="version",
             constraint=models.CheckConstraint(
-                check=models.Q(
+                condition=models.Q(
                     ("link__isnull", False), ("file__isnull", False), _connector="OR"
                 ),
                 name="version_must_have_link_or_file",

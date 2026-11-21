@@ -199,7 +199,7 @@ class Version(TimeStampMixin):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=Q(link__isnull=False) | Q(file__isnull=False),
+                condition=Q(link__isnull=False) | Q(file__isnull=False),
                 name="version_must_have_link_or_file",
             )
         ]
@@ -290,7 +290,7 @@ class Review(TimeStampMixin, OwnedMixin):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=models.Q(rating__gte=1, rating__lte=5), name="rating_range"
+                condition=models.Q(rating__gte=1, rating__lte=5), name="rating_range"
             ),
         ]
 

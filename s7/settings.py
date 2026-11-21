@@ -322,6 +322,7 @@ MARKDOWNIFY = {
 
 LOGGING = {
     "version": 1,
+    "disable_existing_loggers": False,
     "filters": {
         "require_debug_true": {
             "()": "django.utils.log.RequireDebugTrue",
@@ -332,8 +333,14 @@ LOGGING = {
             "level": "DEBUG",
             "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
-        }
+        },
+        # Unhandled exceptions (500s) and app errors, in every environment.
+        "errors": {
+            "level": "ERROR",
+            "class": "logging.StreamHandler",
+        },
     },
+    "root": {"level": "WARNING", "handlers": ["errors"]},
     "loggers": {
         "django.db.backends": {
             "level": "DEBUG",

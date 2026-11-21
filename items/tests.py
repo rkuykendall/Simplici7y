@@ -162,3 +162,12 @@ class ScreenshotTests(TestCase):
             self.assertLessEqual(thumb.size[0], 300)
         with Image.open(shot.file_content) as content:
             self.assertEqual(content.size, (920, 690))
+
+
+class ErrorLoggingTests(TestCase):
+    def test_unhandled_exception_is_logged(self):
+        with self.assertLogs("django.request", level="ERROR"):
+            self.client.raise_request_exception = False
+            with self.settings(ROOT_URLCONF="items.tests_urls"):
+                response = self.client.get("/boom/", secure=True)
+        self.assertEqual(response.status_code, 500)

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.test import TestCase, override_settings
+from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 
 import io
@@ -9,6 +9,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
 
 from .models import Item, Review, Screenshot, Tag, User, Version
+from .templatetags.helpers import canonical_url
+from .utils import MIN_ITEMS_TO_INDEX_TAG
 
 
 @override_settings(DISCORD_BOT_TOKEN=None)
@@ -171,3 +173,64 @@ class ErrorLoggingTests(TestCase):
             with self.settings(ROOT_URLCONF="items.tests_urls"):
                 response = self.client.get("/boom/", secure=True)
         self.assertEqual(response.status_code, 500)
+
+
+class SeoTests(SiteTestCase):
+    ROBOTS = '<meta name="robots" content="noindex">'
+
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.big_tag = Tag.objects.create(name="Big Tag")
+        for i in range(MIN_ITEMS_TO_INDEX_TAG):
+            item = Item.objects.create(name=f"Popular {i}", body="b", user=cls.user)
+            Version.objects.create(item=item, link="https://example.com")
+            item.tags.add(cls.big_tag)
+        cls.lurker = User.objects.create_user(username="lurker", password="x")
+
+    def test_sitemap_keeps_only_substantial_pages(self):
+        body = self.get("/sitemap.xml").content.decode()
+        self.assertIn("/tags/Big%20Tag/", body)
+        self.assertNotIn(f"/tags/{self.tag.name}/", body)
+        self.assertIn(f"/users/{self.user.username}/", body)
+        self.assertNotIn("/users/lurker/", body)
+        self.assertNotIn("/login/", body)
+        self.assertNotIn("/signup/", body)
+        self.assertIn(f"/items/{self.item.permalink}/", body)
+
+    def test_sitemap_tag_urls_resolve(self):
+        self.assertEqual(self.get("/tags/Big%20Tag/").status_code, 200)
+
+    def test_noindex_on_thin_pages(self):
+        for url in [
+            f"/tags/{self.tag.name}/",
+            "/users/lurker/",
+            "/login/",
+            "/signup/",
+            "/?search=map",
+        ]:
+            with self.subTest(url=url):
+                self.assertContains(self.get(url), self.ROBOTS)
+
+    def test_indexable_pages(self):
+        for url in ["/", "/tags/Big%20Tag/", f"/users/{self.user.username}/"]:
+            with self.subTest(url=url):
+                self.assertNotContains(self.get(url), self.ROBOTS)
+
+    def test_canonical_drops_sort_and_search(self):
+        canonical = (
+            '<link rel="canonical" href="https://simplici7y.com/tags/netmaps/" />'
+        )
+        self.assertContains(self.get("/tags/netmaps/?order=best"), canonical)
+        for query, expected in [
+            ("?order=best&page=2", "?page=2"),
+            ("?page=1", ""),
+            ("?page=abc", ""),
+            ("?search=x", ""),
+        ]:
+            with self.subTest(query=query):
+                request = RequestFactory().get("/" + query)
+                self.assertEqual(
+                    canonical_url({"request": request}),
+                    "https://simplici7y.com/" + expected,
+                )

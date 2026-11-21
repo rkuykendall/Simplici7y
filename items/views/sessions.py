@@ -11,7 +11,6 @@ from ..forms import (
 )
 from django.contrib import messages
 
-
 session_paths = [
     path(
         "password_reset/",
@@ -62,7 +61,7 @@ def signup(request):
     else:
         form = UserForm()
 
-    return render(request, "signup.html", {"form": form})
+    return render(request, "signup.html", {"form": form, "noindex": True})
 
 
 session_paths += [path("signup/", signup, name="signup")]
@@ -89,7 +88,9 @@ def session_create(request):
 
     form = AuthenticationForm()
     return render(
-        request=request, template_name="login.html", context={"login_form": form}
+        request=request,
+        template_name="login.html",
+        context={"login_form": form, "noindex": True},
     )
 
 

@@ -23,12 +23,15 @@
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
     <link rel="alternate" type="application/rss+xml" title="New Uploads" href="/items.rss"/>
     <link rel="alternate" type="application/rss+xml" title="New Reviews" href="/reviews.rss"/>
-    <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+    <link rel="canonical" href="{% canonical_url %}" />
+    {% if noindex or request.GET.search %}
+        <meta name="robots" content="noindex">
+    {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta property="og:title" content="{% pagetitle %}">
     <meta property="og:site_name" content="Simplici7y">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:url" content="{% canonical_url %}">
     <meta property="og:description" content="{% description %}">
     <meta property="og:type" content="article">
 

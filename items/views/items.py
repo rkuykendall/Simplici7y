@@ -26,11 +26,11 @@ from django.contrib import messages
 
 from ..utils import (
     get_filtered_items,
+    MIN_ITEMS_TO_INDEX_TAG,
     PAGE_SIZE,
     page_out_of_bounds,
 )
 from django.db.models import Prefetch
-
 
 CharField.register_lookup(Lower)
 
@@ -124,7 +124,15 @@ def tag_detail(request, name):
     if page_out_of_bounds(request, page_obj):
         return redirect("tag", name)
 
-    return render(request, "items.html", {"page_obj": page_obj, "tag": tag})
+    return render(
+        request,
+        "items.html",
+        {
+            "page_obj": page_obj,
+            "tag": tag,
+            "noindex": page_obj.paginator.count < MIN_ITEMS_TO_INDEX_TAG,
+        },
+    )
 
 
 item_paths += [path("tags/<str:name>/", tag_detail, name="tag")]
@@ -281,6 +289,9 @@ def user_detail(request, username):
             "show_user": show_user,
             "items": items,
             "reviews": reviews,
+            "noindex": not Item.objects.filter(
+                user=show_user, version_created_at__isnull=False
+            ).exists(),
         },
     )
 

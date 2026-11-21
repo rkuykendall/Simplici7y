@@ -16,9 +16,24 @@ from django.db.models import (
 )
 from django.db.models.functions import Length
 
-from .models import Item, Version, Screenshot
+from .models import Item, Version, Screenshot, Tag, User
 
 PAGE_SIZE = 20
+
+# Tags with fewer published items are thin pages: left out of the sitemap
+# and marked noindex.
+MIN_ITEMS_TO_INDEX_TAG = 5
+
+
+def indexable_tags():
+    return Tag.objects.annotate(
+        published_count=Count("item", filter=Q(item__version_created_at__isnull=False))
+    ).filter(published_count__gte=MIN_ITEMS_TO_INDEX_TAG)
+
+
+def indexable_users():
+    """Users with at least one published item."""
+    return User.objects.filter(items__version_created_at__isnull=False).distinct()
 
 
 def order_items(items, order):

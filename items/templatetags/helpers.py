@@ -1,6 +1,7 @@
 import re
 import markdown
 
+from django.conf import settings
 from django.utils.html import strip_tags
 from django import template
 from django.urls import resolve, Resolver404
@@ -17,6 +18,20 @@ def url_replace(context, **kwargs):
         query[key] = value
 
     return query.urlencode()
+
+
+@register.simple_tag(takes_context=True)
+def canonical_url(context):
+    """The page's URL on the canonical domain, without sort or search params.
+
+    Only ?page= is kept, since each page lists different items.
+    """
+    request = context["request"]
+    url = settings.CANONICAL_DOMAIN + request.path
+    page = request.GET.get("page", "")
+    if page.isdigit() and int(page) > 1:
+        url += f"?page={int(page)}"
+    return url
 
 
 @register.simple_tag(takes_context=True)

@@ -8,6 +8,7 @@ import tempfile
 from unittest import mock
 
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.management import call_command
 from PIL import Image
 
 from .models import Item, Review, Screenshot, Tag, User, Version
@@ -327,3 +328,22 @@ class DiscordTests(TestCase):
             with self.captureOnCommitCallbacks(execute=True):
                 Version.objects.create(item=self.item, link="https://x.com")
         urlopen.assert_not_called()
+
+
+class StaticFilesTests(TestCase):
+    def test_collectstatic_with_production_storage(self):
+        """Catches CSS url() references to files that don't exist."""
+        manifest = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        with tempfile.TemporaryDirectory() as root:
+            with override_settings(
+                STATIC_ROOT=root,
+                STORAGES={**settings.STORAGES, "staticfiles": {"BACKEND": manifest}},
+            ):
+                call_command("collectstatic", interactive=False, verbosity=0)
+                from django.contrib.staticfiles.storage import staticfiles_storage
+
+                staticfiles_storage._setup()
+                self.assertRegex(
+                    staticfiles_storage.url("css/global.css"),
+                    r"^/static/css/global\.[0-9a-f]{12}\.css$",
+                )

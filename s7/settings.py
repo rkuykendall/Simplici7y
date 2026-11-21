@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -245,20 +246,28 @@ USE_I18N = True
 USE_TZ = True
 
 
+# Static files (CSS, images, admin assets) are collected at build time and
+# served by WhiteNoise, so they always match the deployed code. Hashed
+# filenames let browsers cache them forever. Uploaded media lives on S3.
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# The manifest only exists after collectstatic, so tests and local
+# development use plain storage.
+TESTING = sys.argv[1:2] == ["test"]
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-    "mediafiles": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG or TESTING
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
     },
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
 }
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "items", "static")
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
@@ -270,24 +279,13 @@ if USE_S3:
     AWS_S3_OBJECT_PARAMETERS = {
         "CacheControl": "max-age=86400",
     }
-
+    # Uploads have always been stored under static/ in the bucket (the
+    # prefix used to be shared with static files). Don't change it: existing
+    # files and imagekit thumbnails live there.
     AWS_LOCATION = "static"
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
-
-    STORAGES = {
-        "staticfiles": {
-            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        },
-        "mediafiles": {
-            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        },
-        "default": {
-            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        },
-    }
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+    STORAGES["default"] = {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"}
 else:
-    STATIC_URL = "/static/"
     MEDIA_URL = "/media/"
 
 # Default primary key field type

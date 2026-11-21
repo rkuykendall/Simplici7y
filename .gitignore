@@ -9,3 +9,4 @@ media
 **/*.sql
 test_config.py
 .env
+staticfiles

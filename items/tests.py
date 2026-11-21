@@ -3,7 +3,9 @@ from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 
 import io
+import json
 import tempfile
+from unittest import mock
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
@@ -234,3 +236,94 @@ class SeoTests(SiteTestCase):
                     canonical_url({"request": request}),
                     "https://simplici7y.com/" + expected,
                 )
+
+
+class FakeResponse(io.BytesIO):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self.close()
+
+
+class InlineThread:
+    def __init__(self, target, args):
+        self.target, self.args = target, args
+
+    def start(self):
+        self.target(*self.args)
+
+
+@override_settings(
+    DISCORD_BOT_TOKEN="test-token",
+    DISCORD_UPLOADS_CHANNEL_ID="111",
+    DISCORD_REVIEWS_CHANNEL_ID="222",
+)
+@mock.patch("items.signals.threading.Thread", InlineThread)
+@mock.patch("items.signals.urllib.request.urlopen")
+class DiscordTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        with override_settings(DISCORD_BOT_TOKEN=None):
+            cls.user = User.objects.create_user(username="pfhor", password="x")
+            cls.item = Item.objects.create(name="Pfhor Map", body="b", user=cls.user)
+
+    def calls(self, urlopen):
+        return [
+            (c.args[0].full_url, json.loads(c.args[0].data))
+            for c in urlopen.call_args_list
+        ]
+
+    def test_new_version_posts_and_publishes(self, urlopen):
+        urlopen.side_effect = lambda *a, **k: FakeResponse(b'{"id": "999"}')
+        with self.assertNoLogs("items.signals"):
+            with self.captureOnCommitCallbacks(execute=True):
+                version = Version.objects.create(item=self.item, link="https://x.com")
+        api = "https://discord.com/api/v10/channels/111/messages"
+        self.assertEqual(
+            self.calls(urlopen),
+            [
+                (
+                    api,
+                    {"content": f"https://simplici7y.com/items/{self.item.permalink}/"},
+                ),
+                (f"{api}/999/crosspost", {}),
+            ],
+        )
+        request = urlopen.call_args_list[0].args[0]
+        self.assertEqual(request.get_header("Authorization"), "Bot test-token")
+        self.assertEqual(urlopen.call_args_list[0].kwargs["timeout"], 10)
+
+        urlopen.reset_mock()
+        version.name = "edited"
+        with self.captureOnCommitCallbacks(execute=True):
+            version.save()
+        urlopen.assert_not_called()
+
+    def test_new_review_posts_to_reviews_channel(self, urlopen):
+        urlopen.side_effect = lambda *a, **k: FakeResponse(b'{"id": "999"}')
+        with override_settings(DISCORD_BOT_TOKEN=None):
+            version = Version.objects.create(item=self.item, link="https://x.com")
+        with self.captureOnCommitCallbacks(execute=True):
+            Review.objects.create(
+                version=version, user=self.user, title="t", body="b", rating=4
+            )
+        self.assertTrue(self.calls(urlopen)[0][0].endswith("/channels/222/messages"))
+
+    def test_nothing_sent_until_commit(self, urlopen):
+        with self.captureOnCommitCallbacks(execute=False) as callbacks:
+            Version.objects.create(item=self.item, link="https://x.com")
+        urlopen.assert_not_called()
+        self.assertEqual(len(callbacks), 1)
+
+    def test_failure_is_logged_not_raised(self, urlopen):
+        urlopen.side_effect = OSError("discord down")
+        with self.assertLogs("items.signals", level="ERROR"):
+            with self.captureOnCommitCallbacks(execute=True):
+                Version.objects.create(item=self.item, link="https://x.com")
+
+    def test_no_token_sends_nothing(self, urlopen):
+        with override_settings(DISCORD_BOT_TOKEN=None):
+            with self.captureOnCommitCallbacks(execute=True):
+                Version.objects.create(item=self.item, link="https://x.com")
+        urlopen.assert_not_called()
